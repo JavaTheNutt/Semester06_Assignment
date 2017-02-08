@@ -1,9 +1,11 @@
-package ie.wit.semester06_project;
+package ie.wit.semester06_project.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity
+import ie.wit.semester06_project.R;
+
+public class MainActivity extends BaseActivity
 {
 
     @Override
