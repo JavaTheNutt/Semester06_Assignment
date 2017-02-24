@@ -19,8 +19,8 @@ public class BaseActivity extends AppCompatActivity
     public FinanceApp app;
     protected static final String TAG = "Finance";
     protected FirebaseAnalytics mFirebaseAnalytics;
-    protected FirebaseAuth mAuth;
-    protected FirebaseAuth.AuthStateListener mAuthListener;
+    /*protected FirebaseAuth mAuth;
+    protected FirebaseAuth.AuthStateListener mAuthListener;*/
     protected FirebaseDatabase database = FirebaseDatabase.getInstance();
 
 
@@ -30,7 +30,7 @@ public class BaseActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         app = (FinanceApp) getApplication();
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        mAuth = FirebaseAuth.getInstance();
+        /*mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -44,11 +44,11 @@ public class BaseActivity extends AppCompatActivity
                 }
                 // ...
             }
-        };
+        };*/
         setContentView(R.layout.activity_login);
     }
 
-    @Override
+    /*@Override
     public void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
@@ -59,5 +59,5 @@ public class BaseActivity extends AppCompatActivity
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
-    }
+    }*/
 }
