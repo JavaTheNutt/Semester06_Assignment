@@ -12,7 +12,30 @@
     tools:context="ie.wit.semester06_project.activities.MainActivity">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"/>
+        android:text="@string/welcomeLabel"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:gravity="center_vertical">
+
+        <Button
+            android:text="@string/loginButtonLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/openApplication"
+            android:onClick="loginClicked"/>
+
+        <Button
+            android:text="@string/signUpButtonLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/signUpButton"
+            android:onClick="signUpClicked"/>
+    </LinearLayout>
+
 </RelativeLayout>

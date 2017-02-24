@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Semester06_Project</string>
+    <string name="headerTitle">Personal Finance Tracker</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="emailHint">Enter Email Address</string>
+    <string name="passwordHint">Enter Password</string>
+    <string name="submitLabel">Submit</string>
+    <string name="loginHeaderLabel">Please enter your login details</string>
+    <string name="loginButtonLabel">Login</string>
+    <string name="signUpButtonLabel">Sign Up</string>
+    <string name="welcomeLabel">Welcome to Finance Tracker!</string>
+    <string name="signUpHeaderLabel">Enter your details to register</string>
+    <string name="firstNameHint">Enter First Name</string>
+    <string name="surnameHint">Enter Surname</string>
+    <string name="confirmPasswordHint">Confirm Password</string>
+    <string name="registerUserButton">Register</string>
 </resources>
