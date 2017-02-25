@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+    tools:context="ie.wit.semester06_project.activities.InternalActivity">
+    <item
+        android:id="@+id/menuSignOut"
+        android:orderInCategory="100"
+        android:title="@string/menuSignOut"
+        app:showAsAction="never"
+        android:onClick="signOut"/>
+    <item
+    android:id="@+id/menuAddIncome"
+    android:orderInCategory="100"
+    android:title="@string/menuAddIncome"
+    app:showAsAction="never"
+    android:onClick="addIncome"/>
+    <item
+        android:id="@+id/menuDashboard"
+        android:orderInCategory="100"
+        android:title="@string/menuDashboard"
+        app:showAsAction="never"
+        android:onClick="dashboard"/>
+</menu>

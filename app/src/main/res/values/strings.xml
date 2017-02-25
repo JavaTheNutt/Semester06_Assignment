@@ -14,4 +14,7 @@
     <string name="surnameHint">Enter Surname</string>
     <string name="confirmPasswordHint">Confirm Password</string>
     <string name="registerUserButton">Register</string>
+    <string name="menuSignOut">Sign Out</string>
+    <string name="menuAddIncome">Add Income</string>
+    <string name="menuDashboard">Dashboard</string>
 </resources>

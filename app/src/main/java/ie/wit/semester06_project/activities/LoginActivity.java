@@ -1,5 +1,6 @@
 package ie.wit.semester06_project.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -38,6 +39,7 @@ public class LoginActivity extends EntryActivity
         }
         makeToast("Login successful");
         currentUser = requestedUser;
+        startActivity(new Intent(this, DashboardActivity.class));
     }
 
     public void loginClicked(View view){
