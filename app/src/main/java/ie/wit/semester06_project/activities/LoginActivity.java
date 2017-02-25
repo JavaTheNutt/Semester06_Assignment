@@ -15,7 +15,6 @@ public class LoginActivity extends BaseActivity
 {
     private EditText emailField;
     private EditText passwordField;
-    private DatabaseReference userDatabaseReference = database.getReference("user");
     private IValidationService loginValidationService;
     @Override
     protected void onCreate(Bundle savedInstanceState)

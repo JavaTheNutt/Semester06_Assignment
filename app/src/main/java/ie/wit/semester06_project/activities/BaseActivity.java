@@ -9,6 +9,7 @@ package ie.wit.semester06_project.activities;
         import com.google.firebase.analytics.FirebaseAnalytics;
         import com.google.firebase.auth.FirebaseAuth;
         import com.google.firebase.auth.FirebaseUser;
+        import com.google.firebase.database.DatabaseReference;
         import com.google.firebase.database.FirebaseDatabase;
 
         import ie.wit.semester06_project.R;
@@ -21,7 +22,9 @@ public class BaseActivity extends AppCompatActivity
     protected FirebaseAnalytics mFirebaseAnalytics;
     /*protected FirebaseAuth mAuth;
     protected FirebaseAuth.AuthStateListener mAuthListener;*/
-    protected FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+    protected DatabaseReference databaseReference;
+
 
 
     @Override
@@ -30,6 +33,7 @@ public class BaseActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         app = (FinanceApp) getApplication();
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        databaseReference = FirebaseDatabase.getInstance().getReference();
         /*mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -45,7 +49,7 @@ public class BaseActivity extends AppCompatActivity
                 // ...
             }
         };*/
-        setContentView(R.layout.activity_login);
+        //setContentView(R.layout.activity_login);
     }
 
     /*@Override

@@ -12,11 +12,12 @@ import java.util.Map;
 
 import ie.wit.semester06_project.R;
 import ie.wit.semester06_project.main.FinanceApp;
+import ie.wit.semester06_project.model.User;
 import ie.wit.semester06_project.service.LoginValidationServiceImpl;
 
 public class SignUpActivity extends BaseActivity
 {
-    private DatabaseReference userDatabaseReference;
+
     private LoginValidationServiceImpl loginValidationService;
 
     private EditText firstNameField;
@@ -31,7 +32,7 @@ public class SignUpActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        userDatabaseReference = database.getReference("user");
+
         loginValidationService = FinanceApp.serviceFactory.getLoginValidationService();
 
         firstNameField = (EditText) findViewById(R.id.signUpFirstNameField);
@@ -43,9 +44,17 @@ public class SignUpActivity extends BaseActivity
     }
     public void registerClicked(View view){
         Log.v(TAG, "Register User button clicked");
-        String validationResult = validate() ? "All fields are valid" : "Some fields are invalid";
+        boolean detailsValid = validate();
+        String validationResult = detailsValid ? "All fields are valid" : "Some fields are invalid";
         Log.v(TAG, validationResult);
-
+        if(detailsValid){
+            User user = new User();
+            user.setFirstName(firstNameField.getText().toString());
+            user.setSurname(surnameField.getText().toString());
+            user.setEmailAddress(emailAddressField.getText().toString());
+            user.setPassword(passwordField.getText().toString());
+            registerUser(user);
+        }
 
     }
     private String checkFields(Map<String, Boolean> values){
@@ -90,5 +99,25 @@ public class SignUpActivity extends BaseActivity
             return false;
         }
         return true;
+    }
+
+    // FIXME: 25/02/2017 check that username is not already in use
+    // FIXME: 25/02/2017 hash password client side 
+    private void registerUser(User user){
+        String key = generateKey(user.getEmailAddress());
+        databaseReference.child("users").child(key).setValue(user);
+    }
+    private String generateKey(String emailAddress){
+        String[] splitAddress = emailAddress.split("");
+        String newKey = "";
+        for (String character : splitAddress) {
+            if(!character.equals(".")){
+                newKey += character;
+            }else{
+                newKey += "_";
+            }
+        }
+        Log.v(TAG, "New key:\t" + newKey);
+        return newKey;
     }
 }
