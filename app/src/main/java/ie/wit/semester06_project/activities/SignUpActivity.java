@@ -101,7 +101,6 @@ public class SignUpActivity extends EntryActivity
         return true;
     }
 
-    // FIXME: 25/02/2017 check that username is not already in use
     // FIXME: 25/02/2017 hash password client side 
     private void registerUser(User user){
         for (String usedEmail :  usernames){
@@ -110,6 +109,7 @@ public class SignUpActivity extends EntryActivity
                 return;
             }
         }
+        // FIXME: 25/02/2017 refactor this to make use of the class in the util package
         String key = generateKey(user.getEmailAddress());
         databaseReference.child("users").child(key).setValue(user);
     }

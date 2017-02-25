@@ -21,7 +21,7 @@ import ie.wit.semester06_project.model.User;
 public class BaseActivity extends AppCompatActivity
 {
     public FinanceApp app;
-    protected static final String TAG = "Finance";
+    public static final String TAG = "Finance";
     protected FirebaseAnalytics mFirebaseAnalytics;
     /*protected FirebaseAuth mAuth;
     protected FirebaseAuth.AuthStateListener mAuthListener;*/

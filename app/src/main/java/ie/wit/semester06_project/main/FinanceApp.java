@@ -4,6 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import ie.wit.semester06_project.factory.ServiceFactory;
+import ie.wit.semester06_project.model.User;
 import ie.wit.semester06_project.service.IValidationService;
 import ie.wit.semester06_project.service.LoginValidationServiceImpl;
 
@@ -14,6 +15,7 @@ import ie.wit.semester06_project.service.LoginValidationServiceImpl;
 public class FinanceApp extends Application
 {
     public static ServiceFactory serviceFactory;
+    private static User currentUser;
     @Override
     public void onCreate()
     {
@@ -22,4 +24,13 @@ public class FinanceApp extends Application
         serviceFactory = new ServiceFactory();
     }
 
+    public static User getCurrentUser()
+    {
+        return currentUser;
+    }
+
+    public static void setCurrentUser(User currentUser)
+    {
+        FinanceApp.currentUser = currentUser;
+    }
 }

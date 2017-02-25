@@ -38,7 +38,8 @@ public class LoginActivity extends EntryActivity
             return;
         }
         makeToast("Login successful");
-        currentUser = requestedUser;
+        //currentUser = requestedUser;
+        FinanceApp.setCurrentUser(requestedUser);
         startActivity(new Intent(this, DashboardActivity.class));
     }
 

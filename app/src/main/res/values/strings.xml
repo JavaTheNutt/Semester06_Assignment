@@ -17,4 +17,7 @@
     <string name="menuSignOut">Sign Out</string>
     <string name="menuAddIncome">Add Income</string>
     <string name="menuDashboard">Dashboard</string>
+    <string name="addIncomeHeader">Add Income Details</string>
+    <string name="addIncomeTitleHint">Enter title</string>
+    <string name="addIncomeAmountHint">Enter amount</string>
 </resources>
