@@ -74,4 +74,15 @@ public class User
     {
         this.surname = surname;
     }
+
+    @Override
+    public String toString()
+    {
+        return "User{" +
+                "emailAddress='" + emailAddress + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", surname='" + surname + '\'' +
+                '}';
+    }
 }
