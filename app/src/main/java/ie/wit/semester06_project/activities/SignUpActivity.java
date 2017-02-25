@@ -15,7 +15,7 @@ import ie.wit.semester06_project.main.FinanceApp;
 import ie.wit.semester06_project.model.User;
 import ie.wit.semester06_project.service.LoginValidationServiceImpl;
 
-public class SignUpActivity extends BaseActivity
+public class SignUpActivity extends EntryActivity
 {
 
     private LoginValidationServiceImpl loginValidationService;

@@ -5,17 +5,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
-import com.google.firebase.database.DatabaseReference;
-
 import ie.wit.semester06_project.R;
 import ie.wit.semester06_project.main.FinanceApp;
+import ie.wit.semester06_project.model.User;
 import ie.wit.semester06_project.service.IValidationService;
 
-public class LoginActivity extends BaseActivity
+public class LoginActivity extends EntryActivity
 {
     private EditText emailField;
     private EditText passwordField;
     private IValidationService loginValidationService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -27,7 +27,17 @@ public class LoginActivity extends BaseActivity
     }
 
     private void signIn(String email, String password){
-
+        if(!allUsers.containsKey(email)){
+            makeToast("There is no user with that email address");
+            return;
+        }
+        User requestedUser = allUsers.get(email);
+        if(!requestedUser.getPassword().equals(password)){
+            makeToast("Incorrect password");
+            return;
+        }
+        makeToast("Login successful");
+        currentUser = requestedUser;
     }
 
     public void loginClicked(View view){
@@ -47,5 +57,7 @@ public class LoginActivity extends BaseActivity
 
     }
 
-
+    private void makeToast(String msg){
+        FinanceApp.serviceFactory.getUtil().makeAToast(this, msg);
+    }
 }

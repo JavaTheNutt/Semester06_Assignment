@@ -11,7 +11,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,9 +27,8 @@ public class BaseActivity extends AppCompatActivity
     protected FirebaseAuth.AuthStateListener mAuthListener;*/
 
     protected DatabaseReference databaseReference;
-    protected DatabaseReference userDatabaseReference;
 
-    protected String[] usernames;
+    protected User currentUser;
 
 
 
@@ -41,29 +39,7 @@ public class BaseActivity extends AppCompatActivity
         app = (FinanceApp) getApplication();
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        userDatabaseReference = FirebaseDatabase.getInstance().getReference("users");
-        userDatabaseReference.addValueEventListener(new ValueEventListener()
-        {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot)
-            {
-                HashMap<String, Map> users = (HashMap<String, Map>) dataSnapshot.getValue();
-                usernames = new String[users.size()];
-                int i = 0;
-                for(Map.Entry<String, Map> user : users.entrySet()){
-                    String tempUser = (String) user.getValue().get("emailAddress");
-                    Log.v(TAG, tempUser);
-                    usernames[i] = tempUser;
-                    i++;
-                }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError)
-            {
-                Log.e(TAG, databaseError.toString());
-            }
-        });
         /*mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
