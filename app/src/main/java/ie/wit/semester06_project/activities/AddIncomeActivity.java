@@ -6,8 +6,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import ie.wit.semester06_project.R;
-import ie.wit.semester06_project.main.FinanceApp;
-import ie.wit.semester06_project.model.Income;
+import ie.wit.semester06_project.model.IncomeDTOIn;
 
 public class AddIncomeActivity extends InternalActivity
 {
@@ -24,11 +23,11 @@ public class AddIncomeActivity extends InternalActivity
     }
     public void submitClicked(View view){
         if(title.getText().toString().length() > 3 && Float.parseFloat(amount.getText().toString()) > 0){
-            Income tempIncome = new Income();
-            tempIncome.setTitle(title.getText().toString());
-            tempIncome.setAmount(Float.parseFloat(amount.getText().toString()));
-            Log.v(TAG, tempIncome.toString());
-            detailsDatabaseReference.child("income").child(tempIncome.getTimestamp().toString()).setValue(tempIncome);
+            IncomeDTOIn tempIncomeDTOIn = new IncomeDTOIn();
+            tempIncomeDTOIn.setTitle(title.getText().toString());
+            tempIncomeDTOIn.setAmount(Float.parseFloat(amount.getText().toString()));
+            Log.v(TAG, tempIncomeDTOIn.toString());
+            detailsDatabaseReference.child("income").child(tempIncomeDTOIn.getTimestamp().toString()).setValue(tempIncomeDTOIn);
         }
     }
 }

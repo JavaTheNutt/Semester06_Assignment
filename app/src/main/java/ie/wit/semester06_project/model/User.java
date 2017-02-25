@@ -1,5 +1,9 @@
 package ie.wit.semester06_project.model;
 
+import android.util.Log;
+
+import ie.wit.semester06_project.activities.BaseActivity;
+
 /**
  * Created by joewe on 24/02/2017.
  */
@@ -73,6 +77,21 @@ public class User
     public void setSurname(String surname)
     {
         this.surname = surname;
+    }
+
+    public String getKey(){
+        Log.v(BaseActivity.TAG, "Formatting " + this.emailAddress + " so it can be used as a key");
+        String[] splitAddress = this.emailAddress.split("");
+        String newKey = "";
+        for (String character : splitAddress) {
+            if(!character.equals(".")){
+                newKey += character;
+            }else{
+                newKey += "_";
+            }
+        }
+        Log.v(BaseActivity.TAG, "New key:\t" + newKey);
+        return newKey;
     }
 
     @Override
