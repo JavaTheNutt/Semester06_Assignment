@@ -2,6 +2,8 @@ package ie.wit.semester06_project.model;
 
 import android.util.Log;
 
+import com.google.firebase.database.Exclude;
+
 import ie.wit.semester06_project.activities.BaseActivity;
 
 /**
@@ -10,7 +12,7 @@ import ie.wit.semester06_project.activities.BaseActivity;
 
 public class User
 {
-    private Integer userId;
+
     private String emailAddress;
     private String password;
     private String firstName;
@@ -20,23 +22,13 @@ public class User
     {
     }
 
-    public User(Integer userId, String emailAddress, String password, String firstName, String surname)
+    public User (String emailAddress, String password, String firstName, String surname)
     {
-        this.userId = userId;
+
         this.emailAddress = emailAddress;
         this.password = password;
         this.firstName = firstName;
         this.surname = surname;
-    }
-
-    public Integer getUserId()
-    {
-        return userId;
-    }
-
-    public void setUserId(Integer userId)
-    {
-        this.userId = userId;
     }
 
     public String getEmailAddress()
@@ -78,7 +70,7 @@ public class User
     {
         this.surname = surname;
     }
-
+    @Exclude
     public String getKey(){
         Log.v(BaseActivity.TAG, "Formatting " + this.emailAddress + " so it can be used as a key");
         String[] splitAddress = this.emailAddress.split("");

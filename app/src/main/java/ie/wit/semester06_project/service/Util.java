@@ -4,7 +4,11 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import ie.wit.semester06_project.activities.BaseActivity;
+import ie.wit.semester06_project.main.FinanceApp;
 
 /**
  * Created by joewe on 24/02/2017.
@@ -28,5 +32,9 @@ public class Util
         }
         Log.v(BaseActivity.TAG, "New key:\t" + newKey);
         return newKey;
+    }
+    public boolean connectedToInternet(){
+        return true;
+
     }
 }

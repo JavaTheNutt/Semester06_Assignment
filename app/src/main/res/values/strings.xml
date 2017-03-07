@@ -15,9 +15,11 @@
     <string name="confirmPasswordHint">Confirm Password</string>
     <string name="registerUserButton">Register</string>
     <string name="menuSignOut">Sign Out</string>
-    <string name="menuAddIncome">Add Income</string>
+    <string name="menuAddIncome">Add Transaction</string>
     <string name="menuDashboard">Dashboard</string>
-    <string name="addIncomeHeader">Add Income Details</string>
+    <string name="addIncomeHeader">Add Transaction Details</string>
     <string name="addIncomeTitleHint">Enter title</string>
     <string name="addIncomeAmountHint">Enter amount</string>
+    <string name="incomeRadio">Income</string>
+    <string name="expenditureRadio">Expenditure</string>
 </resources>

@@ -3,16 +3,15 @@
           package="ie.wit.semester06_project">
 
     <uses-sdk
-        android:minSdkVersion="15"
+        android:minSdkVersion="21"
         android:targetSdkVersion="25"/>
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
-
-    <android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <android:uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".main.FinanceApp"
@@ -35,8 +34,6 @@
         <activity android:name=".activities.InternalActivity">
         </activity>
         <activity android:name=".activities.DashboardActivity">
-        </activity>
-        <activity android:name=".activities.NewLoginActivity">
         </activity>
         <activity android:name=".activities.AddIncomeActivity">
         </activity>

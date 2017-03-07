@@ -18,25 +18,14 @@ import ie.wit.semester06_project.main.FinanceApp;
 public class InternalActivity extends BaseActivity
 {
     protected DatabaseReference detailsDatabaseReference;
+    //// FIXME: 26/02/2017 currently, when the dashboard is initially loaded, 0 is didplayed as the balance
+    protected float currentTotal;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        detailsDatabaseReference = FirebaseDatabase.getInstance().getReference("details/" + FinanceApp.serviceFactory.getUtil().formatEmailAsKey(FinanceApp.getCurrentUser().getEmailAddress()));
-        detailsDatabaseReference.addValueEventListener(new ValueEventListener()
-        {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot)
-            {
+        detailsDatabaseReference = FirebaseDatabase.getInstance().getReference("details/" + FinanceApp.getCurrentUser().getKey() + "/transactions");
 
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError)
-            {
-
-            }
-        });
     }
 
     @Override

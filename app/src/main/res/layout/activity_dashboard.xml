@@ -11,4 +11,36 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ie.wit.semester06_project.activities.DashboardActivity">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/userNameLabel"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/userNameLabel"
+        android:id="@+id/dashboardCurrentBalance"
+        android:gravity="top|center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="10dp"/>
+
+    <ListView
+        android:id="@+id/transactionList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dashboardCurrentBalance">
+
+    </ListView>
+
+
 </RelativeLayout>

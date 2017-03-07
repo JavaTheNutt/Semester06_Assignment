@@ -1,25 +1,27 @@
 package ie.wit.semester06_project.model;
 
-import java.util.Date;
-
 /**
- * Created by joewe on 25/02/2017.
+ * Created by joewe on 01/03/2017.
  */
 
-public class Income implements ITransaction
+public class Expenditure implements ITransaction
 {
     private Long timestamp;
     private String title;
     private Float amount;
 
-    public Income()
+    public Expenditure()
     {
-        timestamp = new Date().getTime();
     }
 
-    public Income(Long timestamp)
+    public Expenditure(Long timestamp)
     {
         this.timestamp = timestamp;
+    }
+
+    public Long getTimestamp()
+    {
+        return timestamp;
     }
 
     public String getTitle()
@@ -37,11 +39,6 @@ public class Income implements ITransaction
         return amount;
     }
 
-    public Long getTimestamp()
-    {
-        return timestamp;
-    }
-
     public void setAmount(Float amount)
     {
         this.amount = amount;
@@ -50,7 +47,7 @@ public class Income implements ITransaction
     @Override
     public String toString()
     {
-        return "IncomeDTOIn{" +
+        return "Expenditure{" +
                 "timestamp=" + timestamp +
                 ", title='" + title + '\'' +
                 ", amount=" + amount +

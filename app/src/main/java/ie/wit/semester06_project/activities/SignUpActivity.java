@@ -1,5 +1,6 @@
 package ie.wit.semester06_project.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -51,7 +52,7 @@ public class SignUpActivity extends EntryActivity
             User user = new User();
             user.setFirstName(firstNameField.getText().toString());
             user.setSurname(surnameField.getText().toString());
-            user.setEmailAddress(emailAddressField.getText().toString());
+            user.setEmailAddress(emailAddressField.getText().toString().toLowerCase());
             user.setPassword(passwordField.getText().toString());
             registerUser(user);
         }
@@ -110,10 +111,11 @@ public class SignUpActivity extends EntryActivity
             }
         }
         // FIXME: 25/02/2017 refactor this to make use of the class in the util package
-        String key = generateKey(user.getEmailAddress());
-        databaseReference.child("users").child(key).setValue(user);
+       // String key = generateKey(user.getEmailAddress());
+        databaseReference.child("users").child(user.getKey()).setValue(user);
+        startActivity(new Intent(this, MainActivity.class));
     }
-    private String generateKey(String emailAddress){
+   /*// private String generateKey(String emailAddress){
         String[] splitAddress = emailAddress.split("");
         String newKey = "";
         for (String character : splitAddress) {
@@ -125,5 +127,5 @@ public class SignUpActivity extends EntryActivity
         }
         Log.v(TAG, "New key:\t" + newKey);
         return newKey;
-    }
+    }*/
 }

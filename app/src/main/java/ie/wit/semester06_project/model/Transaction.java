@@ -3,21 +3,22 @@ package ie.wit.semester06_project.model;
 import java.util.Date;
 
 /**
- * Created by joewe on 25/02/2017.
+ * Created by joewe on 01/03/2017.
  */
 
-public class Income implements ITransaction
+public class Transaction
 {
     private Long timestamp;
     private String title;
     private Float amount;
+    private boolean isIncome;
 
-    public Income()
+    public Transaction()
     {
-        timestamp = new Date().getTime();
+        //timestamp = new Date().getTime();
     }
 
-    public Income(Long timestamp)
+    public Transaction(Long timestamp)
     {
         this.timestamp = timestamp;
     }
@@ -42,9 +43,26 @@ public class Income implements ITransaction
         return timestamp;
     }
 
+    public void setTimestamp(Long timestamp){
+        if(timestamp == null){
+            timestamp = new Date().getTime();
+        }
+        this.timestamp = timestamp;
+    }
+
     public void setAmount(Float amount)
     {
         this.amount = amount;
+    }
+
+    public boolean isIncome()
+    {
+        return isIncome;
+    }
+
+    public void setIncome(boolean income)
+    {
+        isIncome = income;
     }
 
     @Override
@@ -56,4 +74,5 @@ public class Income implements ITransaction
                 ", amount=" + amount +
                 '}';
     }
+
 }

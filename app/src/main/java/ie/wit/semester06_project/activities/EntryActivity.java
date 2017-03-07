@@ -35,6 +35,7 @@ public class EntryActivity extends BaseActivity
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
             {
+                // FIXME: 25/02/2017 iterate through keys and if the correct one exists, get that
                 HashMap<String, Map> users = (HashMap<String, Map>) dataSnapshot.getValue();
                 usernames = new String[users.size()];
                 allUsers = new HashMap<String, User>(usernames.length);
