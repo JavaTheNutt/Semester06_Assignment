@@ -2,6 +2,7 @@ package ie.wit.semester06_project.activities;
 
 import android.os.Bundle;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -31,7 +32,7 @@ import ie.wit.semester06_project.service.DashboardService;
 public class DashboardActivity extends InternalActivity
 {
     private TextView currentBalance;
-    private ListView listView;
+    private RecyclerView listView;
 
     private CalculationService calculationService;
     private DashboardService dashboardService;
@@ -51,7 +52,7 @@ public class DashboardActivity extends InternalActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         currentBalance = (TextView) findViewById(R.id.dashboardCurrentBalance);
-        listView = (ListView) findViewById(R.id.transactionList);
+        listView = (RecyclerView) findViewById(R.id.transactionList);
         calculationService = FinanceApp.serviceFactory.getCalculationService();
         dashboardService = FinanceApp.serviceFactory.getDashboardService();
         ((TextView)findViewById(R.id.userNameLabel)).setText("Welcome, " + FinanceApp.getCurrentUser().getFirstName() + " " + FinanceApp.getCurrentUser().getSurname() + "!");
@@ -76,7 +77,7 @@ public class DashboardActivity extends InternalActivity
                 refreshView();
             }
         };
-        listView.setAdapter(transactionAdapter);
+        //listView.setAdapter(transactionAdapter);
         refreshView();
     }
 
