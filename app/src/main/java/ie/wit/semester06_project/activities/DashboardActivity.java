@@ -1,7 +1,9 @@
 package ie.wit.semester06_project.activities;
 
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseListAdapter;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -19,6 +22,7 @@ import java.util.List;
 import java.util.Locale;
 
 import ie.wit.semester06_project.R;
+import ie.wit.semester06_project.activities.ui.TransactionHolder;
 import ie.wit.semester06_project.main.FinanceApp;
 import ie.wit.semester06_project.model.ITransaction;
 import ie.wit.semester06_project.model.Income;
@@ -33,10 +37,12 @@ public class DashboardActivity extends InternalActivity
 {
     private TextView currentBalance;
     private RecyclerView listView;
+    private LinearLayoutManager layoutManager;
 
     private CalculationService calculationService;
     private DashboardService dashboardService;
     private FirebaseListAdapter<Transaction> transactionAdapter;
+    private FirebaseRecyclerAdapter<Transaction, TransactionHolder> transactionHolderFirebaseRecyclerAdapter;
 
     private float currentTotal = 0;
     private List<Long> usedTimeStamps = new ArrayList<>();
@@ -56,28 +62,30 @@ public class DashboardActivity extends InternalActivity
         calculationService = FinanceApp.serviceFactory.getCalculationService();
         dashboardService = FinanceApp.serviceFactory.getDashboardService();
         ((TextView)findViewById(R.id.userNameLabel)).setText("Welcome, " + FinanceApp.getCurrentUser().getFirstName() + " " + FinanceApp.getCurrentUser().getSurname() + "!");
-        transactionAdapter = new FirebaseListAdapter<Transaction>(this, Transaction.class, R.layout.row_transaction, detailsDatabaseReference)
+        transactionHolderFirebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Transaction, TransactionHolder>(Transaction.class, R.layout.row_transaction, TransactionHolder.class, detailsDatabaseReference)
         {
             @Override
-            protected void populateView(View v, Transaction model, int position)
+            protected void populateViewHolder(TransactionHolder viewHolder, Transaction model, int position)
             {
-                ((TextView) v.findViewById(R.id.rowDate)).setText( new SimpleDateFormat("dd-MM-yyyy", Locale.UK).format(new Date(model.getTimestamp())));
-                ((TextView)v.findViewById(R.id.rowAmount)).setText(model.getAmount().toString());
-                ((TextView) v.findViewById(R.id.transactionTitle)).setText(model.getTitle());
-                int colorId = model.isIncome() ? R.color.positiveBalance : R.color.negativeBalance;
-                v.setBackgroundColor(ResourcesCompat.getColor(getResources(), colorId, null));
-                if(!usedTimeStamps.contains(model.getTimestamp())){
-                    usedTimeStamps.add(model.getTimestamp());
-                    if(model.isIncome()){
-                        currentTotal += model.getAmount();
-                    }else {
-                        currentTotal -= model.getAmount();
-                    }
-                }
-                refreshView();
+                Log.v(TAG, model.toString());
+
+                viewHolder.setTransactionTitle(model.getTitle());
+                viewHolder.setTransactionAmount(model.getAmount());
+                viewHolder.setTransactionDate(model.getTimestamp());
             }
         };
-        //listView.setAdapter(transactionAdapter);
+        // Found at: https://codelabs.developers.google.com/codelabs/firebase-android/#6
+        transactionHolderFirebaseRecyclerAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver(){
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount)
+            {
+                super.onItemRangeInserted(positionStart, itemCount);
+                Log.v(TAG, "onItemRangeInserted called for: " + this.getClass().getSimpleName());
+                int transactionCount = transactionHolderFirebaseRecyclerAdapter.getItemCount();
+
+            }
+        });
+        listView.setAdapter(transactionHolderFirebaseRecyclerAdapter);
         refreshView();
     }
 

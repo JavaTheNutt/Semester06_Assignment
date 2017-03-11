@@ -1,8 +1,10 @@
 package ie.wit.semester06_project.activities;
 
 import android.content.Intent;
+import android.nfc.Tag;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -25,7 +27,7 @@ public class InternalActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
         detailsDatabaseReference = FirebaseDatabase.getInstance().getReference("details/" + FinanceApp.getCurrentUser().getKey() + "/transactions");
-
+        Log.v(TAG, detailsDatabaseReference.toString());
     }
 
     @Override
