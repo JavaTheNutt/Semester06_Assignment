@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:id="@+id/rowTransaction"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content"
+              android:layout_height="match_parent"
               android:orientation="horizontal"
               android:paddingBottom="10dp"
               android:paddingTop="10dp">
@@ -10,15 +10,15 @@
     <TextView
         android:id="@+id/transactionTitle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:textColor="@color/fontColor01"
         android:textSize="18sp"/>
 
     <TextView
         android:id="@+id/rowDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginLeft="40dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="20dp"
@@ -26,8 +26,8 @@
 
     <TextView
         android:id="@+id/rowAmount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="250dp"
         android:layout_marginStart="250dp"

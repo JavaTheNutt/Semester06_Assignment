@@ -62,13 +62,14 @@ public class DashboardActivity extends InternalActivity
         calculationService = FinanceApp.serviceFactory.getCalculationService();
         dashboardService = FinanceApp.serviceFactory.getDashboardService();
         ((TextView)findViewById(R.id.userNameLabel)).setText("Welcome, " + FinanceApp.getCurrentUser().getFirstName() + " " + FinanceApp.getCurrentUser().getSurname() + "!");
+        layoutManager = new LinearLayoutManager(getApplicationContext());
+        listView.setLayoutManager(layoutManager);
         transactionHolderFirebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Transaction, TransactionHolder>(Transaction.class, R.layout.row_transaction, TransactionHolder.class, detailsDatabaseReference)
         {
             @Override
             protected void populateViewHolder(TransactionHolder viewHolder, Transaction model, int position)
             {
-                Log.v(TAG, model.toString());
-
+                Log.v(TAG,"Populate view holder called for: " + model.toString());
                 viewHolder.setTransactionTitle(model.getTitle());
                 viewHolder.setTransactionAmount(model.getAmount());
                 viewHolder.setTransactionDate(model.getTimestamp());
@@ -80,8 +81,14 @@ public class DashboardActivity extends InternalActivity
             public void onItemRangeInserted(int positionStart, int itemCount)
             {
                 super.onItemRangeInserted(positionStart, itemCount);
-                Log.v(TAG, "onItemRangeInserted called for: " + this.getClass().getSimpleName());
+                Log.v(TAG, "onItemRangeInserted called for: Dashboard Activity");
                 int transactionCount = transactionHolderFirebaseRecyclerAdapter.getItemCount();
+                int lastVisiblePosition = layoutManager.findLastCompletelyVisibleItemPosition();
+                if(lastVisiblePosition == -1 ||
+                        (positionStart >= (transactionCount -1) &&
+                        lastVisiblePosition == (positionStart -1))){
+                    listView.scrollToPosition(positionStart);
+                }
 
             }
         });
