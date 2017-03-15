@@ -10,21 +10,24 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import ie.wit.semester06_project.model.User;
 
 /**
- * Created by joewe on 25/02/2017.
+ * This will be the class that will any activities that relate to login/logout wil inherit from.
  */
 
 public class EntryActivity extends BaseActivity
 {
-    protected DatabaseReference userDatabaseReference;
-    protected Map<String, User> allUsers;
-    protected String[] usernames;
+    protected DatabaseReference userDatabaseReference; //reference to the user segment of the database.
+    protected Map<String, User> allUsers; //map of users with the key being formed from the users email address
+    protected String[] usernames; //list of all usernames in the system
 
+    /**
+     * {@inheritDoc}
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -40,6 +43,9 @@ public class EntryActivity extends BaseActivity
                 usernames = new String[users.size()];
                 allUsers = new HashMap<String, User>(usernames.length);
                 int i = 0;
+                /*
+                 * When the data changes, store the users and usernames respectivly.
+                 */
                 for(Map.Entry<String, Map> user : users.entrySet()){
                     String tempUsername = (String) user.getValue().get("emailAddress");
                     //User tempUser = (User) user.getValue();
@@ -58,8 +64,9 @@ public class EntryActivity extends BaseActivity
             @Override
             public void onCancelled(DatabaseError databaseError)
             {
-                Log.e(TAG, databaseError.toString());
+                Log.e(TAG, "unable to retrieve user data", databaseError.toException());
             }
         });
+        
     }
 }
