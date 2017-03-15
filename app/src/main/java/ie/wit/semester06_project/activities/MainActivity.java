@@ -7,7 +7,7 @@ import android.view.View;
 
 import ie.wit.semester06_project.R;
 
-public class MainActivity extends BaseActivity
+public final class MainActivity extends BaseActivity
 {
 
     @Override
@@ -15,6 +15,16 @@ public class MainActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
+
+    /**
+     * Take care of popping the fragment back stack or finishing the activity
+     * as appropriate.
+     */
+    @Override
+    public void onBackPressed()
+    {
+        finish();
     }
 
     public void loginClicked(View view){

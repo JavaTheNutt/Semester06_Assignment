@@ -47,16 +47,9 @@ public class EntryActivity extends BaseActivity
                  * When the data changes, store the users and usernames respectivly.
                  */
                 for(Map.Entry<String, Map> user : users.entrySet()){
-                    String tempUsername = (String) user.getValue().get("emailAddress");
-                    //User tempUser = (User) user.getValue();
-                    User tempUser = new User();
-                    tempUser.setFirstName((String)user.getValue().get("firstName"));
-                    tempUser.setSurname((String) user.getValue().get("surname"));
-                    tempUser.setEmailAddress(tempUsername);
-                    tempUser.setPassword((String) user.getValue().get("password"));
+                    User tempUser = mapUser(user);
                     allUsers.put(tempUser.getEmailAddress(), tempUser);
-                    Log.v(TAG, tempUsername);
-                    usernames[i] = tempUsername;
+                    usernames[i] = tempUser.getEmailAddress();
                     i++;
                 }
             }
@@ -66,7 +59,22 @@ public class EntryActivity extends BaseActivity
             {
                 Log.e(TAG, "unable to retrieve user data", databaseError.toException());
             }
+            /**
+             * Convert Map to User POJO
+             * @param user a map containing all of the data required to construct a user
+             * @return User object
+             */
+            private User mapUser(Map.Entry<String, Map> user){
+                User tempUser = new User();
+                String tempUsername = (String) user.getValue().get("emailAddress");
+                tempUser.setFirstName((String)user.getValue().get("firstName"));
+                tempUser.setSurname((String) user.getValue().get("surname"));
+                tempUser.setEmailAddress(tempUsername);
+                tempUser.setPassword((String) user.getValue().get("password"));
+                Log.v(TAG, tempUsername);
+                return tempUser;
+            }
         });
-        
+
     }
 }
