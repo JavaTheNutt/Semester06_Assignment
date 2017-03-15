@@ -28,14 +28,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/openApplication"
-            android:onClick="loginClicked"/>
+            android:onClick="loginClicked"
+            android:background="@color/loginButtonColor"
+            android:textColor="@color/fontColor01"/>
 
         <Button
             android:text="@string/signUpButtonLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/signUpButton"
-            android:onClick="signUpClicked"/>
+            android:onClick="signUpClicked"
+            android:background="@color/signinButtonColor"
+            android:textColor="@color/fontColor01"
+            android:layout_marginTop="15dp"/>
     </LinearLayout>
 
 </RelativeLayout>

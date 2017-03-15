@@ -3,6 +3,7 @@ package ie.wit.semester06_project.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -12,8 +13,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
 import ie.wit.semester06_project.R;
 import ie.wit.semester06_project.main.FinanceApp;
+import ie.wit.semester06_project.model.Transaction;
 
 public class InternalActivity extends BaseActivity
 {
@@ -25,7 +34,6 @@ public class InternalActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
         detailsDatabaseReference = FirebaseDatabase.getInstance().getReference("details/" + FinanceApp.getCurrentUser().getKey() + "/transactions");
-
     }
 
     @Override

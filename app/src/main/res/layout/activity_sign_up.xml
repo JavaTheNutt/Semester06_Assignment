@@ -26,46 +26,54 @@
             android:text="@string/signUpHeaderLabel"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:gravity="center"/>
+
         <EditText
             android:id="@+id/signUpFirstNameField"
-            android:hint="@string/firstNameHint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:hint="@string/firstNameHint"
             android:inputType="text"/>
 
         <EditText
             android:id="@+id/signUpSurnameField"
-            android:hint="@string/surnameHint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:hint="@string/surnameHint"
             android:inputType="text"/>
 
         <EditText
             android:id="@+id/signUpEmailField"
-            android:hint="@string/emailHint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:hint="@string/emailHint"
             android:inputType="textEmailAddress"/>
 
         <EditText
             android:id="@+id/signUpPasswordField"
-            android:hint="@string/passwordHint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:hint="@string/passwordHint"
             android:inputType="textPassword"/>
 
         <EditText
             android:id="@+id/signUpConfirmPassword"
-            android:hint="@string/confirmPasswordHint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:hint="@string/confirmPasswordHint"
             android:inputType="textPassword"/>
 
         <Button
-            android:text="@string/registerUserButton"
+            android:id="@+id/registerUserButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/registerUserButton"
-            android:onClick="registerClicked"/>
+            android:background="@color/signinButtonColor"
+            android:onClick="registerClicked"
+            android:text="@string/registerUserButton"
+            android:textColor="@color/fontColor01"/>
     </LinearLayout>
 </RelativeLayout>

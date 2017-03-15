@@ -12,35 +12,53 @@
     tools:context="ie.wit.semester06_project.activities.DashboardActivity">
 
     <TextView
+        android:id="@+id/userNameLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/userNameLabel"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="10dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:layout_marginBottom="10dp"/>
+        android:visibility="gone"/>
 
     <TextView
+        android:id="@+id/dashboardCurrentBalance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/userNameLabel"
-        android:id="@+id/dashboardCurrentBalance"
-        android:gravity="top|center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_below="@id/userNameLabel"
+        android:layout_marginBottom="10dp"
         android:layout_marginTop="40dp"
-        android:layout_marginBottom="10dp"/>
+        android:gravity="top|center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:visibility="gone"/>
 
     <ListView
         android:id="@+id/transactionList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/dashboardCurrentBalance">
+        android:layout_below="@id/dashboardCurrentBalance"
+        android:visibility="gone">
 
     </ListView>
+
+    <TextView
+        android:id="@+id/noDataFoundLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_below="@id/userNameLabel"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="40dp"
+        android:gravity="top|center"
+        android:text="@string/noDataFoundText"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:visibility="gone"/>
 
 
 </RelativeLayout>

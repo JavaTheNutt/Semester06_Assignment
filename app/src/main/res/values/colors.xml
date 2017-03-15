@@ -7,4 +7,6 @@
     <color name="negativeBalance">#a60202</color>
     <color name="fontColor01">#ffffff</color>
     <color name="newStatusBarColor">#181717</color>
+    <color name="signinButtonColor">#5ca655</color>
+    <color name="loginButtonColor">#6970ec</color>
 </resources>
