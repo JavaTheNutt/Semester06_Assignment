@@ -64,7 +64,8 @@ public class DashboardActivity extends InternalActivity
                 ((TextView)v.findViewById(R.id.rowAmount)).setText(model.getAmount().toString());
                 ((TextView) v.findViewById(R.id.transactionTitle)).setText(model.getTitle());
                 int colorId = model.isIncome() ? R.color.positiveBalance : R.color.negativeBalance;
-                v.setBackgroundColor(ResourcesCompat.getColor(getResources(), colorId, null));
+                //v.setBackgroundColor(ResourcesCompat.getColor(getResources(), colorId, null));
+                ((TextView)v.findViewById(R.id.transactionTitle)).setTextColor(ResourcesCompat.getColor(getResources(), colorId, null));
                 if(!usedTimeStamps.contains(model.getTimestamp())){
                     usedTimeStamps.add(model.getTimestamp());
                     if(model.isIncome()){
