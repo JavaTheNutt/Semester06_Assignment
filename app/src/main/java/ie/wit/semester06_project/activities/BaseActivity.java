@@ -40,46 +40,5 @@ public class BaseActivity extends AppCompatActivity
         app = (FinanceApp) getApplication();
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        if (!FinanceApp.serviceFactory.getUtil().connectedToInternet()) {
-            FinanceApp.serviceFactory.getUtil().makeAToast(this, "No internet access");
-        } else {
-            FinanceApp.serviceFactory.getUtil().makeAToast(this, "Internet access");
-        }
-        //detailsDatabaseReference = databaseReference.child("details");
-
-        /*mAuth = FirebaseAuth.getInstance();
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    Log.v(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    // User is signed out
-                    Log.v(TAG, "onAuthStateChanged:signed_out");
-                }
-                // ...
-            }
-        };*/
-        //setContentView(R.layout.activity_login);
-/*        Window window = getWindow();
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.clearFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(this, R.color.newStatusBarColor));*/
     }
-
-
-    /*@Override
-    public void onStart() {
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
-    }
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
-    }*/
 }
