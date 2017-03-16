@@ -9,15 +9,15 @@ import ie.wit.semester06_project.repo.IncomeRepo;
 
 public class InternalService
 {
-    private IncomeRepo incomeRepo;
-    private CalculationService calculationService;
-    private float currentBalance;
+    //private IncomeRepo incomeRepo;
+    //private CalculationService calculationService;
+    //private float currentBalance;
 
-    public InternalService(){
+    /*public InternalService(){
         incomeRepo = FinanceApp.serviceFactory.getIncomeRepo();
         calculationService = FinanceApp.serviceFactory.getCalculationService();
         currentBalance = calculationService.getTotal();
 
-    }
+    }*/
 
 }

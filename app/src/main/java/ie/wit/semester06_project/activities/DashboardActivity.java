@@ -43,15 +43,14 @@ public class DashboardActivity extends InternalActivity
     private TextView noDataFoundLabel;
     private TextView usernameLabel;
 
-    private CalculationService calculationService;
     private DashboardService dashboardService;
     private FirebaseListAdapter<Transaction> transactionAdapter;
 
-    private float currentTotal = 0;
     private Balance balance = new Balance();
     private BalanceObserver observer;
-    private List<Long> usedTimeStamps = new ArrayList<>();
     private List<Transaction> transactions = new ArrayList<>();
+
+    private ValueEventListener valueEventListener;
 
     /**
      * {@inheritDoc}
@@ -63,17 +62,52 @@ public class DashboardActivity extends InternalActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+        setupReferences();
+        listView.setAdapter(setupFirebaseListAdapter());
+        Log.d(TAG, "onCreate: currentuser" + FinanceApp.getCurrentUser());
+        //usernameLabel.setText("Welcome, " + FinanceApp.getCurrentUser().getFirstName() + " " + FinanceApp.getCurrentUser().getSurname() + "!");
+    }
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        setUpValueEventListener();
+        detailsDatabaseReference.addValueEventListener(valueEventListener);
+    }
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        detailsDatabaseReference.removeEventListener(valueEventListener);
+        valueEventListener = null;
+    }
+
+    private void setupReferences(){
         currentBalance = (TextView) findViewById(R.id.dashboardCurrentBalance);
         listView = (ListView) findViewById(R.id.transactionList);
         noDataFoundLabel = (TextView) findViewById(R.id.noDataFoundLabel);
-        calculationService = FinanceApp.serviceFactory.getCalculationService();
         dashboardService = FinanceApp.serviceFactory.getDashboardService();
         usernameLabel = (TextView)findViewById(R.id.userNameLabel);
         observer = new BalanceObserver(this, currentBalance);
         observer.observe(balance);
-        usernameLabel.setText("Welcome, " + FinanceApp.getCurrentUser().getFirstName() + " " + FinanceApp.getCurrentUser().getSurname() + "!");
-
-        detailsDatabaseReference.addValueEventListener(new ValueEventListener()
+    }
+    private FirebaseListAdapter<Transaction> setupFirebaseListAdapter(){
+        return new FirebaseListAdapter<Transaction>(this, Transaction.class, R.layout.row_transaction, detailsDatabaseReference)
+        {
+            @Override
+            protected void populateView(View v, Transaction model, int position)
+            {
+                ((TextView) v.findViewById(R.id.rowDate)).setText( new SimpleDateFormat("dd-MM-yyyy", Locale.UK).format(new Date(model.getTimestamp())));
+                ((TextView)v.findViewById(R.id.rowAmount)).setText(model.getAmount().toString());
+                ((TextView) v.findViewById(R.id.transactionTitle)).setText(dashboardService.titleCase(model.getTitle()));
+                int colorId = model.isIncome() ? R.color.positiveBalance : R.color.negativeBalance;
+                ((TextView)v.findViewById(R.id.transactionTitle)).setTextColor(ResourcesCompat.getColor(getResources(), colorId, null));
+            }
+        };
+    }
+    private void setUpValueEventListener(){
+        valueEventListener = new ValueEventListener()
         {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
@@ -105,25 +139,12 @@ public class DashboardActivity extends InternalActivity
                 balance.setBalance(0);
                 for (Transaction transaction : transactions) {
                     if (transaction.isIncome())
-                       balance.incrementBalance(transaction.getAmount());
+                        balance.incrementBalance(transaction.getAmount());
                     else
                         balance.decrementBalance(transaction.getAmount());
                 }
             }
-        });
-        transactionAdapter = new FirebaseListAdapter<Transaction>(this, Transaction.class, R.layout.row_transaction, detailsDatabaseReference)
-        {
-            @Override
-            protected void populateView(View v, Transaction model, int position)
-            {
-                ((TextView) v.findViewById(R.id.rowDate)).setText( new SimpleDateFormat("dd-MM-yyyy", Locale.UK).format(new Date(model.getTimestamp())));
-                ((TextView)v.findViewById(R.id.rowAmount)).setText(model.getAmount().toString());
-                ((TextView) v.findViewById(R.id.transactionTitle)).setText(dashboardService.titleCase(model.getTitle()));
-                int colorId = model.isIncome() ? R.color.positiveBalance : R.color.negativeBalance;
-                ((TextView)v.findViewById(R.id.transactionTitle)).setTextColor(ResourcesCompat.getColor(getResources(), colorId, null));
-            }
         };
-        listView.setAdapter(transactionAdapter);
     }
 
 }

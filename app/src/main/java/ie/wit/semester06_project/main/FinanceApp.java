@@ -3,6 +3,8 @@ package ie.wit.semester06_project.main;
 import android.app.Application;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseUser;
+
 import ie.wit.semester06_project.factory.ServiceFactory;
 import ie.wit.semester06_project.model.User;
 import ie.wit.semester06_project.service.IValidationService;
@@ -16,6 +18,8 @@ public class FinanceApp extends Application
 {
     public static ServiceFactory serviceFactory;
     private static User currentUser;
+    private static FirebaseUser firebaseUser;
+
     @Override
     public void onCreate()
     {
@@ -24,13 +28,14 @@ public class FinanceApp extends Application
         serviceFactory = new ServiceFactory();
     }
 
-    public static User getCurrentUser()
+    public static FirebaseUser getCurrentUser()
     {
-        return currentUser;
+        return firebaseUser;
     }
 
-    public static void setCurrentUser(User currentUser)
+    public static void setCurrentUser(FirebaseUser firebaseUser)
     {
-        FinanceApp.currentUser = currentUser;
+        FinanceApp.firebaseUser = firebaseUser;
     }
+
 }
