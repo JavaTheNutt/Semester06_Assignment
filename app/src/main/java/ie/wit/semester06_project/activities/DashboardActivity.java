@@ -4,17 +4,14 @@ import android.os.Bundle;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,10 +24,7 @@ import ie.wit.semester06_project.R;
 import ie.wit.semester06_project.main.FinanceApp;
 import ie.wit.semester06_project.model.Balance;
 import ie.wit.semester06_project.model.BalanceObserver;
-import ie.wit.semester06_project.model.ITransaction;
-import ie.wit.semester06_project.model.Income;
 import ie.wit.semester06_project.model.Transaction;
-import ie.wit.semester06_project.service.CalculationService;
 import ie.wit.semester06_project.service.DashboardService;
 
 /**
