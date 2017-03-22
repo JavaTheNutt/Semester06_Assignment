@@ -8,7 +8,9 @@ import android.widget.EditText;
 
 import org.jetbrains.annotations.Contract;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import ie.wit.semester06_project.activities.BaseActivity;
@@ -42,7 +44,7 @@ public class EntryService
             return false;
         }
         err = validateData(fields);
-        if(!err.equals("")){
+        if (!err.equals("")) {
             Log.w(BaseActivity.TAG, err);
             FinanceApp.serviceFactory.getUtil().makeAToast(src, err);
             return false;
@@ -80,26 +82,17 @@ public class EntryService
         return errorMsg;
     }
 
-    public boolean isValidEmail(CharSequence target)
+    public List<User> mapUsers(Map<String, Map> users)
     {
-        return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
-    }
-
-    public boolean validateFieldLength(String str, int requiredMin)
-    {
-        requiredMin = requiredMin == 0 ? 3 : requiredMin;
-        return str.length() >= requiredMin;
-    }
-
-    public User mapUser(EditText[] fields)
-    {
-        String[] values = new String[fields.length];
-        for (int i = 0; i < fields.length; i++) {
-            values[i] = fields[i].getText().toString();
+        List<User> userList = new ArrayList<>(users.size());
+        for (Map.Entry<String, Map> user : users.entrySet()) {
+            userList.add(mapUser(user));
         }
-        return mapUser(values);
+        return userList;
     }
-    public User mapUser(Map<String, EditText> fields){
+
+    public User mapUser(Map<String, EditText> fields)
+    {
         String[] values = new String[fields.size()];
         values[0] = fields.get("email").getText().toString().trim();
         values[1] = fields.get("password").getText().toString().trim();
@@ -108,10 +101,48 @@ public class EntryService
         return mapUser(values);
     }
 
+    public boolean checkIfUserExists(String username, List<User> users)
+    {
+        for (User user : users) {
+            if (user.getEmailAddress().equals(username)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String[] getUsernames(List<User> users)
+    {
+        String[] usernames = new String[users.size()];
+        for (int i = 0; i < users.size(); i++) {
+            usernames[i] = users.get(i).getEmailAddress();
+        }
+        return usernames;
+    }
+
     @Contract("_ -> !null")
     private User mapUser(String[] values)
     {
         return new User(values[0], values[1], values[2], values[3]);
+    }
+    private boolean isValidEmail(CharSequence target)
+    {
+        return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+    }
+
+    private boolean validateFieldLength(String str, int requiredMin)
+    {
+        requiredMin = requiredMin == 0 ? 3 : requiredMin;
+        return str.length() >= requiredMin;
+    }
+    private User mapUser(Map.Entry<String, Map> user)
+    {
+        String[] values = new String[user.getValue().size()];
+        values[0] = user.getValue().get("emailAddress").toString().trim();
+        values[1] = user.getValue().get("password").toString().trim();
+        values[2] = user.getValue().get("firstName").toString().trim();
+        values[3] = user.getValue().get("surname").toString().trim();
+        return mapUser(values);
     }
 
     @NonNull
@@ -121,11 +152,11 @@ public class EntryService
             Log.w(BaseActivity.TAG, "Email is invalid");
             return "Email is invalid";
         }
-        if(!validateFieldLength(fields.get("password").getText().toString(), 6)){
+        if (!validateFieldLength(fields.get("password").getText().toString(), 6)) {
             Log.w(BaseActivity.TAG, "validateData: Password must be at least 6 characters");
             return "Password must be at least 6 characters";
         }
-        if(!fields.get("password").getText().toString().equals(fields.get("confPassword").getText().toString())){
+        if (!fields.get("password").getText().toString().equals(fields.get("confPassword").getText().toString())) {
             Log.w(BaseActivity.TAG, "validateData: Passwords must match");
             return "Passwords must match";
         }

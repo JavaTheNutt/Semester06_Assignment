@@ -52,11 +52,20 @@ public class LoginActivity extends EntryActivity
 
     private boolean validateUser(String email, String password)
     {
-        if (!allUsers.containsKey(email)) {
+        if (!entryService.checkIfUserExists(email, allUsers)) {
             makeToast("There is no user with that email address");
             return false;
         }
-        User requestedUser = allUsers.get(email);
+        User requestedUser;
+        try {
+            requestedUser = getUser(email);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            Log.w(TAG, "validateUser: user not found");
+            Log.e(TAG, "validateUser: user not found", e);
+            makeToast(e.getMessage());
+            return false;
+        }
         if (!requestedUser.getPassword().equals(password)) {
             makeToast("Incorrect password");
             return false;
