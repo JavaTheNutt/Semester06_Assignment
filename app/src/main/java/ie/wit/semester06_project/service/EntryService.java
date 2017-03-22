@@ -23,15 +23,7 @@ import ie.wit.semester06_project.model.User;
 
 public class EntryService
 {
-    public Map<String, Boolean> validateFieldsLength(Map<String, String> fields, int requiredMin)
-    {
-        Map<String, Boolean> returnedMap = new HashMap<>(fields.size());
-        for (Map.Entry<String, String> entry : fields.entrySet()) {
-            returnedMap.put(entry.getKey(), validateFieldLength(entry.getValue(), requiredMin));
-        }
-        return returnedMap;
-    }
-
+    private static final String[] FIELD_NAMES = {"emailAddress", "password", "firstName", "surname", "confPassword"};
     public boolean validateSignUp(Context src, Map<String, EditText> fields)
     {
         Map<String, String> values = new HashMap<>();
@@ -50,21 +42,6 @@ public class EntryService
             return false;
         }
         return true;
-    }
-
-    public String validateEmailAndPassword(String email, String password)
-    {
-        String errorMsg = "";
-        if (!isValidEmail(email)) {
-            errorMsg += "Email address supplied is invalid!";
-        }
-        if (password.length() < 6) {
-            if (!errorMsg.equals("")) {
-                errorMsg += "\n";
-            }
-            errorMsg += "Password supplied is too short!";
-        }
-        return errorMsg;
     }
 
     public String validateEmailAndPassword(EditText emailField, EditText password)
@@ -94,10 +71,9 @@ public class EntryService
     public User mapUser(Map<String, EditText> fields)
     {
         String[] values = new String[fields.size()];
-        values[0] = fields.get("email").getText().toString().trim();
-        values[1] = fields.get("password").getText().toString().trim();
-        values[2] = fields.get("firstName").getText().toString().trim();
-        values[3] = fields.get("surname").getText().toString().trim();
+        for (int i = 0; i < values.length; i++) {
+            values[i] = fields.get(FIELD_NAMES[i]).getText().toString().trim();
+        }
         return mapUser(values);
     }
 
@@ -120,11 +96,21 @@ public class EntryService
         return usernames;
     }
 
+    private Map<String, Boolean> validateFieldsLength(Map<String, String> fields, int requiredMin)
+    {
+        Map<String, Boolean> returnedMap = new HashMap<>(fields.size());
+        for (Map.Entry<String, String> entry : fields.entrySet()) {
+            returnedMap.put(entry.getKey(), validateFieldLength(entry.getValue(), requiredMin));
+        }
+        return returnedMap;
+    }
+    
     @Contract("_ -> !null")
     private User mapUser(String[] values)
     {
         return new User(values[0], values[1], values[2], values[3]);
     }
+
     private boolean isValidEmail(CharSequence target)
     {
         return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
@@ -135,20 +121,21 @@ public class EntryService
         requiredMin = requiredMin == 0 ? 3 : requiredMin;
         return str.length() >= requiredMin;
     }
+
+    // FIXME: 22/03/2017 refactor to use the keys instead of the constant array
     private User mapUser(Map.Entry<String, Map> user)
     {
         String[] values = new String[user.getValue().size()];
-        values[0] = user.getValue().get("emailAddress").toString().trim();
-        values[1] = user.getValue().get("password").toString().trim();
-        values[2] = user.getValue().get("firstName").toString().trim();
-        values[3] = user.getValue().get("surname").toString().trim();
+        for (int i = 0; i < values.length; i++) {
+            values[i] = user.getValue().get(FIELD_NAMES[i]).toString().trim();
+        }
         return mapUser(values);
     }
 
     @NonNull
     private String validateData(Map<String, EditText> fields)
     {
-        if (!isValidEmail(fields.get("email").getText().toString())) {
+        if (!isValidEmail(fields.get("emailAddress").getText().toString())) {
             Log.w(BaseActivity.TAG, "Email is invalid");
             return "Email is invalid";
         }
