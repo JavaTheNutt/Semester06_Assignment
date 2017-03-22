@@ -4,17 +4,16 @@ import android.os.Bundle;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.ParseException;
+import org.jetbrains.annotations.Contract;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,10 +26,7 @@ import ie.wit.semester06_project.R;
 import ie.wit.semester06_project.main.FinanceApp;
 import ie.wit.semester06_project.model.Balance;
 import ie.wit.semester06_project.model.BalanceObserver;
-import ie.wit.semester06_project.model.ITransaction;
-import ie.wit.semester06_project.model.Income;
 import ie.wit.semester06_project.model.Transaction;
-import ie.wit.semester06_project.service.CalculationService;
 import ie.wit.semester06_project.service.DashboardService;
 
 /**
@@ -43,14 +39,12 @@ public class DashboardActivity extends InternalActivity
     private TextView noDataFoundLabel;
     private TextView usernameLabel;
 
-    private CalculationService calculationService;
     private DashboardService dashboardService;
     private FirebaseListAdapter<Transaction> transactionAdapter;
+    private ValueEventListener valueEventListener;
 
-    private float currentTotal = 0;
     private Balance balance = new Balance();
     private BalanceObserver observer;
-    private List<Long> usedTimeStamps = new ArrayList<>();
     private List<Transaction> transactions = new ArrayList<>();
 
     /**
@@ -63,17 +57,46 @@ public class DashboardActivity extends InternalActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+        setUpReferences();
+    }
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        valueEventListener = setupValueEventListener();
+        detailsDatabaseReference.addValueEventListener(valueEventListener);
+        transactionAdapter = setupFirebaseTransactionAdapter();
+        listView.setAdapter(transactionAdapter);
+    }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        detailsDatabaseReference.removeEventListener(valueEventListener);
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onDestroy();
+        transactionAdapter.cleanup();
+    }
+
+    private void setUpReferences(){
         currentBalance = (TextView) findViewById(R.id.dashboardCurrentBalance);
         listView = (ListView) findViewById(R.id.transactionList);
         noDataFoundLabel = (TextView) findViewById(R.id.noDataFoundLabel);
-        calculationService = FinanceApp.serviceFactory.getCalculationService();
         dashboardService = FinanceApp.serviceFactory.getDashboardService();
         usernameLabel = (TextView)findViewById(R.id.userNameLabel);
         observer = new BalanceObserver(this, currentBalance);
         observer.observe(balance);
         usernameLabel.setText("Welcome, " + FinanceApp.getCurrentUser().getFirstName() + " " + FinanceApp.getCurrentUser().getSurname() + "!");
-
-        detailsDatabaseReference.addValueEventListener(new ValueEventListener()
+    }
+    @Contract(" -> !null")
+    private ValueEventListener setupValueEventListener(){
+        return new ValueEventListener()
         {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
@@ -81,6 +104,16 @@ public class DashboardActivity extends InternalActivity
                 Map<String, Map> transactionMap = (HashMap<String, Map>) dataSnapshot.getValue();
                 Log.v(TAG, Integer.toString(transactions.size()));
                 transactions = dashboardService.createTransactions(transactionMap);
+                adjustView();
+                setBalance(transactions);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError)
+            {
+                Log.e(TAG, "Unable to retrieve transaction data", databaseError.toException());
+            }
+            private void adjustView(){
                 if(transactions == null | transactions.size() == 0){
                     noDataFoundLabel.setVisibility(View.VISIBLE);
                     listView.setVisibility(View.GONE);
@@ -92,26 +125,21 @@ public class DashboardActivity extends InternalActivity
                 listView.setVisibility(View.VISIBLE);
                 currentBalance.setVisibility(View.VISIBLE);
                 usernameLabel.setVisibility(View.VISIBLE);
-                setBalance(transactions);
             }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError)
-            {
-                Log.e(TAG, "Unable to retrieve transaction data", databaseError.toException());
-            }
-
             private void setBalance(List<Transaction> transactions){
                 balance.setBalance(0);
                 for (Transaction transaction : transactions) {
                     if (transaction.isIncome())
-                       balance.incrementBalance(transaction.getAmount());
+                        balance.incrementBalance(transaction.getAmount());
                     else
                         balance.decrementBalance(transaction.getAmount());
                 }
             }
-        });
-        transactionAdapter = new FirebaseListAdapter<Transaction>(this, Transaction.class, R.layout.row_transaction, detailsDatabaseReference)
+        };
+    }
+    @Contract(" -> !null")
+    private FirebaseListAdapter<Transaction> setupFirebaseTransactionAdapter(){
+        return new FirebaseListAdapter<Transaction>(this, Transaction.class, R.layout.row_transaction, detailsDatabaseReference)
         {
             @Override
             protected void populateView(View v, Transaction model, int position)
@@ -123,7 +151,6 @@ public class DashboardActivity extends InternalActivity
                 ((TextView)v.findViewById(R.id.transactionTitle)).setTextColor(ResourcesCompat.getColor(getResources(), colorId, null));
             }
         };
-        listView.setAdapter(transactionAdapter);
     }
 
 }

@@ -1,9 +1,7 @@
 package ie.wit.semester06_project.model;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -49,4 +47,5 @@ public class BalanceObserver implements Observer
         balanceView.setTextColor(ContextCompat.getColor(context, colorId));
         balanceView.setText(strTotal);
     }
+
 }

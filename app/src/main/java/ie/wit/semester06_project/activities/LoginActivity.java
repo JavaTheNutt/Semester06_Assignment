@@ -29,13 +29,13 @@ public class LoginActivity extends EntryActivity
 
     private void signIn(String email, String password){
 
-        if(allUsers == null || allUsers.size() == 0){
+       /* if(allUsers == null || allUsers.size() == 0){
             try {
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
 
             }
-        }
+        }*/
         if(!allUsers.containsKey(email)){
             makeToast("There is no user with that email address");
             return;

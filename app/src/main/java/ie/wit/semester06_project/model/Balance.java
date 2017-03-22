@@ -9,6 +9,11 @@ import java.util.Observable;
 public class Balance extends Observable
 {
     private float balance = 0;
+
+    /**
+     * This will set the balance to a specified amount and notify observers
+     * @param balance the new balance
+     */
     public void setBalance(float balance){
         synchronized (this){
             this.balance = balance;
@@ -16,6 +21,8 @@ public class Balance extends Observable
         setChanged();
         notifyObservers();
     }
+
+
     public void incrementBalance(float amount){
         synchronized (this){
             this.balance += amount;
@@ -30,7 +37,8 @@ public class Balance extends Observable
         setChanged();
         notifyObservers();
     }
-    public synchronized float getBalance(){
+
+    synchronized float getBalance(){
         return balance;
     }
 }
