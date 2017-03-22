@@ -9,7 +9,6 @@ import android.widget.EditText;
 import ie.wit.semester06_project.R;
 import ie.wit.semester06_project.main.FinanceApp;
 import ie.wit.semester06_project.model.User;
-import ie.wit.semester06_project.service.IValidationService;
 
 public class LoginActivity extends EntryActivity
 {

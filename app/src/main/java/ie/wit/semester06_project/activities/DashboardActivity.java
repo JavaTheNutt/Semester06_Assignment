@@ -24,8 +24,8 @@ import java.util.Map;
 
 import ie.wit.semester06_project.R;
 import ie.wit.semester06_project.main.FinanceApp;
-import ie.wit.semester06_project.model.Balance;
-import ie.wit.semester06_project.model.BalanceObserver;
+import ie.wit.semester06_project.model.ui_model.Balance;
+import ie.wit.semester06_project.model.ui_model.BalanceObserver;
 import ie.wit.semester06_project.model.Transaction;
 import ie.wit.semester06_project.service.DashboardService;
 

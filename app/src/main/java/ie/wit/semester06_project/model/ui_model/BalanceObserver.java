@@ -1,4 +1,4 @@
-package ie.wit.semester06_project.model;
+package ie.wit.semester06_project.model.ui_model;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;

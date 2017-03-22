@@ -5,8 +5,6 @@ import android.util.Log;
 
 import ie.wit.semester06_project.factory.ServiceFactory;
 import ie.wit.semester06_project.model.User;
-import ie.wit.semester06_project.service.IValidationService;
-import ie.wit.semester06_project.service.LoginValidationServiceImpl;
 
 /**
  * Main Application Class

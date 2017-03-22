@@ -8,7 +8,6 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 
 import ie.wit.semester06_project.R;
-import ie.wit.semester06_project.model.Income;
 import ie.wit.semester06_project.model.Transaction;
 
 /**

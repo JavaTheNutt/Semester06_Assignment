@@ -1,4 +1,4 @@
-package ie.wit.semester06_project.model;
+package ie.wit.semester06_project.model.ui_model;
 
 import java.util.Observable;
 
