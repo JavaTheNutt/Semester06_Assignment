@@ -3,6 +3,7 @@ package ie.wit.semester06_project.factory;
 import ie.wit.semester06_project.repo.IncomeRepo;
 import ie.wit.semester06_project.service.CalculationService;
 import ie.wit.semester06_project.service.DashboardService;
+import ie.wit.semester06_project.service.EntryService;
 import ie.wit.semester06_project.service.LoginValidationServiceImpl;
 import ie.wit.semester06_project.service.Util;
 
@@ -17,6 +18,7 @@ public class ServiceFactory
     private IncomeRepo incomeRepo;
     private CalculationService calculationService;
     private DashboardService dashboardService;
+    private EntryService entryService;
 
     public LoginValidationServiceImpl getLoginValidationService()
     {
@@ -48,5 +50,13 @@ public class ServiceFactory
             dashboardService = new DashboardService();
         }
         return dashboardService;
+    }
+
+    public EntryService getEntryService()
+    {
+        if (entryService == null) {
+            entryService = new EntryService();
+        }
+        return entryService;
     }
 }

@@ -18,23 +18,17 @@ import ie.wit.semester06_project.service.LoginValidationServiceImpl;
 
 public class SignUpActivity extends EntryActivity
 {
-
-    private LoginValidationServiceImpl loginValidationService;
-
     private EditText firstNameField;
     private EditText surnameField;
     private EditText emailAddressField;
     private EditText passwordField;
     private EditText confirmPasswordField;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
-        loginValidationService = FinanceApp.serviceFactory.getLoginValidationService();
 
         firstNameField = (EditText) findViewById(R.id.signUpFirstNameField);
         surnameField = (EditText) findViewById(R.id.signUpSurnameField);
@@ -74,20 +68,20 @@ public class SignUpActivity extends EntryActivity
         Map<String, String> values = new HashMap<>(5);
         values.put("First name", firstNameField.getText().toString());
         values.put("Surname", surnameField.getText().toString());
-        Map<String, Boolean> response = loginValidationService.validateFieldsLength(values, 3);
+        Map<String, Boolean> response = entryService.validateFieldsLength(values, 3);
         String err = checkFields(response);
         if(!err.equals("")){
             Log.w(TAG, err);
             makeToast(err);
             return false;
         }
-        if(!loginValidationService.isValidEmail(emailAddressField.getText().toString())){
+        if(!entryService.isValidEmail(emailAddressField.getText().toString())){
             err = "The email address supplied is invalid";
             Log.w(TAG, err);
             makeToast(err);
             return false;
         }
-        if(!loginValidationService.validateFieldLength(passwordField.getText().toString(), 6)){
+        if(!entryService.validateFieldLength(passwordField.getText().toString(), 6)){
             err = "The password must be at least 6 characters long";
             Log.w(TAG, err);
             makeToast(err);
@@ -102,7 +96,7 @@ public class SignUpActivity extends EntryActivity
         return true;
     }
 
-    // FIXME: 25/02/2017 hash password client side 
+
     private void registerUser(User user){
         for (String usedEmail :  usernames){
             if(usedEmail.equalsIgnoreCase(user.getEmailAddress())){
@@ -110,22 +104,9 @@ public class SignUpActivity extends EntryActivity
                 return;
             }
         }
-        // FIXME: 25/02/2017 refactor this to make use of the class in the util package
-       // String key = generateKey(user.getEmailAddress());
+
         databaseReference.child("users").child(user.getKey()).setValue(user);
         startActivity(new Intent(this, MainActivity.class));
     }
-   /*// private String generateKey(String emailAddress){
-        String[] splitAddress = emailAddress.split("");
-        String newKey = "";
-        for (String character : splitAddress) {
-            if(!character.equals(".")){
-                newKey += character;
-            }else{
-                newKey += "_";
-            }
-        }
-        Log.v(TAG, "New key:\t" + newKey);
-        return newKey;
-    }*/
+
 }

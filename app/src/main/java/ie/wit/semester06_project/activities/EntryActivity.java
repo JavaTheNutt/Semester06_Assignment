@@ -9,10 +9,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.jetbrains.annotations.Contract;
+
 import java.util.HashMap;
 import java.util.Map;
 
+import ie.wit.semester06_project.main.FinanceApp;
 import ie.wit.semester06_project.model.User;
+import ie.wit.semester06_project.service.EntryService;
 
 /**
  * This will be the class that will any activities that relate to login/logout wil inherit from.
@@ -23,9 +27,12 @@ public class EntryActivity extends BaseActivity
     protected DatabaseReference userDatabaseReference; //reference to the user segment of the database.
     protected Map<String, User> allUsers; //map of users with the key being formed from the users email address
     protected String[] usernames; //list of all usernames in the system
+    protected ValueEventListener valueEventListener;
+    protected EntryService entryService;
 
     /**
      * {@inheritDoc}
+     *
      * @param savedInstanceState
      */
     @Override
@@ -33,7 +40,28 @@ public class EntryActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
         userDatabaseReference = FirebaseDatabase.getInstance().getReference("users");
-        userDatabaseReference.addValueEventListener(new ValueEventListener()
+        entryService = FinanceApp.serviceFactory.getEntryService();
+    }
+
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        valueEventListener = setUpValueEventListener();
+        userDatabaseReference.addValueEventListener(valueEventListener);
+    }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        userDatabaseReference.removeEventListener(valueEventListener);
+    }
+
+    @Contract(" -> !null")
+    private ValueEventListener setUpValueEventListener()
+    {
+        return new ValueEventListener()
         {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
@@ -46,7 +74,7 @@ public class EntryActivity extends BaseActivity
                 /*
                  * When the data changes, store the users and usernames respectivly.
                  */
-                for(Map.Entry<String, Map> user : users.entrySet()){
+                for (Map.Entry<String, Map> user : users.entrySet()) {
                     User tempUser = mapUser(user);
                     allUsers.put(tempUser.getEmailAddress(), tempUser);
                     usernames[i] = tempUser.getEmailAddress();
@@ -59,22 +87,23 @@ public class EntryActivity extends BaseActivity
             {
                 Log.e(TAG, "unable to retrieve user data", databaseError.toException());
             }
+
             /**
              * Convert Map to User POJO
              * @param user a map containing all of the data required to construct a user
              * @return User object
              */
-            private User mapUser(Map.Entry<String, Map> user){
+            private User mapUser(Map.Entry<String, Map> user)
+            {
                 User tempUser = new User();
                 String tempUsername = (String) user.getValue().get("emailAddress");
-                tempUser.setFirstName((String)user.getValue().get("firstName"));
+                tempUser.setFirstName((String) user.getValue().get("firstName"));
                 tempUser.setSurname((String) user.getValue().get("surname"));
                 tempUser.setEmailAddress(tempUsername);
                 tempUser.setPassword((String) user.getValue().get("password"));
                 Log.v(TAG, tempUsername);
                 return tempUser;
             }
-        });
-
+        };
     }
 }

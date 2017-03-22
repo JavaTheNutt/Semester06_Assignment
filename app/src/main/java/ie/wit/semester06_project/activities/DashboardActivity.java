@@ -94,6 +94,7 @@ public class DashboardActivity extends InternalActivity
         observer.observe(balance);
         usernameLabel.setText("Welcome, " + FinanceApp.getCurrentUser().getFirstName() + " " + FinanceApp.getCurrentUser().getSurname() + "!");
     }
+
     @Contract(" -> !null")
     private ValueEventListener setupValueEventListener(){
         return new ValueEventListener()
@@ -137,6 +138,7 @@ public class DashboardActivity extends InternalActivity
             }
         };
     }
+
     @Contract(" -> !null")
     private FirebaseListAdapter<Transaction> setupFirebaseTransactionAdapter(){
         return new FirebaseListAdapter<Transaction>(this, Transaction.class, R.layout.row_transaction, detailsDatabaseReference)

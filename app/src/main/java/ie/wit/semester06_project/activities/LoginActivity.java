@@ -15,7 +15,7 @@ public class LoginActivity extends EntryActivity
 {
     private EditText emailField;
     private EditText passwordField;
-    private IValidationService loginValidationService;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -24,50 +24,54 @@ public class LoginActivity extends EntryActivity
         setContentView(R.layout.activity_login);
         emailField = (EditText) findViewById(R.id.logInEmailField);
         passwordField = (EditText) findViewById(R.id.logInPasswordField);
-        loginValidationService = FinanceApp.serviceFactory.getLoginValidationService();
     }
 
-    private void signIn(String email, String password){
-
-       /* if(allUsers == null || allUsers.size() == 0){
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-
-            }
-        }*/
-        if(!allUsers.containsKey(email)){
-            makeToast("There is no user with that email address");
-            return;
-        }
-        User requestedUser = allUsers.get(email);
-        if(!requestedUser.getPassword().equals(password)){
-            makeToast("Incorrect password");
-            return;
-        }
-        makeToast("Login successful");
-        //currentUser = requestedUser;
-        FinanceApp.setCurrentUser(requestedUser);
-        startActivity(new Intent(this, DashboardActivity.class));
-    }
-
-    public void loginClicked(View view){
+    public void loginClicked(View view)
+    {
         Log.v(TAG, "LoginClicked called from within loginActivity");
-        String email = emailField.getText().toString();
-        String password = passwordField.getText().toString();
+        String email = emailField.getText().toString().trim();
+        String password = passwordField.getText().toString().trim();
         Log.v(TAG, "User attempting to log in with the details: \n{\n\tusername:\t\'" + email + "\'\n\tpassword:\t\'" + password + "\'\n}");
-        //String res = validateDetails(email, password);
-        String res = loginValidationService.validateEmailAndPassword(email, password);
-        if(res.equals("")){
+        validation(email, password);
+    }
+
+    private void signIn(String email, String password)
+    {
+        if (validateUser(email, password)) {
+            makeToast("Login successful");
+            startActivity(new Intent(this, DashboardActivity.class));
+        }
+    }
+
+    private void validation(String email, String password)
+    {
+        String res = entryService.validateEmailAndPassword(email, password);
+        if (res.equals("")) {
             Log.v(TAG, "Email and password are in the correct format");
             signIn(email, password);
-        }else{
+        } else {
             Log.v(TAG, res);
             FinanceApp.serviceFactory.getUtil().makeAToast(this, res);
         }
     }
 
-    private void makeToast(String msg){
+    private boolean validateUser(String email, String password)
+    {
+        if (!allUsers.containsKey(email)) {
+            makeToast("There is no user with that email address");
+            return false;
+        }
+        User requestedUser = allUsers.get(email);
+        if (!requestedUser.getPassword().equals(password)) {
+            makeToast("Incorrect password");
+            return false;
+        }
+        FinanceApp.setCurrentUser(requestedUser);
+        return true;
+    }
+
+    private void makeToast(String msg)
+    {
         FinanceApp.serviceFactory.getUtil().makeAToast(this, msg);
     }
 }

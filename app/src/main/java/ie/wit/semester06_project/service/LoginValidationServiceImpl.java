@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import java.util.HashMap;
 import java.util.Map;
 
+import ie.wit.semester06_project.model.User;
+
 /**
  * Created by joewe on 24/02/2017.
  */
@@ -44,4 +46,5 @@ public class LoginValidationServiceImpl implements IValidationService
     public boolean vaildatePasswordMatch(String pass01, String pass02){
         return pass01.equals(pass02);
     }
+
 }
