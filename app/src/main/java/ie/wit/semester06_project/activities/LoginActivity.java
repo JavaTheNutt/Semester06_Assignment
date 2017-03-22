@@ -27,11 +27,7 @@ public class LoginActivity extends EntryActivity
 
     public void loginClicked(View view)
     {
-        Log.v(TAG, "LoginClicked called from within loginActivity");
-        String email = emailField.getText().toString().trim();
-        String password = passwordField.getText().toString().trim();
-        Log.v(TAG, "User attempting to log in with the details: \n{\n\tusername:\t\'" + email + "\'\n\tpassword:\t\'" + password + "\'\n}");
-        validation(email, password);
+        validation();
     }
 
     private void signIn(String email, String password)
@@ -42,12 +38,12 @@ public class LoginActivity extends EntryActivity
         }
     }
 
-    private void validation(String email, String password)
+    private void validation()
     {
-        String res = entryService.validateEmailAndPassword(email, password);
+        String res = entryService.validateEmailAndPassword(emailField, passwordField);
         if (res.equals("")) {
             Log.v(TAG, "Email and password are in the correct format");
-            signIn(email, password);
+            signIn(emailField.getText().toString(), passwordField.getText().toString());
         } else {
             Log.v(TAG, res);
             FinanceApp.serviceFactory.getUtil().makeAToast(this, res);
