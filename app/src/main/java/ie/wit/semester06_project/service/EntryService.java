@@ -6,6 +6,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.EditText;
 
+import com.annimon.stream.Stream;
+
 import org.jetbrains.annotations.Contract;
 
 import java.util.ArrayList;
@@ -104,7 +106,7 @@ public class EntryService
         }
         return returnedMap;
     }
-    
+
     @Contract("_ -> !null")
     private User mapUser(String[] values)
     {
@@ -122,7 +124,7 @@ public class EntryService
         return str.length() >= requiredMin;
     }
 
-    // FIXME: 22/03/2017 refactor to use the keys instead of the constant array
+    // FIXME: 22/03/2017 refactor to use the keys instead of the constant array. For this to work, the names of the fields must be normaised with the database names
     private User mapUser(Map.Entry<String, Map> user)
     {
         String[] values = new String[user.getValue().size()];
