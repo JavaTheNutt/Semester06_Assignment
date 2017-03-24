@@ -43,7 +43,7 @@ public class SignUpActivity extends EntryActivity
         namedFields.put("surname", (EditText) findViewById(R.id.signUpSurnameField));
         namedFields.put("password", (EditText) findViewById(R.id.signUpPasswordField));
         namedFields.put("confPassword", (EditText) findViewById(R.id.signUpConfirmPassword));
-        namedFields.put("emailAddress", (EditText) findViewById(R.id.signUpEmailField));
+        namedFields.put("email", (EditText) findViewById(R.id.signUpEmailField));
     }
 
     private void makeToast(String msg)
@@ -55,9 +55,9 @@ public class SignUpActivity extends EntryActivity
     {
         Log.d(TAG, "registerUser: registering:" + user.toString());
         for (String usedEmail : usernames) {
-            if (usedEmail.equalsIgnoreCase(user.getEmailAddress())) {
+            if (usedEmail.equalsIgnoreCase(user.getEmail())) {
                 makeToast("This email address is already in use");
-                Log.w(TAG, "registerUser: username " + user.getEmailAddress() + " is already in use");
+                Log.w(TAG, "registerUser: username " + user.getEmail() + " is already in use");
                 return;
             }
         }

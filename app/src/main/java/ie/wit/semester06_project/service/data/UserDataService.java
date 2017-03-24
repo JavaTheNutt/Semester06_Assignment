@@ -12,7 +12,6 @@ import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.Contract;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +40,23 @@ public class UserDataService
         this.entryService = FinanceApp.serviceFactory.getEntryService();
     }
 
-    public List<User> getUsers()
+
+    public void start()
+    {
+        if (valueEventListener == null) {
+            valueEventListener = setUpValueEventListener();
+        }
+        databaseReference.addValueEventListener(valueEventListener);
+    }
+
+
+    public void stop()
+    {
+        databaseReference.removeEventListener(valueEventListener);
+    }
+
+
+    public List<User> getAll()
     {
         if (users == null) {
             users = new ArrayList<>();
@@ -49,26 +64,28 @@ public class UserDataService
         return users;
     }
 
-    public void start(){
-        if(valueEventListener == null){
-            valueEventListener = setUpValueEventListener();
-        }
-        databaseReference.addValueEventListener(valueEventListener);
-    }
-    public void stop(){
-        databaseReference.removeEventListener(valueEventListener);
-    }
-
     //https://github.com/aNNiMON/Android-Java-8-Stream-Example
-    public User getUser(String email){
-        return Stream.of(users).filter((user) -> user.getEmailAddress().equalsIgnoreCase(email)).collect(Collectors.toList()).get(0);
+    public User getOne(String email)
+    {
+        // FIXME: 24/03/2017 convert to for loop
+        return Stream.of(users).filter((user) -> user.getEmail().equalsIgnoreCase(email)).collect(Collectors.toList()).get(0);
     }
 
-    public String[] getUsernames(){
-        return (String[]) Stream.of(users).map(User::getEmailAddress).collect(Collectors.toList()).toArray();
+
+    public void addItem(User user)
+    {
+        databaseReference.child("users").child(user.getKey()).setValue(user);
     }
+
+    public String[] getUsernames()
+    {
+        return (String[]) Stream.of(users).map(User::getEmail).collect(Collectors.toList()).toArray();
+    }
+
+
     @Contract(" -> !null")
-    private ValueEventListener setUpValueEventListener(){
+    private ValueEventListener setUpValueEventListener()
+    {
         return new ValueEventListener()
         {
             @Override
@@ -84,7 +101,6 @@ public class UserDataService
             {
                 Log.e(TAG, "unable to retrieve user data", databaseError.toException());
             }
-
         };
     }
 }

@@ -15,7 +15,6 @@ public class LoginActivity extends EntryActivity
     private EditText emailField;
     private EditText passwordField;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -58,7 +57,8 @@ public class LoginActivity extends EntryActivity
         }
         User requestedUser;
         try {
-            requestedUser = getUser(email);
+            requestedUser = getUser(email);// TODO: 24/03/2017 use the new service
+            //requestedUser = userDataService.getOne(email);
         } catch (RuntimeException e) {
             e.printStackTrace();
             Log.w(TAG, "validateUser: user not found");

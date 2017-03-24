@@ -6,8 +6,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.EditText;
 
-import com.annimon.stream.Stream;
-
 import org.jetbrains.annotations.Contract;
 
 import java.util.ArrayList;
@@ -25,7 +23,7 @@ import ie.wit.semester06_project.model.User;
 
 public class EntryService
 {
-    private static final String[] FIELD_NAMES = {"emailAddress", "password", "firstName", "surname", "confPassword"};
+    private static final String[] FIELD_NAMES = {"email", "password", "firstName", "surname", "confPassword"};
     public boolean validateSignUp(Context src, Map<String, EditText> fields)
     {
         Map<String, String> values = new HashMap<>();
@@ -82,7 +80,7 @@ public class EntryService
     public boolean checkIfUserExists(String username, List<User> users)
     {
         for (User user : users) {
-            if (user.getEmailAddress().equals(username)) {
+            if (user.getEmail().equals(username)) {
                 return true;
             }
         }
@@ -93,7 +91,7 @@ public class EntryService
     {
         String[] usernames = new String[users.size()];
         for (int i = 0; i < users.size(); i++) {
-            usernames[i] = users.get(i).getEmailAddress();
+            usernames[i] = users.get(i).getEmail();
         }
         return usernames;
     }
@@ -129,6 +127,9 @@ public class EntryService
     {
         String[] values = new String[user.getValue().size()];
         for (int i = 0; i < values.length; i++) {
+            /*if(i == FIELD_NAMES.length - 1){
+                break;
+            }*/
             values[i] = user.getValue().get(FIELD_NAMES[i]).toString().trim();
         }
         return mapUser(values);
@@ -137,7 +138,7 @@ public class EntryService
     @NonNull
     private String validateData(Map<String, EditText> fields)
     {
-        if (!isValidEmail(fields.get("emailAddress").getText().toString())) {
+        if (!isValidEmail(fields.get("email").getText().toString())) {
             Log.w(BaseActivity.TAG, "Email is invalid");
             return "Email is invalid";
         }

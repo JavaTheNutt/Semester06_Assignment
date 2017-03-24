@@ -13,7 +13,7 @@ import ie.wit.semester06_project.activities.BaseActivity;
 public class User
 {
 
-    private String emailAddress;
+    private String email;
     private String password;
     private String firstName;
     private String surname;
@@ -22,23 +22,23 @@ public class User
     {
     }
 
-    public User (String emailAddress, String password, String firstName, String surname)
+    public User (String email, String password, String firstName, String surname)
     {
 
-        this.emailAddress = emailAddress;
+        this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.surname = surname;
     }
 
-    public String getEmailAddress()
+    public String getEmail()
     {
-        return emailAddress;
+        return email;
     }
 
-    public void setEmailAddress(String emailAddress)
+    public void setEmail(String email)
     {
-        this.emailAddress = emailAddress;
+        this.email = email;
     }
 
     public String getPassword()
@@ -72,8 +72,8 @@ public class User
     }
     @Exclude
     public String getKey(){
-        Log.v(BaseActivity.TAG, "Formatting " + this.emailAddress + " so it can be used as a key");
-        String[] splitAddress = this.emailAddress.split("");
+        Log.v(BaseActivity.TAG, "Formatting " + this.email + " so it can be used as a key");
+        String[] splitAddress = this.email.split("");
         String newKey = "";
         for (String character : splitAddress) {
             if(!character.equals(".")){
@@ -90,7 +90,7 @@ public class User
     public String toString()
     {
         return "User{" +
-                "emailAddress='" + emailAddress + '\'' +
+                "email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", surname='" + surname + '\'' +

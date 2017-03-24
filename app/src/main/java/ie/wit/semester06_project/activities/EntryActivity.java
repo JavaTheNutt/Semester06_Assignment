@@ -19,6 +19,7 @@ import java.util.Map;
 import ie.wit.semester06_project.main.FinanceApp;
 import ie.wit.semester06_project.model.User;
 import ie.wit.semester06_project.service.EntryService;
+import ie.wit.semester06_project.service.data.UserDataService;
 
 /**
  * This will be the class that will any activities that relate to login/logout wil inherit from.
@@ -31,6 +32,7 @@ public class EntryActivity extends BaseActivity
     protected String[] usernames; //list of all usernames in the system
     protected ValueEventListener valueEventListener;
     protected EntryService entryService;
+    protected UserDataService userDataService;
 
 
     /**
@@ -42,28 +44,31 @@ public class EntryActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        userDatabaseReference = FirebaseDatabase.getInstance().getReference("users");
+        userDatabaseReference = FirebaseDatabase.getInstance().getReference("users"); // TODO: 24/03/2017 remove once connected to new service
+        //userDataService = new UserDataService(FirebaseDatabase.getInstance().getReference("users"));
         entryService = FinanceApp.serviceFactory.getEntryService();
-        allUsers = new ArrayList<>();
+        allUsers = new ArrayList<>();// TODO: 24/03/2017 remove once connected to new service
     }
 
     @Override
     protected void onStart()
     {
         super.onStart();
-        valueEventListener = setUpValueEventListener();
-        userDatabaseReference.addValueEventListener(valueEventListener);
+        //userDataService.start();
+        valueEventListener = setUpValueEventListener();// TODO: 24/03/2017 remove once connected to new service
+        userDatabaseReference.addValueEventListener(valueEventListener);// TODO: 24/03/2017 remove once connected to new service
     }
 
     @Override
     protected void onStop()
     {
         super.onStop();
-        userDatabaseReference.removeEventListener(valueEventListener);
+        //userDataService.stop();
+        userDatabaseReference.removeEventListener(valueEventListener);// TODO: 24/03/2017 remove once connected to new service
     }
 
     @Contract(" -> !null")
-    private ValueEventListener setUpValueEventListener()
+    private ValueEventListener setUpValueEventListener()// TODO: 24/03/2017 remove once connected to new service
     {
         return new ValueEventListener()
         {
@@ -93,7 +98,7 @@ public class EntryActivity extends BaseActivity
                 String tempUsername = (String) user.getValue().get("emailAddress");
                 tempUser.setFirstName((String) user.getValue().get("firstName"));
                 tempUser.setSurname((String) user.getValue().get("surname"));
-                tempUser.setEmailAddress(tempUsername);
+                tempUser.setEmail(tempUsername);
                 tempUser.setPassword((String) user.getValue().get("password"));
                 Log.v(TAG, tempUsername);
                 return tempUser;
@@ -101,10 +106,10 @@ public class EntryActivity extends BaseActivity
         };
     }
 
-    protected User getUser(String email) throws RuntimeException
+    protected User getUser(String email) throws RuntimeException// TODO: 24/03/2017 remove once connected to new service
     {
         for (User user : allUsers) {
-            if (user.getEmailAddress().equalsIgnoreCase(email)) {
+            if (user.getEmail().equalsIgnoreCase(email)) {
                 return user;
             }
         }
