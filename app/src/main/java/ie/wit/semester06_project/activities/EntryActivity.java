@@ -32,6 +32,7 @@ public class EntryActivity extends BaseActivity
     protected ValueEventListener valueEventListener;
     protected EntryService entryService;
 
+
     /**
      * {@inheritDoc}
      *
@@ -103,7 +104,7 @@ public class EntryActivity extends BaseActivity
     protected User getUser(String email) throws RuntimeException
     {
         for (User user : allUsers) {
-            if (user.getEmailAddress().equalsIgnoreCase(email)){
+            if (user.getEmailAddress().equalsIgnoreCase(email)) {
                 return user;
             }
         }
