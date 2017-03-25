@@ -6,6 +6,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 import ie.wit.semester06_project.R;
 import ie.wit.semester06_project.main.FinanceApp;
 import ie.wit.semester06_project.model.User;
@@ -51,15 +54,14 @@ public class LoginActivity extends EntryActivity
 
     private boolean validateUser(String email, String password)
     {
-        if (!entryService.checkIfUserExists(email, allUsers)) {
+        if(userDataService.getUsernames().indexOf(email) == -1){
             makeToast("There is no user with that email address");
             return false;
         }
         User requestedUser;
         try {
-            requestedUser = getUser(email);// TODO: 24/03/2017 use the new service
-            //requestedUser = userDataService.getOne(email);
-        } catch (RuntimeException e) {
+            requestedUser = userDataService.getOne(email);
+        } catch (Exception e) {
             e.printStackTrace();
             Log.w(TAG, "validateUser: user not found");
             Log.e(TAG, "validateUser: user not found", e);

@@ -44,31 +44,31 @@ public class EntryActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        userDatabaseReference = FirebaseDatabase.getInstance().getReference("users"); // TODO: 24/03/2017 remove once connected to new service
-        //userDataService = new UserDataService(FirebaseDatabase.getInstance().getReference("users"));
+        //userDatabaseReference = FirebaseDatabase.getInstance().getReference("users"); // TODO: 24/03/2017 remove once connected to new service
+        userDataService = new UserDataService(FirebaseDatabase.getInstance().getReference("users"));
         entryService = FinanceApp.serviceFactory.getEntryService();
-        allUsers = new ArrayList<>();// TODO: 24/03/2017 remove once connected to new service
+        //allUsers = new ArrayList<>();// TODO: 24/03/2017 remove once connected to new service
     }
 
     @Override
     protected void onStart()
     {
         super.onStart();
-        //userDataService.start();
-        valueEventListener = setUpValueEventListener();// TODO: 24/03/2017 remove once connected to new service
-        userDatabaseReference.addValueEventListener(valueEventListener);// TODO: 24/03/2017 remove once connected to new service
+        userDataService.start();
+        //valueEventListener = setUpValueEventListener();// TODO: 24/03/2017 remove once connected to new service
+        //userDatabaseReference.addValueEventListener(valueEventListener);// TODO: 24/03/2017 remove once connected to new service
     }
 
     @Override
     protected void onStop()
     {
         super.onStop();
-        //userDataService.stop();
-        userDatabaseReference.removeEventListener(valueEventListener);// TODO: 24/03/2017 remove once connected to new service
+        userDataService.stop();
+        //userDatabaseReference.removeEventListener(valueEventListener);// TODO: 24/03/2017 remove once connected to new service
     }
 
-    @Contract(" -> !null")
-    private ValueEventListener setUpValueEventListener()// TODO: 24/03/2017 remove once connected to new service
+    //@Contract(" -> !null")
+    /*private ValueEventListener setUpValueEventListener()// TODO: 24/03/2017 remove once connected to new service
     {
         return new ValueEventListener()
         {
@@ -77,7 +77,7 @@ public class EntryActivity extends BaseActivity
             {
                 // FIXME: 25/02/2017 iterate through keys and if the correct one exists, get that
                 HashMap<String, Map> users = (HashMap<String, Map>) dataSnapshot.getValue();
-                allUsers = entryService.mapUsers(users);
+                allUsers = entryService.mapUser(users);
                 usernames = entryService.getUsernames(allUsers);
             }
 
@@ -87,12 +87,12 @@ public class EntryActivity extends BaseActivity
                 Log.e(TAG, "unable to retrieve user data", databaseError.toException());
             }
 
-            /**
+            *//**
              * Convert Map to User POJO
              * @param user a map containing all of the data required to construct a user
              * @return User object
-             */
-            /*private User mapUser(Map.Entry<String, Map> user)
+             *//*
+            *//*private User mapUser(Map.Entry<String, Map> user)
             {
                 User tempUser = new User();
                 String tempUsername = (String) user.getValue().get("emailAddress");
@@ -102,11 +102,11 @@ public class EntryActivity extends BaseActivity
                 tempUser.setPassword((String) user.getValue().get("password"));
                 Log.v(TAG, tempUsername);
                 return tempUser;
-            }*/
+            }*//*
         };
-    }
+    }*/
 
-    protected User getUser(String email) throws RuntimeException// TODO: 24/03/2017 remove once connected to new service
+   /* protected User getUser(String email) throws RuntimeException// TODO: 24/03/2017 remove once connected to new service
     {
         for (User user : allUsers) {
             if (user.getEmail().equalsIgnoreCase(email)) {
@@ -114,5 +114,5 @@ public class EntryActivity extends BaseActivity
             }
         }
         throw new RuntimeException("User Not Found");
-    }
+    }*/
 }

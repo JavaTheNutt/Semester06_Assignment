@@ -12,6 +12,7 @@ import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.Contract;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +26,6 @@ import static ie.wit.semester06_project.activities.BaseActivity.TAG;
 /**
  * Created by joewe on 24/03/2017.
  */
-
 public class UserDataService
 {
     private DatabaseReference databaseReference;
@@ -33,6 +33,11 @@ public class UserDataService
     private List<User> users;
     private EntryService entryService;
 
+    /**
+     * Instantiates a new User data service.
+     *
+     * @param databaseReference the database reference
+     */
     public UserDataService(DatabaseReference databaseReference)
     {
         users = new ArrayList<>();
@@ -41,6 +46,9 @@ public class UserDataService
     }
 
 
+    /**
+     * Start.
+     */
     public void start()
     {
         if (valueEventListener == null) {
@@ -50,12 +58,20 @@ public class UserDataService
     }
 
 
+    /**
+     * Stop.
+     */
     public void stop()
     {
         databaseReference.removeEventListener(valueEventListener);
     }
 
 
+    /**
+     * Gets all.
+     *
+     * @return the all
+     */
     public List<User> getAll()
     {
         if (users == null) {
@@ -64,22 +80,67 @@ public class UserDataService
         return users;
     }
 
-    //https://github.com/aNNiMON/Android-Java-8-Stream-Example
-    public User getOne(String email)
+    /**
+     * Gets one.
+     *
+     * @param email the email
+     * @return the one
+     * @throws Exception the exception
+     */
+// TODO: 25/03/2017 create custom exception
+    public User getOne(String email) throws Exception
     {
-        // FIXME: 24/03/2017 convert to for loop
-        return Stream.of(users).filter((user) -> user.getEmail().equalsIgnoreCase(email)).collect(Collectors.toList()).get(0);
+        for (User user : users) {
+            if (user.getEmail().equalsIgnoreCase(email)) {
+                return user;
+            }
+        }
+        throw new Exception("user not found");
     }
 
 
+    /**
+     * Add item.
+     *
+     * @param user the user
+     */
     public void addItem(User user)
     {
-        databaseReference.child("users").child(user.getKey()).setValue(user);
+        databaseReference.child(user.getKey()).setValue(user);
     }
 
-    public String[] getUsernames()
+    /**
+     * Add user user.
+     *
+     * @param userData the user data
+     * @return the user
+     */
+    public User addUser(Map<String, String> userData)
     {
-        return (String[]) Stream.of(users).map(User::getEmail).collect(Collectors.toList()).toArray();
+        User user = mapUser(userData);
+        databaseReference.child(user.getKey()).setValue(user);
+        return user;
+    }
+
+    /**
+     * User exists boolean.
+     *
+     * @param email the email
+     * @return the boolean
+     */
+    public boolean userExists(String email)
+    {
+        return getUsernames().contains(email);
+    }
+
+    /**
+     * Gets usernames.
+     *
+     * @return the usernames
+     */
+    public List<String> getUsernames()
+    {
+        return Stream.of(users).map(User::getEmail).collect(Collectors.toList());
     }
 
 
@@ -91,9 +152,11 @@ public class UserDataService
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
             {
-                // FIXME: 25/02/2017 iterate through keys and if the correct one exists, get that
-                HashMap<String, Map> tempUsers = (HashMap<String, Map>) dataSnapshot.getValue();
-                users = entryService.mapUsers(tempUsers);
+                for (DataSnapshot userSnaphot : dataSnapshot.getChildren()) {
+                    User user = userSnaphot.getValue(User.class);
+                    users.add(user);
+                }
+                // users = entryService.mapUsers(tempUsers);
             }
 
             @Override
@@ -103,4 +166,13 @@ public class UserDataService
             }
         };
     }
+
+    /*private List<User> mapUsers(Map<String, Map> userList){
+        return Stream.of(userList).map(User::new).collect(Collectors.toList());
+    }*/
+    private User mapUser(Map<String, String> userList)
+    {
+        return Stream.of(userList).map(User::new).collect(Collectors.toList()).get(0);
+    }
+
 }

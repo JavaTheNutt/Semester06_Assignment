@@ -6,6 +6,9 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.widget.EditText;
 
+
+import com.annimon.stream.Stream;
+
 import org.jetbrains.annotations.Contract;
 
 import java.util.ArrayList;
@@ -16,6 +19,7 @@ import java.util.Map;
 import ie.wit.semester06_project.activities.BaseActivity;
 import ie.wit.semester06_project.main.FinanceApp;
 import ie.wit.semester06_project.model.User;
+import ie.wit.semester06_project.service.data.UserDataService;
 
 /**
  * Created by joewe on 22/03/2017.
@@ -24,6 +28,8 @@ import ie.wit.semester06_project.model.User;
 public class EntryService
 {
     private static final String[] FIELD_NAMES = {"email", "password", "firstName", "surname", "confPassword"};
+
+
     public boolean validateSignUp(Context src, Map<String, EditText> fields)
     {
         Map<String, String> values = new HashMap<>();
@@ -76,7 +82,7 @@ public class EntryService
         }
         return mapUser(values);
     }
-
+/*
     public boolean checkIfUserExists(String username, List<User> users)
     {
         for (User user : users) {
@@ -85,16 +91,16 @@ public class EntryService
             }
         }
         return false;
-    }
+    }*/
 
-    public String[] getUsernames(List<User> users)
+   /* public String[] getUsernames(List<User> users)
     {
         String[] usernames = new String[users.size()];
         for (int i = 0; i < users.size(); i++) {
             usernames[i] = users.get(i).getEmail();
         }
         return usernames;
-    }
+    }*/
 
     private Map<String, Boolean> validateFieldsLength(Map<String, String> fields, int requiredMin)
     {
@@ -162,5 +168,12 @@ public class EntryService
             }
         }
         return "";
+    }
+    public Map<String, String> extractText(Map<String, EditText> fields){
+        Map<String, String> user = new HashMap<>(4);
+        for (Map.Entry field: fields.entrySet()) {
+            user.put(field.getKey().toString(), ((EditText)field.getValue()).getText().toString().trim());
+        }
+        return user;
     }
 }

@@ -32,7 +32,7 @@ public class SignUpActivity extends EntryActivity
         String validationResult = detailsValid ? "All fields are valid" : "Some fields are invalid";
         Log.w(TAG, validationResult);
         if (detailsValid) {
-            registerUser(entryService.mapUser(namedFields));
+            registerUser();
         }
     }
 
@@ -51,17 +51,17 @@ public class SignUpActivity extends EntryActivity
         FinanceApp.serviceFactory.getUtil().makeAToast(this, msg);
     }
 
-    private void registerUser(User user)
+    private void registerUser()
     {
-        Log.d(TAG, "registerUser: registering:" + user.toString());
-        for (String usedEmail : usernames) {
-            if (usedEmail.equalsIgnoreCase(user.getEmail())) {
-                makeToast("This email address is already in use");
-                Log.w(TAG, "registerUser: username " + user.getEmail() + " is already in use");
-                return;
-            }
+        if (userDataService.userExists(namedFields.get("email").getText().toString().trim())){
+            makeToast("This email address is already in use");
+            Log.w(TAG, "registerUser: selected username is already in use");
+            return;
         }
-        databaseReference.child("users").child(user.getKey()).setValue(user);
+        User user = userDataService.addUser(entryService.extractText(namedFields));
+        Log.d(TAG, "registerUser: registering:" + user.toString());
+
+        //databaseReference.child("users").child(user.getKey()).setValue(user);
         FinanceApp.setCurrentUser(user);
         startActivity(new Intent(this, DashboardActivity.class));
     }

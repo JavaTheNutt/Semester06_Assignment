@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.google.firebase.database.Exclude;
 
+import java.util.Map;
+
 import ie.wit.semester06_project.activities.BaseActivity;
 
 /**
@@ -29,6 +31,12 @@ public class User
         this.password = password;
         this.firstName = firstName;
         this.surname = surname;
+    }
+    public User(Map<String, String> userDetails){
+        this.email = userDetails.get("email");
+        this.firstName = userDetails.get("firstName");
+        this.surname = userDetails.get("surname");
+        this.password = userDetails.get("password");
     }
 
     public String getEmail()

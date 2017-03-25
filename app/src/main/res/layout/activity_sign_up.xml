@@ -7,73 +7,80 @@
     android:layout_height="match_parent"
     tools:context="ie.wit.semester06_project.activities.SignUpActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingBottom="0dp"
-        android:paddingTop="0dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_margin="@dimen/activity_vertical_margin"
-        android:padding="@dimen/activity_vertical_margin">
-        <TextView
-            android:id="@+id/signUpHeaderLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/headerBottomMargin"
-            android:text="@string/signUpHeaderLabel"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:gravity="center"/>
+    <ScrollView android:layout_height="match_parent"
+        android:layout_width="match_parent">
 
-        <EditText
-            android:id="@+id/signUpFirstNameField"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp"
-            android:hint="@string/firstNameHint"
-            android:inputType="text"/>
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_vertical_margin"
+            android:paddingBottom="30dp"
+            android:paddingTop="0dp">
 
-        <EditText
-            android:id="@+id/signUpSurnameField"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp"
-            android:hint="@string/surnameHint"
-            android:inputType="text"/>
+            <TextView
+                android:id="@+id/signUpHeaderLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/headerBottomMargin"
+                android:gravity="center"
+                android:text="@string/signUpHeaderLabel"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
 
-        <EditText
-            android:id="@+id/signUpEmailField"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp"
-            android:hint="@string/emailHint"
-            android:inputType="textEmailAddress"/>
+            <EditText
+                android:id="@+id/signUpFirstNameField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp"
+                android:hint="@string/firstNameHint"
+                android:inputType="text"/>
 
-        <EditText
-            android:id="@+id/signUpPasswordField"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp"
-            android:hint="@string/passwordHint"
-            android:inputType="textPassword"/>
+            <EditText
+                android:id="@+id/signUpSurnameField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp"
+                android:hint="@string/surnameHint"
+                android:inputType="text"/>
 
-        <EditText
-            android:id="@+id/signUpConfirmPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp"
-            android:hint="@string/confirmPasswordHint"
-            android:inputType="textPassword"/>
+            <EditText
+                android:id="@+id/signUpEmailField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp"
+                android:hint="@string/emailHint"
+                android:inputType="textEmailAddress"/>
 
-        <Button
-            android:id="@+id/registerUserButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/signinButtonColor"
-            android:onClick="registerClicked"
-            android:text="@string/registerUserButton"
-            android:textColor="@color/fontColor01"/>
-    </LinearLayout>
+            <EditText
+                android:id="@+id/signUpPasswordField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp"
+                android:hint="@string/passwordHint"
+                android:inputType="textPassword"/>
+
+            <EditText
+                android:id="@+id/signUpConfirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp"
+                android:hint="@string/confirmPasswordHint"
+                android:inputType="textPassword"/>
+
+            <Button
+                android:id="@+id/registerUserButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/signipMarginBottom"
+                android:background="@color/signinButtonColor"
+                android:onClick="registerClicked"
+                android:text="@string/registerUserButton"
+                android:textColor="@color/fontColor01"/>
+        </LinearLayout>
+    </ScrollView>
+
 </RelativeLayout>
