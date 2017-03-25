@@ -59,7 +59,7 @@ public class SignUpActivity extends EntryActivity
             return;
         }
         User user = userDataService.addUser(entryService.extractText(namedFields)); // TODO: 25/03/2017 Remove once auth added
-        //authService.createAccount(user.getEmail(), user.getPassword());
+        authService.createAccount(user.getEmail(), user.getPassword());
         Log.d(TAG, "registerUser: registering:" + user.toString());
         FinanceApp.setCurrentUser(user);
         startActivity(new Intent(this, DashboardActivity.class));

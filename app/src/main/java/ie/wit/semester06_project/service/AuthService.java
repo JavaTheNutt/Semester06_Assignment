@@ -33,6 +33,7 @@ public class AuthService
      */
     public void start()
     {
+        Log.d(TAG, "start: starting auth service");
         if (authListener == null) {
             authListener = setUpAuthListener();
         }
@@ -44,6 +45,7 @@ public class AuthService
      */
     public void stop()
     {
+        Log.d(TAG, "stop: auth service shutting down");
         if (authListener == null) {
             return;
         }
@@ -58,6 +60,7 @@ public class AuthService
      */
     public void createAccount(String email, String password)
     {
+        Log.d(TAG, "createAccount: creating an account for " + email);
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(setupSigninOnComplete());
     }
 
@@ -69,6 +72,7 @@ public class AuthService
      */
     public void login(String email, String password)
     {
+        Log.d(TAG, "login: user " + email + " attempting to log in");
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(setUpLogInComplete());
     }
 

@@ -3,7 +3,7 @@
           package="ie.wit.semester06_project">
 
     <uses-sdk
-        android:minSdkVersion="21"
+        android:minSdkVersion="24"
         android:targetSdkVersion="25"/>
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>

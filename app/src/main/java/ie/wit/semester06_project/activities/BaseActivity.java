@@ -20,11 +20,8 @@ public class BaseActivity extends AppCompatActivity
     public static final String TAG = "Finance"; //the tag for the logger
     protected FirebaseAnalytics mFirebaseAnalytics;
     protected AuthService authService;
-    private FirebaseAuth mAuth;
-    /*protected FirebaseAuth.AuthStateListener mAuthListener;*/
 
     protected DatabaseReference databaseReference;
-    //protected DatabaseReference detailsDatabaseReference;
 
 
     /**
@@ -39,11 +36,10 @@ public class BaseActivity extends AppCompatActivity
         app = (FinanceApp) getApplication();
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        //authService = new AuthService(mAuth);
+        authService = new AuthService(FirebaseAuth.getInstance());
     }
 
-   /* @Override
-   todo uncomment when ready
+    @Override
     protected void onStart()
     {
         super.onStart();
@@ -55,5 +51,5 @@ public class BaseActivity extends AppCompatActivity
     {
         super.onStop();
         authService.stop();
-    }*/
+    }
 }

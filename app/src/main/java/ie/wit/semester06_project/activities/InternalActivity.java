@@ -14,8 +14,6 @@ import ie.wit.semester06_project.main.FinanceApp;
 public class InternalActivity extends BaseActivity
 {
     protected DatabaseReference detailsDatabaseReference;
-    //// FIXME: 26/02/2017 currently, when the dashboard is initially loaded, 0 is didplayed as the balance
-    protected float currentTotal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
