@@ -58,6 +58,7 @@ public class LoginActivity extends EntryActivity
         User requestedUser;
         try {
             requestedUser = userDataService.getOne(email);
+            //authService.login(requestedUser.getEmail(), requestedUser.getPassword()); // TODO: 25/03/2017 uncomment when ready 
         } catch (Exception e) {
             e.printStackTrace();
             Log.w(TAG, "validateUser: user not found");
