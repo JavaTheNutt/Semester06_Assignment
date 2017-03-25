@@ -14,6 +14,7 @@ public class FinanceApp extends Application
 {
     public static ServiceFactory serviceFactory;
     private static User currentUser;
+
     @Override
     public void onCreate()
     {

@@ -20,6 +20,7 @@ public class AddIncomeActivity extends InternalActivity
     private EditText amount;
 
     private Long currentTimestamp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -28,27 +29,29 @@ public class AddIncomeActivity extends InternalActivity
         setContentView(R.layout.activity_add_income);
         title = (EditText) findViewById(R.id.addIncomeTitle);
         amount = (EditText) findViewById(R.id.addIncomeAmount);
-        if(extras != null){
+        if (extras != null) {
             Transaction transaction = (Transaction) extras.getSerializable("transaction");
             if (transaction != null) {
                 title.setText(transaction.getTitle());
                 amount.setText(transaction.getAmount().toString());
                 currentTimestamp = transaction.getTimestamp();
-                if(transaction.isIncome()){
-                    ((RadioButton)findViewById(R.id.isIncome)).setChecked(true);
-                }else{
-                    ((RadioButton)findViewById(R.id.isExpenditure)).setChecked(true);
+                if (transaction.isIncome()) {
+                    ((RadioButton) findViewById(R.id.isIncome)).setChecked(true);
+                } else {
+                    ((RadioButton) findViewById(R.id.isExpenditure)).setChecked(true);
                 }
             }
         }
     }
-    public void submitClicked(View view){
-        if(title.getText().toString().length() > 3 && Float.parseFloat(amount.getText().toString()) > 0){
+
+    public void submitClicked(View view)
+    {
+        if (title.getText().toString().length() > 3 && Float.parseFloat(amount.getText().toString()) > 0) {
             Transaction tempIncome = new Transaction();
             tempIncome.setTitle(title.getText().toString());
             tempIncome.setAmount(Float.parseFloat(amount.getText().toString()));
             tempIncome.setTimestamp(currentTimestamp);
-            tempIncome.setIncome(((RadioButton)findViewById(R.id.isIncome)).isChecked());
+            tempIncome.setIncome(((RadioButton) findViewById(R.id.isIncome)).isChecked());
             Log.v(TAG, tempIncome.toString());
             detailsDatabaseReference.child(tempIncome.getTimestamp().toString()).setValue(tempIncome);
             startActivity(new Intent(this, DashboardActivity.class));

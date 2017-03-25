@@ -19,7 +19,7 @@ public class DashboardService
     public List<Transaction> createTransactions(Map<String, Map> transactions)
     {
         List<Transaction> transactionList = new ArrayList<Transaction>();
-        if(transactions == null){
+        if (transactions == null) {
             return transactionList;
         }
         for (Map.Entry<String, Map> transactionMap : transactions.entrySet()) {
@@ -30,7 +30,9 @@ public class DashboardService
         }
         return transactionList;
     }
-    public String titleCase(String str){
+
+    public String titleCase(String str)
+    {
         Log.d(BaseActivity.TAG, "titleCase: fixing string: " + str);
         String[] splitStr = str.split("\\s+");
         String[] fixedStr = new String[splitStr.length];
@@ -50,7 +52,7 @@ public class DashboardService
     {
         Log.v(BaseActivity.TAG, transactionMap.toString());
         Transaction transaction = new Transaction();
-        transaction.setTimestamp((Long)transactionMap.getValue().get("timestamp"));
+        transaction.setTimestamp((Long) transactionMap.getValue().get("timestamp"));
         Number amount = (Number) transactionMap.getValue().get("amount");
         transaction.setAmount(Float.parseFloat(amount.toString()));
         transaction.setIncome((boolean) transactionMap.getValue().get("income"));

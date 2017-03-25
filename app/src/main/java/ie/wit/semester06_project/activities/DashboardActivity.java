@@ -24,9 +24,9 @@ import java.util.Map;
 
 import ie.wit.semester06_project.R;
 import ie.wit.semester06_project.main.FinanceApp;
+import ie.wit.semester06_project.model.Transaction;
 import ie.wit.semester06_project.model.ui_model.Balance;
 import ie.wit.semester06_project.model.ui_model.BalanceObserver;
-import ie.wit.semester06_project.model.Transaction;
 import ie.wit.semester06_project.service.DashboardService;
 
 /**
@@ -84,19 +84,21 @@ public class DashboardActivity extends InternalActivity
         transactionAdapter.cleanup();
     }
 
-    private void setUpReferences(){
+    private void setUpReferences()
+    {
         currentBalance = (TextView) findViewById(R.id.dashboardCurrentBalance);
         listView = (ListView) findViewById(R.id.transactionList);
         noDataFoundLabel = (TextView) findViewById(R.id.noDataFoundLabel);
         dashboardService = FinanceApp.serviceFactory.getDashboardService();
-        usernameLabel = (TextView)findViewById(R.id.userNameLabel);
+        usernameLabel = (TextView) findViewById(R.id.userNameLabel);
         observer = new BalanceObserver(this, currentBalance);
         observer.observe(balance);
         usernameLabel.setText("Welcome, " + FinanceApp.getCurrentUser().getFirstName() + " " + FinanceApp.getCurrentUser().getSurname() + "!");
     }
 
     @Contract(" -> !null")
-    private ValueEventListener setupValueEventListener(){
+    private ValueEventListener setupValueEventListener()
+    {
         return new ValueEventListener()
         {
             @Override
@@ -114,8 +116,10 @@ public class DashboardActivity extends InternalActivity
             {
                 Log.e(TAG, "Unable to retrieve transaction data", databaseError.toException());
             }
-            private void adjustView(){
-                if(transactions == null | transactions.size() == 0){
+
+            private void adjustView()
+            {
+                if (transactions == null | transactions.size() == 0) {
                     noDataFoundLabel.setVisibility(View.VISIBLE);
                     listView.setVisibility(View.GONE);
                     currentBalance.setVisibility(View.GONE);
@@ -127,7 +131,9 @@ public class DashboardActivity extends InternalActivity
                 currentBalance.setVisibility(View.VISIBLE);
                 usernameLabel.setVisibility(View.VISIBLE);
             }
-            private void setBalance(List<Transaction> transactions){
+
+            private void setBalance(List<Transaction> transactions)
+            {
                 balance.setBalance(0);
                 for (Transaction transaction : transactions) {
                     if (transaction.isIncome())
@@ -140,17 +146,18 @@ public class DashboardActivity extends InternalActivity
     }
 
     @Contract(" -> !null")
-    private FirebaseListAdapter<Transaction> setupFirebaseTransactionAdapter(){
+    private FirebaseListAdapter<Transaction> setupFirebaseTransactionAdapter()
+    {
         return new FirebaseListAdapter<Transaction>(this, Transaction.class, R.layout.row_transaction, detailsDatabaseReference)
         {
             @Override
             protected void populateView(View v, Transaction model, int position)
             {
-                ((TextView) v.findViewById(R.id.rowDate)).setText( new SimpleDateFormat("dd-MM-yyyy", Locale.UK).format(new Date(model.getTimestamp())));
-                ((TextView)v.findViewById(R.id.rowAmount)).setText(model.getAmount().toString());
+                ((TextView) v.findViewById(R.id.rowDate)).setText(new SimpleDateFormat("dd-MM-yyyy", Locale.UK).format(new Date(model.getTimestamp())));
+                ((TextView) v.findViewById(R.id.rowAmount)).setText(model.getAmount().toString());
                 ((TextView) v.findViewById(R.id.transactionTitle)).setText(dashboardService.titleCase(model.getTitle()));
                 int colorId = model.isIncome() ? R.color.positiveBalance : R.color.negativeBalance;
-                ((TextView)v.findViewById(R.id.transactionTitle)).setTextColor(ResourcesCompat.getColor(getResources(), colorId, null));
+                ((TextView) v.findViewById(R.id.transactionTitle)).setTextColor(ResourcesCompat.getColor(getResources(), colorId, null));
             }
         };
     }

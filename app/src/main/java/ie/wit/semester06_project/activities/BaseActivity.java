@@ -26,6 +26,7 @@ public class BaseActivity extends AppCompatActivity
 
     /**
      * {@inheritDoc}
+     *
      * @param savedInstanceState
      */
     @Override

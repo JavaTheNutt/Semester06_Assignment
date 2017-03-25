@@ -27,11 +27,14 @@ public final class MainActivity extends BaseActivity
         finish();
     }
 
-    public void loginClicked(View view){
+    public void loginClicked(View view)
+    {
         Log.v(TAG, "Button to open application clicked");
         startActivity(new Intent(this, LoginActivity.class));
     }
-    public void signUpClicked(View view){
+
+    public void signUpClicked(View view)
+    {
         Log.v(TAG, "Sign up button clicked");
         startActivity(new Intent(this, SignUpActivity.class));
     }

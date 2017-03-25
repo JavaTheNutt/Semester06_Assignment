@@ -53,15 +53,13 @@ public class SignUpActivity extends EntryActivity
 
     private void registerUser()
     {
-        if (userDataService.userExists(namedFields.get("email").getText().toString().trim())){
+        if (userDataService.userExists(namedFields.get("email").getText().toString().trim())) {
             makeToast("This email address is already in use");
             Log.w(TAG, "registerUser: selected username is already in use");
             return;
         }
         User user = userDataService.addUser(entryService.extractText(namedFields));
         Log.d(TAG, "registerUser: registering:" + user.toString());
-
-        //databaseReference.child("users").child(user.getKey()).setValue(user);
         FinanceApp.setCurrentUser(user);
         startActivity(new Intent(this, DashboardActivity.class));
     }

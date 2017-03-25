@@ -12,26 +12,22 @@ import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.Contract;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ie.wit.semester06_project.main.FinanceApp;
 import ie.wit.semester06_project.model.User;
-import ie.wit.semester06_project.service.EntryService;
 
 import static ie.wit.semester06_project.activities.BaseActivity.TAG;
 
 /**
- * Created by joewe on 24/03/2017.
+ * This class abstracts the details of dealing with the Firebase Database.
+ * An ArrayList&lt;User&gt; is maintained in sync with firebase to provide data to the rest of the app.
  */
 public class UserDataService
 {
     private DatabaseReference databaseReference;
     private ValueEventListener valueEventListener;
     private List<User> users;
-    private EntryService entryService;
 
     /**
      * Instantiates a new User data service.
@@ -42,7 +38,6 @@ public class UserDataService
     {
         users = new ArrayList<>();
         this.databaseReference = databaseReference;
-        this.entryService = FinanceApp.serviceFactory.getEntryService();
     }
 
 
@@ -156,7 +151,6 @@ public class UserDataService
                     User user = userSnaphot.getValue(User.class);
                     users.add(user);
                 }
-                // users = entryService.mapUsers(tempUsers);
             }
 
             @Override
@@ -167,9 +161,6 @@ public class UserDataService
         };
     }
 
-    /*private List<User> mapUsers(Map<String, Map> userList){
-        return Stream.of(userList).map(User::new).collect(Collectors.toList());
-    }*/
     private User mapUser(Map<String, String> userList)
     {
         return Stream.of(userList).map(User::new).collect(Collectors.toList()).get(0);
