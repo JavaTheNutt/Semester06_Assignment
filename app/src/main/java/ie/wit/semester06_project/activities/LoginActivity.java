@@ -58,16 +58,12 @@ public class LoginActivity extends EntryActivity
         User requestedUser;
         try {
             requestedUser = userDataService.getOne(email);
-            //authService.login(requestedUser.getEmail(), requestedUser.getPassword()); // TODO: 25/03/2017 uncomment when ready 
+            authService.login(requestedUser.getEmail(), passwordField.getText().toString()); // TODO: 25/03/2017 uncomment when ready
         } catch (Exception e) {
             e.printStackTrace();
             Log.w(TAG, "validateUser: user not found");
             Log.e(TAG, "validateUser: user not found", e);
             makeToast(e.getMessage());
-            return false;
-        }
-        if (!requestedUser.getPassword().equals(password)) {
-            makeToast("Incorrect password");
             return false;
         }
         FinanceApp.setCurrentUser(requestedUser);

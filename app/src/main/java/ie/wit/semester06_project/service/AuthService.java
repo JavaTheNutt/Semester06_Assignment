@@ -8,7 +8,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import static android.content.ContentValues.TAG;
+import ie.wit.semester06_project.main.FinanceApp;
+
+import static ie.wit.semester06_project.activities.BaseActivity.TAG;
 
 /**
  * This will handle authorisation for the application
@@ -96,6 +98,9 @@ public class AuthService
             Log.d(TAG, "setupSigninOnComplete: result: " + task.isSuccessful());
             if (!task.isSuccessful()) {
                 Log.e(TAG, "setupSigninOnComplete: sign up failed", task.getException());
+            }else{
+                Log.d(TAG, "setupSigninOnComplete: sign up succeeded");
+                FinanceApp.getCurrentUser().setUuid(FirebaseAuth.getInstance().getCurrentUser().getUid());
             }
         };
     }

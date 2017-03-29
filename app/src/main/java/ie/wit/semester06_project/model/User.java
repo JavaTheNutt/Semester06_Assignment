@@ -16,7 +16,7 @@ public class User
 {
 
     private String email;
-    private String password;
+    private String uuid;
     private String firstName;
     private String surname;
 
@@ -24,11 +24,11 @@ public class User
     {
     }
 
-    public User (String email, String password, String firstName, String surname)
+    public User (String email, String uuid, String firstName, String surname)
     {
 
         this.email = email;
-        this.password = password;
+        this.uuid = uuid;
         this.firstName = firstName;
         this.surname = surname;
     }
@@ -36,7 +36,7 @@ public class User
         this.email = userDetails.get("email");
         this.firstName = userDetails.get("firstName");
         this.surname = userDetails.get("surname");
-        this.password = userDetails.get("password");
+        this.uuid = userDetails.get("uuid");
     }
 
     public String getEmail()
@@ -49,14 +49,14 @@ public class User
         this.email = email;
     }
 
-    public String getPassword()
+    public String getUuid()
     {
-        return password;
+        return uuid;
     }
 
-    public void setPassword(String password)
+    public void setUuid(String password)
     {
-        this.password = password;
+        this.uuid = password;
     }
 
     public String getFirstName()
@@ -99,7 +99,7 @@ public class User
     {
         return "User{" +
                 "email='" + email + '\'' +
-                ", password='" + password + '\'' +
+                ", password='" + uuid + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", surname='" + surname + '\'' +
                 '}';

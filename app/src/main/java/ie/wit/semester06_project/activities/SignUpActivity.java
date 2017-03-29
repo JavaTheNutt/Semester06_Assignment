@@ -58,10 +58,11 @@ public class SignUpActivity extends EntryActivity
             Log.w(TAG, "registerUser: selected username is already in use");
             return;
         }
-        User user = userDataService.addUser(entryService.extractText(namedFields)); // TODO: 25/03/2017 Remove once auth added
-        authService.createAccount(user.getEmail(), user.getPassword());
-        Log.d(TAG, "registerUser: registering:" + user.toString());
+        User user = userDataService.addUser(entryService.extractText(namedFields));
         FinanceApp.setCurrentUser(user);
+        authService.createAccount(user.getEmail(), namedFields.get("password").getText().toString());
+        Log.d(TAG, "registerUser: registering:" + user.toString());
+        userDataService.addId(user.getEmail(), FinanceApp.getCurrentUser().getUuid());
         startActivity(new Intent(this, DashboardActivity.class));
     }
 

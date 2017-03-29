@@ -93,7 +93,13 @@ public class UserDataService
         throw new Exception("user not found");
     }
 
-
+    public void addId(String email, String id){
+        try {
+            databaseReference.child(getOne(email).getKey()).child("uuid").setValue(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * Add item.
      *
