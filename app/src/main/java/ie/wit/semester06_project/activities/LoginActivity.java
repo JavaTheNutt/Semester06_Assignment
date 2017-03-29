@@ -31,10 +31,7 @@ public class LoginActivity extends EntryActivity
 
     private void signIn(String email, String password)
     {
-        if (validateUser(email, password)) {
-            makeToast("Login successful");
-            startActivity(new Intent(this, DashboardActivity.class));
-        }
+        validateUser(email, password);
     }
 
     private void validation()
@@ -49,9 +46,9 @@ public class LoginActivity extends EntryActivity
         }
     }
 
-    private boolean validateUser(String email, String password)
+    private void validateUser(String email, String password)
     {
-        if (userDataService.getUsernames().indexOf(email) == -1) {
+       /* if (userDataService.getUsernames().indexOf(email) == -1) {
             makeToast("There is no user with that email address");
             return false;
         }
@@ -67,7 +64,10 @@ public class LoginActivity extends EntryActivity
             return false;
         }
         FinanceApp.setCurrentUser(requestedUser);
-        return true;
+        return true;*/
+       authService.login(email, password, (result) -> {
+           startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
+       });
     }
 
     private void makeToast(String msg)

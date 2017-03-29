@@ -10,6 +10,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import ie.wit.semester06_project.main.FinanceApp;
 import ie.wit.semester06_project.service.AuthService;
+import ie.wit.semester06_project.service.data.UserDataService;
 
 /**
  * This will be the Activity that all other activities will inherit from.
@@ -36,7 +37,7 @@ public class BaseActivity extends AppCompatActivity
         app = (FinanceApp) getApplication();
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        authService = new AuthService(FirebaseAuth.getInstance());
+        authService = new AuthService(FirebaseAuth.getInstance(), new UserDataService(databaseReference.child("users")));
     }
 
     @Override
