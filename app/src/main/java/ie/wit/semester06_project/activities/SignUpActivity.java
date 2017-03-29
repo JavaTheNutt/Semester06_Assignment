@@ -13,6 +13,9 @@ import ie.wit.semester06_project.R;
 import ie.wit.semester06_project.main.FinanceApp;
 import ie.wit.semester06_project.model.User;
 
+/**
+ * The type Sign up activity.
+ */
 public class SignUpActivity extends EntryActivity
 {
     private Map<String, EditText> namedFields;
@@ -25,6 +28,11 @@ public class SignUpActivity extends EntryActivity
         setUpReferences();
     }
 
+    /**
+     * Register clicked.
+     *
+     * @param view the view
+     */
     public void registerClicked(View view)
     {
         Log.v(TAG, "Register User button clicked");
@@ -53,21 +61,13 @@ public class SignUpActivity extends EntryActivity
 
     private void registerUser()
     {
-        /*if (userDataService.userExists(namedFields.get("email").getText().toString().trim())) {
-            makeToast("This email address is already in use");
-            Log.w(TAG, "registerUser: selected username is already in use");
-            return;
-        }*/
-        //User user = userDataService.addUser(entryService.extractText(namedFields));
-        //FinanceApp.setCurrentUser(user);
         authService.createAccount(entryService.extractText(namedFields), (result) -> {
             if (result){
                 startActivity(new Intent(this, DashboardActivity.class));
+            }else{
+                makeToast("Login details are incorrect");
             }
         });
-        //Log.d(TAG, "registerUser: registering:" + user.toString());
-        //userDataService.addId(user.getEmail(), FinanceApp.getCurrentUser().getUuid());
-        //startActivity(new Intent(this, DashboardActivity.class));
     }
 
 }

@@ -11,8 +11,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import ie.wit.semester06_project.R;
 import ie.wit.semester06_project.main.FinanceApp;
 
+/**
+ * The type Internal activity.
+ */
 public class InternalActivity extends BaseActivity
 {
+    /**
+     * The Details database reference.
+     */
     protected DatabaseReference detailsDatabaseReference;
 
     @Override
@@ -45,16 +51,31 @@ public class InternalActivity extends BaseActivity
         return true;
     }
 
+    /**
+     * Sign out.
+     *
+     * @param item the item
+     */
     public void signOut(MenuItem item)
     {
         startActivity(new Intent(this, MainActivity.class));
     }
 
+    /**
+     * Add income.
+     *
+     * @param item the item
+     */
     public void addIncome(MenuItem item)
     {
         startActivity(new Intent(this, AddIncomeActivity.class));
     }
 
+    /**
+     * Dashboard.
+     *
+     * @param item the item
+     */
     public void dashboard(MenuItem item)
     {
         startActivity(new Intent(this, DashboardActivity.class));

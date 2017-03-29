@@ -7,7 +7,6 @@ import ie.wit.semester06_project.service.Util;
 /**
  * Created by joewe on 24/02/2017.
  */
-
 public class ServiceFactory
 {
 
@@ -15,6 +14,11 @@ public class ServiceFactory
     private DashboardService dashboardService;
     private EntryService entryService;
 
+    /**
+     * Gets util.
+     *
+     * @return the util
+     */
     public Util getUtil()
     {
         if (util == null) {
@@ -23,6 +27,11 @@ public class ServiceFactory
         return util;
     }
 
+    /**
+     * Gets dashboard service.
+     *
+     * @return the dashboard service
+     */
     public DashboardService getDashboardService()
     {
         if (dashboardService == null) {
@@ -31,6 +40,11 @@ public class ServiceFactory
         return dashboardService;
     }
 
+    /**
+     * Gets entry service.
+     *
+     * @return the entry service
+     */
     public EntryService getEntryService()
     {
         if (entryService == null) {

@@ -14,17 +14,28 @@ import ie.wit.semester06_project.activities.BaseActivity;
 /**
  * http://stackoverflow.com/a/15434375/4108556
  */
-
 public class BalanceObserver implements Observer
 {
     private TextView balanceView;
     private Context context;
 
+    /**
+     * Instantiates a new Balance observer.
+     *
+     * @param context     the context
+     * @param balanceView the balance view
+     */
     public BalanceObserver(Context context, TextView balanceView){
         super();
         this.context = context;
         this.balanceView = balanceView;
     }
+
+    /**
+     * Observe.
+     *
+     * @param observable the observable
+     */
     public void observe(Observable observable){
         observable.addObserver(this);
     }

@@ -42,7 +42,7 @@ public class UserDataService
 
 
     /**
-     * Start.
+     * Start the user data service.
      */
     public void start()
     {
@@ -54,7 +54,7 @@ public class UserDataService
 
 
     /**
-     * Stop.
+     * Stop the user data service.
      */
     public void stop()
     {
@@ -65,7 +65,7 @@ public class UserDataService
     /**
      * Gets all.
      *
-     * @return the all
+     * @return the list of users
      */
     public List<User> getAll()
     {
@@ -79,8 +79,8 @@ public class UserDataService
      * Gets one.
      *
      * @param email the email
-     * @return the one
-     * @throws Exception the exception
+     * @return a single user based on that email address
+     * @throws Exception if the user is not found
      */
 // TODO: 25/03/2017 create custom exception
     public User getOne(String email) throws Exception
@@ -91,23 +91,6 @@ public class UserDataService
             }
         }
         throw new Exception("user not found");
-    }
-
-    public void addId(String email, String id){
-        try {
-            databaseReference.child(getOne(email).getKey()).child("uuid").setValue(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    /**
-     * Add item.
-     *
-     * @param user the user
-     */
-    public void addItem(User user)
-    {
-        databaseReference.child(user.getKey()).setValue(user);
     }
 
     /**
@@ -122,20 +105,12 @@ public class UserDataService
         databaseReference.child(user.getKey()).setValue(user);
         return user;
     }
-
-    /**
-     * User exists boolean.
-     *
-     * @param email the email
-     * @return the boolean
-     */
-    public boolean userExists(String email)
-    {
-        return getUsernames().contains(email);
+    public void addUser(User user){
+        databaseReference.child(user.getKey()).setValue(user);
     }
 
     /**
-     * Gets usernames.
+     * Gets the usernames of all users
      *
      * @return the usernames
      */
@@ -144,7 +119,11 @@ public class UserDataService
         return Stream.of(users).map(User::getEmail).collect(Collectors.toList());
     }
 
-
+    /**
+     * This will set up the value event listener to the database
+     *
+     * @return the value event listener
+     */
     @Contract(" -> !null")
     private ValueEventListener setUpValueEventListener()
     {
@@ -167,9 +146,15 @@ public class UserDataService
         };
     }
 
-    private User mapUser(Map<String, String> userList)
+    /**
+     * Convert a map of the users details into a user object
+     *
+     * @param userDetails a map containing all of the details required to create a user
+     * @return a user
+     */
+    public User mapUser(Map<String, String> userDetails)
     {
-        return Stream.of(userList).map(User::new).collect(Collectors.toList()).get(0);
+        return Stream.of(userDetails).map(User::new).collect(Collectors.toList()).get(0);
     }
 
 }

@@ -11,9 +11,11 @@ import ie.wit.semester06_project.service.data.UserDataService;
 /**
  * This will be the class that will any activities that relate to login/logout wil inherit from.
  */
-
 public class EntryActivity extends BaseActivity
 {
+    /**
+     * The Entry service.
+     */
     protected EntryService entryService;
     //protected UserDataService userDataService;
 

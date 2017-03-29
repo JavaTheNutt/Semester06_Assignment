@@ -17,11 +17,26 @@ import ie.wit.semester06_project.service.data.UserDataService;
  */
 public class BaseActivity extends AppCompatActivity
 {
+    /**
+     * The App.
+     */
     public FinanceApp app; //Reference to the application object
+    /**
+     * The constant TAG.
+     */
     public static final String TAG = "Finance"; //the tag for the logger
+    /**
+     * The M firebase analytics.
+     */
     protected FirebaseAnalytics mFirebaseAnalytics;
+    /**
+     * The Auth service.
+     */
     protected AuthService authService;
 
+    /**
+     * The Database reference.
+     */
     protected DatabaseReference databaseReference;
 
 
@@ -40,6 +55,9 @@ public class BaseActivity extends AppCompatActivity
         authService = new AuthService(FirebaseAuth.getInstance(), new UserDataService(databaseReference.child("users")));
     }
 
+    /**
+     * {{@inheritDoc}}
+     */
     @Override
     protected void onStart()
     {
@@ -47,6 +65,9 @@ public class BaseActivity extends AppCompatActivity
         authService.start();
     }
 
+    /**
+     * {{@inheritDoc}}
+     */
     @Override
     protected void onStop()
     {

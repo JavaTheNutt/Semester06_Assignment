@@ -11,7 +11,7 @@ import ie.wit.semester06_project.R;
 import ie.wit.semester06_project.model.Transaction;
 
 /**
- * This class will be the activity for adding an income to the
+ * This class will be the activity for adding a transaction to the associated transactions for a specific user
  */
 public class AddIncomeActivity extends InternalActivity
 {
@@ -21,6 +21,11 @@ public class AddIncomeActivity extends InternalActivity
 
     private Long currentTimestamp;
 
+    /**
+     * {{@inheritDoc}}
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -44,6 +49,11 @@ public class AddIncomeActivity extends InternalActivity
         }
     }
 
+    /**
+     * Create the transaction and add it to the list.
+     *
+     * @param view the view that was clicked
+     */
     public void submitClicked(View view)
     {
         if (title.getText().toString().length() > 3 && Float.parseFloat(amount.getText().toString()) > 0) {

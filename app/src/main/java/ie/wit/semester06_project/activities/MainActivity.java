@@ -7,6 +7,9 @@ import android.view.View;
 
 import ie.wit.semester06_project.R;
 
+/**
+ * The type Main activity.
+ */
 public final class MainActivity extends BaseActivity
 {
 
@@ -27,12 +30,22 @@ public final class MainActivity extends BaseActivity
         finish();
     }
 
+    /**
+     * Login clicked.
+     *
+     * @param view the view
+     */
     public void loginClicked(View view)
     {
         Log.v(TAG, "Button to open application clicked");
         startActivity(new Intent(this, LoginActivity.class));
     }
 
+    /**
+     * Sign up clicked.
+     *
+     * @param view the view
+     */
     public void signUpClicked(View view)
     {
         Log.v(TAG, "Sign up button clicked");

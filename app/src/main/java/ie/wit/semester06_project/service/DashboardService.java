@@ -13,9 +13,14 @@ import ie.wit.semester06_project.model.Transaction;
 /**
  * Created by joewe on 25/02/2017.
  */
-
 public class DashboardService
 {
+    /**
+     * Create transactions list.
+     *
+     * @param transactions the transactions
+     * @return the list
+     */
     public List<Transaction> createTransactions(Map<String, Map> transactions)
     {
         List<Transaction> transactionList = new ArrayList<Transaction>();
@@ -31,6 +36,12 @@ public class DashboardService
         return transactionList;
     }
 
+    /**
+     * Title case string.
+     *
+     * @param str the str
+     * @return the string
+     */
     public String titleCase(String str)
     {
         Log.d(BaseActivity.TAG, "titleCase: fixing string: " + str);

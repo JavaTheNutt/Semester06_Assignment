@@ -60,6 +60,9 @@ public class DashboardActivity extends InternalActivity
         setUpReferences();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onStart()
     {
@@ -70,6 +73,9 @@ public class DashboardActivity extends InternalActivity
         listView.setAdapter(transactionAdapter);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onStop()
     {
@@ -77,6 +83,9 @@ public class DashboardActivity extends InternalActivity
         detailsDatabaseReference.removeEventListener(valueEventListener);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     protected void onDestroy()
     {
@@ -119,7 +128,7 @@ public class DashboardActivity extends InternalActivity
 
             private void adjustView()
             {
-                if (transactions == null | transactions.size() == 0) {
+                if (transactions == null || transactions.isEmpty()) {
                     noDataFoundLabel.setVisibility(View.VISIBLE);
                     listView.setVisibility(View.GONE);
                     currentBalance.setVisibility(View.GONE);

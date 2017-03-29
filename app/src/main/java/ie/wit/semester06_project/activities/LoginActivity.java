@@ -10,6 +10,9 @@ import ie.wit.semester06_project.R;
 import ie.wit.semester06_project.main.FinanceApp;
 import ie.wit.semester06_project.model.User;
 
+/**
+ * The type Login activity.
+ */
 public class LoginActivity extends EntryActivity
 {
     private EditText emailField;
@@ -24,6 +27,11 @@ public class LoginActivity extends EntryActivity
         passwordField = (EditText) findViewById(R.id.logInPasswordField);
     }
 
+    /**
+     * Login clicked.
+     *
+     * @param view the view
+     */
     public void loginClicked(View view)
     {
         validation();

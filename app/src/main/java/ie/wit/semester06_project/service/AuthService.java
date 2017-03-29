@@ -1,6 +1,5 @@
 package ie.wit.semester06_project.service;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -13,6 +12,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import ie.wit.semester06_project.main.FinanceApp;
+import ie.wit.semester06_project.model.User;
 import ie.wit.semester06_project.service.data.UserDataService;
 
 import static ie.wit.semester06_project.activities.BaseActivity.TAG;
@@ -29,7 +29,8 @@ public class AuthService
     /**
      * instantiates a new auth service.
      *
-     * @param auth the auth
+     * @param auth            the auth
+     * @param userDataService the user data service
      */
     public AuthService(FirebaseAuth auth, UserDataService userDataService)
     {
@@ -38,7 +39,7 @@ public class AuthService
     }
 
     /**
-     * Start.
+     * Start the auth service.
      */
     public void start()
     {
@@ -51,7 +52,7 @@ public class AuthService
     }
 
     /**
-     * Stop.
+     * Stop the auth service.
      */
     public void stop()
     {
@@ -63,7 +64,12 @@ public class AuthService
         auth.removeAuthStateListener(authListener);
     }
 
-
+    /**
+     * Create account.
+     *
+     * @param userDetails the user details
+     * @param callback    the callback
+     */
     public void createAccount(Map<String, String> userDetails, Consumer<Boolean> callback)
     {
         Log.d(TAG, "createAccount: creating an account for " + userDetails.get("email"));
@@ -75,6 +81,7 @@ public class AuthService
      *
      * @param email    the email
      * @param password the password
+     * @param callback the callback that will trigger the new activity if successful
      */
     public void login(String email, String password, Consumer<Boolean> callback)
     {
@@ -82,6 +89,10 @@ public class AuthService
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(setUpLogInComplete(email, callback));
     }
 
+    /**
+     * This will create an authstate listener
+     * @return an auth state listener to be attached to the firbase auth instance
+     */
     @NonNull
     private FirebaseAuth.AuthStateListener setUpAuthListener()
     {
@@ -89,18 +100,19 @@ public class AuthService
             FirebaseUser user = firebaseAuth.getCurrentUser();
             if (user == null) {
                 Log.d(TAG, "onAuthStateChanged: user signed out");
+                FinanceApp.setCurrentUser(null);
             } else {
                 Log.d(TAG, "onAuthStateChanged: user signed in: " + user.getUid());
-                /*try {
-                    FinanceApp.setCurrentUser(userDataService.getOne(user.getEmail()));
-                } catch (Exception e) {
-                    Log.e(TAG, "setUpAuthListener: unable to find user with specified email address", e);
-                    e.printStackTrace();
-                }*/
             }
         };
     }
 
+    /**
+     * This will create the on complete listener that will be used when a new account is created.
+     * @param userDetails a map containing the user details
+     * @param callback the callback to be triggered to pass the signin result back to the activity.
+     * @return an on complete listener
+     */
     @NonNull
     private OnCompleteListener<AuthResult> setupSigninOnComplete(Map<String, String> userDetails, Consumer<Boolean> callback)
     {
@@ -112,30 +124,41 @@ public class AuthService
                 callback.accept(false);
             }else{
                 Log.d(TAG, "setupSigninOnComplete: sign up succeeded");
-                FinanceApp.setCurrentUser(userDataService.addUser(userDetails));
-                callback.accept(true);
+                User user = userDataService.mapUser(userDetails);
+                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                user.setUuid(uid);
+                userDataService.addUser(user);
+                FinanceApp.setCurrentUser(user);
+git                 callback.accept(true);
             }
         };
     }
 
+    /**
+     * This will create an on complete listener that will be used when a user attempt to log in
+     * @param email the email address passed in
+     * @param callback the callback that will be trigger changes in the activity
+     * @return the on complete listener
+     */
     @NonNull
     private OnCompleteListener<AuthResult> setUpLogInComplete(String email, Consumer<Boolean> callback)
     {
         return task -> {
             Log.d(TAG, "setUpLogInComplete: " + task.isSuccessful());
             if (!task.isSuccessful()) {
-                Log.e(TAG, "setUpLogInComplete: sign up failed", task.getException());
+                Log.e(TAG, "setUpLogInComplete: sign in failed", task.getException());
                 FinanceApp.setCurrentUser(null);
                 callback.accept(false);
             }else{
                 Log.d(TAG, "setUpLogInComplete: login succeeded");
-                callback.accept(true);
                 try {
                     FinanceApp.setCurrentUser(userDataService.getOne(email));
+                    callback.accept(true);
                 } catch (Exception e) {
                     e.printStackTrace();
                     FinanceApp.setCurrentUser(null);
                     Log.e(TAG, "setUpLogInComplete: user not found", e);
+                    callback.accept(false);
                 }
             }
         };
