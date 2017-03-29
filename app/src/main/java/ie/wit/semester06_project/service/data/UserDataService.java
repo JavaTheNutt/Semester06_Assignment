@@ -93,20 +93,8 @@ public class UserDataService
         throw new Exception("user not found");
     }
 
-    /**
-     * Add user user.
-     *
-     * @param userData the user data
-     * @return the user
-     */
-    public User addUser(Map<String, String> userData)
-    {
-        User user = mapUser(userData);
-        databaseReference.child(user.getKey()).setValue(user);
-        return user;
-    }
     public void addUser(User user){
-        databaseReference.child(user.getKey()).setValue(user);
+        databaseReference.child("users").child(user.getUuid()).setValue(user);
     }
 
     /**

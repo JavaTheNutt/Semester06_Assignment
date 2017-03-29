@@ -129,7 +129,7 @@ public class AuthService
                 user.setUuid(uid);
                 userDataService.addUser(user);
                 FinanceApp.setCurrentUser(user);
-git                 callback.accept(true);
+                callback.accept(true);
             }
         };
     }

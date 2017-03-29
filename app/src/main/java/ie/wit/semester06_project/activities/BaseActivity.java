@@ -52,7 +52,7 @@ public class BaseActivity extends AppCompatActivity
         app = (FinanceApp) getApplication();
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         databaseReference = FirebaseDatabase.getInstance().getReference();
-        authService = new AuthService(FirebaseAuth.getInstance(), new UserDataService(databaseReference.child("users")));
+        authService = new AuthService(FirebaseAuth.getInstance(), new UserDataService(databaseReference));
     }
 
     /**
