@@ -49,7 +49,7 @@ public class UserDataService
         if (valueEventListener == null) {
             valueEventListener = setUpValueEventListener();
         }
-        databaseReference.addValueEventListener(valueEventListener);
+        databaseReference.child("users").addValueEventListener(valueEventListener);
     }
 
 
@@ -58,7 +58,7 @@ public class UserDataService
      */
     public void stop()
     {
-        databaseReference.removeEventListener(valueEventListener);
+        databaseReference.child("users").removeEventListener(valueEventListener);
     }
 
 
