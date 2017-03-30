@@ -143,7 +143,7 @@ public class DashboardActivity extends InternalActivity
 
             private void setBalance(List<Transaction> transactions)
             {
-                balance.setBalance(0);
+                balance.setCurrentBalance(0);
                 for (Transaction transaction : transactions) {
                     if (transaction.isIncome())
                         balance.incrementBalance(transaction.getAmount());

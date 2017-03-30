@@ -48,6 +48,7 @@ public class BaseActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        /* BaseActivity.java */
         super.onCreate(savedInstanceState);
         app = (FinanceApp) getApplication();
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);

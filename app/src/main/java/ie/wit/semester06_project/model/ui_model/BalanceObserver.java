@@ -51,10 +51,10 @@ public class BalanceObserver implements Observer
     @Override
     public void update(Observable o, Object arg)
     {
-        float balance = ((Balance)o).getBalance();
+        float balance = ((Balance)o).getCurrentBalance();
         String strTotal = "€" + Float.toString(balance);
         int colorId = balance <= 0 ? R.color.negativeBalance : R.color.positiveBalance;
-        Log.d(BaseActivity.TAG, "update: " + ((Balance) o).getBalance());
+        Log.d(BaseActivity.TAG, "update: " + ((Balance) o).getCurrentBalance());
         balanceView.setTextColor(ContextCompat.getColor(context, colorId));
         balanceView.setText(strTotal);
     }

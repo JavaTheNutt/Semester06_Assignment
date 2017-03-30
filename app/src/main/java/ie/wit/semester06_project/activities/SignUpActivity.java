@@ -61,7 +61,8 @@ public class SignUpActivity extends EntryActivity
 
     private void registerUser()
     {
-        authService.createAccount(entryService.extractText(namedFields), (result) -> {
+        /*SignUpActivity.java*/
+        authService.createAccount(entryService.extractText(namedFields), result -> {
             if (result){
                 startActivity(new Intent(this, DashboardActivity.class));
             }else{

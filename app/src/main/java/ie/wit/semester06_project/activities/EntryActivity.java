@@ -17,7 +17,6 @@ public class EntryActivity extends BaseActivity
      * The Entry service.
      */
     protected EntryService entryService;
-    //protected UserDataService userDataService;
 
 
     /**
@@ -29,7 +28,6 @@ public class EntryActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        //userDataService = new UserDataService(FirebaseDatabase.getInstance().getReference("users"));
         entryService = FinanceApp.serviceFactory.getEntryService();
     }
 
@@ -37,14 +35,12 @@ public class EntryActivity extends BaseActivity
     protected void onStart()
     {
         super.onStart();
-        //userDataService.start();
     }
 
     @Override
     protected void onStop()
     {
         super.onStop();
-        //userDataService.stop();
     }
 
 }

@@ -11,6 +11,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import ie.wit.semester06_project.exceptions.UserNotFoundException;
 import ie.wit.semester06_project.main.FinanceApp;
 import ie.wit.semester06_project.model.User;
 import ie.wit.semester06_project.service.data.UserDataService;
@@ -29,7 +30,7 @@ public class AuthService
     /**
      * instantiates a new auth service.
      *
-     * @param auth            the auth
+     * @param auth            the firebase auth instance
      * @param userDataService the user data service
      */
     public AuthService(FirebaseAuth auth, UserDataService userDataService)
@@ -154,8 +155,7 @@ public class AuthService
                 try {
                     FinanceApp.setCurrentUser(userDataService.getOne(email));
                     callback.accept(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (UserNotFoundException e) {
                     FinanceApp.setCurrentUser(null);
                     Log.e(TAG, "setUpLogInComplete: user not found", e);
                     callback.accept(false);

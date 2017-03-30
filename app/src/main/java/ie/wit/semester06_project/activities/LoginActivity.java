@@ -56,23 +56,6 @@ public class LoginActivity extends EntryActivity
 
     private void validateUser(String email, String password)
     {
-       /* if (userDataService.getUsernames().indexOf(email) == -1) {
-            makeToast("There is no user with that email address");
-            return false;
-        }
-        User requestedUser;
-        try {
-            requestedUser = userDataService.getOne(email);
-            authService.login(requestedUser.getEmail(), passwordField.getText().toString()); // TODO: 25/03/2017 uncomment when ready
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.w(TAG, "validateUser: user not found");
-            Log.e(TAG, "validateUser: user not found", e);
-            makeToast(e.getMessage());
-            return false;
-        }
-        FinanceApp.setCurrentUser(requestedUser);
-        return true;*/
        authService.login(email, password, (result) -> {
            startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
        });

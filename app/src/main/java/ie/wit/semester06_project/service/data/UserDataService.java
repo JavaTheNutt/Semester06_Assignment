@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import ie.wit.semester06_project.exceptions.UserNotFoundException;
 import ie.wit.semester06_project.model.User;
 
 import static ie.wit.semester06_project.activities.BaseActivity.TAG;
@@ -29,10 +30,12 @@ public class UserDataService
     private ValueEventListener valueEventListener;
     private List<User> users;
 
+    private static final String CHILD_NAME = "users";
+
     /**
      * Instantiates a new User data service.
      *
-     * @param databaseReference the database reference
+     * @param databaseReference the firebase database reference
      */
     public UserDataService(DatabaseReference databaseReference)
     {
@@ -49,7 +52,7 @@ public class UserDataService
         if (valueEventListener == null) {
             valueEventListener = setUpValueEventListener();
         }
-        databaseReference.child("users").addValueEventListener(valueEventListener);
+        databaseReference.child(CHILD_NAME).addValueEventListener(valueEventListener);
     }
 
 
@@ -58,7 +61,7 @@ public class UserDataService
      */
     public void stop()
     {
-        databaseReference.child("users").removeEventListener(valueEventListener);
+        databaseReference.child(CHILD_NAME).removeEventListener(valueEventListener);
     }
 
 
@@ -83,28 +86,18 @@ public class UserDataService
      * @throws Exception if the user is not found
      */
 // TODO: 25/03/2017 create custom exception
-    public User getOne(String email) throws Exception
+    public User getOne(String email) throws UserNotFoundException
     {
         for (User user : users) {
             if (user.getEmail().equalsIgnoreCase(email)) {
                 return user;
             }
         }
-        throw new Exception("user not found");
+        throw new UserNotFoundException("user not found");
     }
 
     public void addUser(User user){
-        databaseReference.child("users").child(user.getUuid()).setValue(user);
-    }
-
-    /**
-     * Gets the usernames of all users
-     *
-     * @return the usernames
-     */
-    public List<String> getUsernames()
-    {
-        return Stream.of(users).map(User::getEmail).collect(Collectors.toList());
+        databaseReference.child(CHILD_NAME).child(user.getUuid()).setValue(user);
     }
 
     /**

@@ -7,16 +7,18 @@ import java.util.Observable;
  */
 public class Balance extends Observable
 {
-    private float balance = 0;
+    private float currentBalance = 0;
 
     /**
-     * This will set the balance to a specified amount and notify observers
+     * This will set the currentBalance to a specified amount and notify observers.
+     * This method is not synchronised because only actual value change needs to be safe.
+     * The two method calls below trigger synchronized reads of the value.
      *
-     * @param balance the new balance
+     * @param currentBalance the new currentBalance
      */
-    public void setBalance(float balance){
+    public void setCurrentBalance(float currentBalance){
         synchronized (this){
-            this.balance = balance;
+            this.currentBalance = currentBalance;
         }
         setChanged();
         notifyObservers();
@@ -24,37 +26,37 @@ public class Balance extends Observable
 
 
     /**
-     * Increment balance.
+     * Increment currentBalance.
      *
      * @param amount the amount
      */
     public void incrementBalance(float amount){
         synchronized (this){
-            this.balance += amount;
+            this.currentBalance += amount;
         }
         setChanged();
         notifyObservers();
     }
 
     /**
-     * Decrement balance.
+     * Decrement currentBalance.
      *
      * @param amount the amount
      */
     public void decrementBalance(float amount){
         synchronized (this){
-            this.balance -= amount;
+            this.currentBalance -= amount;
         }
         setChanged();
         notifyObservers();
     }
 
     /**
-     * Get balance float.
+     * Get currentBalance float.
      *
      * @return the float
      */
-    synchronized float getBalance(){
-        return balance;
+    synchronized float getCurrentBalance(){
+        return currentBalance;
     }
 }
