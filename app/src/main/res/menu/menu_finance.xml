@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
-    tools:context="ie.wit.semester06_project.activities.InternalActivity">
+    tools:context="ie.wit.application.activities.InternalActivity">
     <item
         android:id="@+id/menuSignOut"
         android:orderInCategory="100"

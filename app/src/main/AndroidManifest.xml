@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="ie.wit.semester06_project">
+          package="ie.wit.application">
 
     <uses-sdk
         android:minSdkVersion="24"
@@ -14,28 +14,28 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
-        android:name=".main.FinanceApp"
+        android:name="ie.wit.application.main.FinanceApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/headerTitle"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.MainActivity">
+        <activity android:name="ie.wit.application.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activities.LoginActivity">
+        <activity android:name="ie.wit.application.activities.LoginActivity">
         </activity>
-        <activity android:name=".activities.SignUpActivity">
+        <activity android:name="ie.wit.application.activities.SignUpActivity">
         </activity>
-        <activity android:name=".activities.InternalActivity">
+        <activity android:name="ie.wit.application.activities.InternalActivity">
         </activity>
-        <activity android:name=".activities.DashboardActivity">
+        <activity android:name="ie.wit.application.activities.DashboardActivity">
         </activity>
-        <activity android:name=".activities.AddIncomeActivity">
+        <activity android:name="ie.wit.application.activities.AddIncomeActivity">
         </activity>
 
     </application>
