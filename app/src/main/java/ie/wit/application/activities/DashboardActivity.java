@@ -4,12 +4,11 @@ import android.os.Bundle;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseListAdapter;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.Contract;
@@ -17,10 +16,8 @@ import org.jetbrains.annotations.Contract;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import ie.wit.application.R;
 import ie.wit.application.exceptions.NoUserLoggedInException;
@@ -28,6 +25,7 @@ import ie.wit.application.main.FinanceApp;
 import ie.wit.application.model.Transaction;
 import ie.wit.application.model.ui_model.Balance;
 import ie.wit.application.model.ui_model.BalanceObserver;
+import ie.wit.application.model.ui_model.TransactionAdapter;
 import ie.wit.application.service.DashboardService;
 
 /**
@@ -41,7 +39,7 @@ public class DashboardActivity extends InternalActivity
     private TextView usernameLabel;
 
     private DashboardService dashboardService;
-    private FirebaseListAdapter<Transaction> transactionAdapter;
+    private ArrayAdapter<Transaction> transactionAdapter;
     private ValueEventListener valueEventListener;
 
     private Balance balance = new Balance();
@@ -73,10 +71,11 @@ public class DashboardActivity extends InternalActivity
         try {
             transactionDataService.start();
         } catch (NoUserLoggedInException e) {
-            e.printStackTrace();
+            Log.e(TAG, "onStart: no user logged in", e);
         }
         transactionDataService.registerBalanceObserver(observer);
-        transactionAdapter = setupFirebaseTransactionAdapter();
+        transactionDataService.registerTransactionCallback(result -> updateView());
+        transactionAdapter = new TransactionAdapter(this, transactionDataService.getTransactions());
         listView.setAdapter(transactionAdapter);
     }
 
@@ -87,6 +86,7 @@ public class DashboardActivity extends InternalActivity
     protected void onStop()
     {
         super.onStop();
+        transactionDataService.registerTransactionCallback(null);
         transactionDataService.stop();
         //detailsDatabaseReference.removeEventListener(valueEventListener);
     }
@@ -98,7 +98,7 @@ public class DashboardActivity extends InternalActivity
     protected void onDestroy()
     {
         super.onDestroy();
-        transactionAdapter.cleanup();
+        // transactionAdapter.cleanup();
     }
 
     private void setUpReferences()
@@ -112,6 +112,32 @@ public class DashboardActivity extends InternalActivity
         //observer.observe(balance);
         //usernameLabel.setText("Welcome, " + FinanceApp.getCurrentUser().getFirstName() + " " + FinanceApp.getCurrentUser().getSurname() + "!");
     }
+
+    private void updateView()
+    {
+        List<Transaction> transactionList = transactionDataService.getTransactions();
+        transactionAdapter = new TransactionAdapter(this, transactionList);
+        listView.setAdapter(transactionAdapter);
+        toggleUi(!(transactionList == null || transactionList.isEmpty()));
+    }
+
+    private void toggleUi(boolean hasData)
+    {
+        if (hasData) {
+            noDataFoundLabel.setVisibility(View.GONE);
+            listView.setVisibility(View.VISIBLE);
+            currentBalance.setVisibility(View.VISIBLE);
+            usernameLabel.setVisibility(View.VISIBLE);
+            return;
+        }
+        noDataFoundLabel.setVisibility(View.VISIBLE);
+        listView.setVisibility(View.GONE);
+        currentBalance.setVisibility(View.GONE);
+        usernameLabel.setVisibility(View.GONE);
+
+    }
+
+
 
     /*@Contract(" -> !null")
     private ValueEventListener setupValueEventListener()

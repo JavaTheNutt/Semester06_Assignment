@@ -2,7 +2,9 @@ package ie.wit.application.service.data;
 
 import android.util.Log;
 
+import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
+import com.annimon.stream.function.Consumer;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,6 +41,7 @@ public class TransactionDataService
     private ValueEventListener valueEventListener;
     private DatabaseReference transactionReference;
     private Balance currentBalance;
+    private Consumer<String> updateTransactionListCallback;
 
     /**
      * Instantiates a new Transaction data service.
@@ -90,12 +93,21 @@ public class TransactionDataService
         }
         return transactions;
     }
+    public List<Transaction> getIncomes(){
+        return Stream.of(transactions).filter(Transaction::isIncome).collect(Collectors.toList());
+    }
+    public List<Transaction> getExpenditures(){
+        return Stream.of(transactions).filter(transaction -> !transaction.isIncome()).collect(Collectors.toList());
+    }
 
     public void registerBalanceObserver(BalanceObserver observer)
     {
         observer.observe(currentBalance);
     }
 
+    public void registerTransactionCallback(Consumer<String> callback){
+        this.updateTransactionListCallback = callback;
+    }
     /**
      * Add transaction.
      *
@@ -127,6 +139,7 @@ public class TransactionDataService
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
             {
+                transactions.clear();
                 Log.d(TAG, "onDataChange: Transaction");
                 for (DataSnapshot transactionSnapshot : dataSnapshot.getChildren()) {
                     Transaction transaction = transactionSnapshot.getValue(Transaction.class);
@@ -134,6 +147,9 @@ public class TransactionDataService
                 }
                 float tmpBalance = getBalance();
                 currentBalance.setCurrentBalance(tmpBalance);
+                if (updateTransactionListCallback != null) {
+                    updateTransactionListCallback.accept("data changed");
+                }
             }
 
             @Override
