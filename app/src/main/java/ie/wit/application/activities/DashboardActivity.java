@@ -5,25 +5,19 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.firebase.ui.database.FirebaseListAdapter;
-import com.google.firebase.database.ValueEventListener;
-
-import org.jetbrains.annotations.Contract;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import ie.wit.application.R;
 import ie.wit.application.exceptions.NoUserLoggedInException;
 import ie.wit.application.main.FinanceApp;
 import ie.wit.application.model.Transaction;
-import ie.wit.application.model.ui_model.Balance;
 import ie.wit.application.model.ui_model.BalanceObserver;
 import ie.wit.application.model.ui_model.TransactionAdapter;
 import ie.wit.application.service.DashboardService;
@@ -37,14 +31,16 @@ public class DashboardActivity extends InternalActivity
     private ListView listView;
     private TextView noDataFoundLabel;
     private TextView usernameLabel;
+    private Button toggleListButton;
+    private RadioGroup toggleDataRadio;
 
     private DashboardService dashboardService;
     private ArrayAdapter<Transaction> transactionAdapter;
-    private ValueEventListener valueEventListener;
 
-    private Balance balance = new Balance();
     private BalanceObserver observer;
     private List<Transaction> transactions = new ArrayList<>();
+
+    private boolean listShown = true;
 
     /**
      * {@inheritDoc}
@@ -66,8 +62,6 @@ public class DashboardActivity extends InternalActivity
     protected void onStart()
     {
         super.onStart();
-        //valueEventListener = setupValueEventListener();
-        //detailsDatabaseReference.addValueEventListener(valueEventListener);
         try {
             transactionDataService.start();
         } catch (NoUserLoggedInException e) {
@@ -88,17 +82,19 @@ public class DashboardActivity extends InternalActivity
         super.onStop();
         transactionDataService.registerTransactionCallback(null);
         transactionDataService.stop();
-        //detailsDatabaseReference.removeEventListener(valueEventListener);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected void onDestroy()
+    public void toggleList(View v)
     {
-        super.onDestroy();
-        // transactionAdapter.cleanup();
+        listShown = !listShown;
+        Button btn = (Button) v;
+        int visibilityId = listShown ? View.VISIBLE : View.GONE;
+        String buttonText = listShown ? "Hide Transactions" : "Show Transactions";
+        int btnColor = listShown ? R.color.negativeBalance : R.color.positiveBalance;
+        listView.setVisibility(visibilityId);
+        toggleDataRadio.setVisibility(visibilityId);
+        btn.setText(buttonText);
+        btn.setBackgroundColor(ResourcesCompat.getColor(getResources(), btnColor, null));
     }
 
     private void setUpReferences()
@@ -108,9 +104,9 @@ public class DashboardActivity extends InternalActivity
         noDataFoundLabel = (TextView) findViewById(R.id.noDataFoundLabel);
         dashboardService = FinanceApp.serviceFactory.getDashboardService();
         usernameLabel = (TextView) findViewById(R.id.userNameLabel);
+        toggleListButton = (Button) findViewById(R.id.toggleShowList);
+        toggleDataRadio = (RadioGroup) findViewById(R.id.toggleDataRadio);
         observer = new BalanceObserver(this, currentBalance);
-        //observer.observe(balance);
-        //usernameLabel.setText("Welcome, " + FinanceApp.getCurrentUser().getFirstName() + " " + FinanceApp.getCurrentUser().getSurname() + "!");
     }
 
     private void updateView()
@@ -123,86 +119,23 @@ public class DashboardActivity extends InternalActivity
 
     private void toggleUi(boolean hasData)
     {
+        View[] shownHasData = {
+                listView,
+                currentBalance,
+                usernameLabel,
+                toggleListButton,
+                toggleDataRadio
+        };
         if (hasData) {
             noDataFoundLabel.setVisibility(View.GONE);
-            listView.setVisibility(View.VISIBLE);
-            currentBalance.setVisibility(View.VISIBLE);
-            usernameLabel.setVisibility(View.VISIBLE);
+            for (View view : shownHasData) {
+                view.setVisibility(View.VISIBLE);
+            }
             return;
         }
         noDataFoundLabel.setVisibility(View.VISIBLE);
-        listView.setVisibility(View.GONE);
-        currentBalance.setVisibility(View.GONE);
-        usernameLabel.setVisibility(View.GONE);
-
+        for (View view : shownHasData) {
+            view.setVisibility(View.GONE);
+        }
     }
-
-
-
-    /*@Contract(" -> !null")
-    private ValueEventListener setupValueEventListener()
-    {
-        return new ValueEventListener()
-        {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot)
-            {
-                Map<String, Map> transactionMap = (HashMap<String, Map>) dataSnapshot.getValue();
-                Log.v(TAG, Integer.toString(transactions.size()));
-                transactions = dashboardService.createTransactions(transactionMap);
-                adjustView();
-                setBalance(transactions);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError)
-            {
-                Log.e(TAG, "Unable to retrieve transaction data", databaseError.toException());
-            }
-
-            private void adjustView()
-            {
-                if (transactions == null || transactions.isEmpty()) {
-                    noDataFoundLabel.setVisibility(View.VISIBLE);
-                    listView.setVisibility(View.GONE);
-                    currentBalance.setVisibility(View.GONE);
-                    usernameLabel.setVisibility(View.GONE);
-                    return;
-                }
-                noDataFoundLabel.setVisibility(View.GONE);
-                listView.setVisibility(View.VISIBLE);
-                currentBalance.setVisibility(View.VISIBLE);
-                usernameLabel.setVisibility(View.VISIBLE);
-            }
-
-            private void setBalance(List<Transaction> transactions)
-            {
-                balance.setCurrentBalance(0);
-                for (Transaction transaction : transactions) {
-                    if (transaction.isIncome())
-                        balance.incrementBalance(transaction.getAmount());
-                    else
-                        balance.decrementBalance(transaction.getAmount());
-                }
-            }
-        };
-    }
-*/
-    @Contract(" -> !null")
-    private FirebaseListAdapter<Transaction> setupFirebaseTransactionAdapter()
-    {
-        return new FirebaseListAdapter<Transaction>(this, Transaction.class, R.layout.row_transaction, detailsDatabaseReference)
-        {
-            @Override
-            protected void populateView(View v, Transaction model, int position)
-            {
-                ((TextView) v.findViewById(R.id.rowDate)).setText(new SimpleDateFormat("dd-MM-yyyy", Locale.UK).format(new Date(model.getTimestamp())));
-                ((TextView) v.findViewById(R.id.rowAmount)).setText(model.getAmount().toString());
-                ((TextView) v.findViewById(R.id.transactionTitle)).setText(dashboardService.titleCase(model.getTitle()));
-                int colorId = model.isIncome() ? R.color.positiveBalance : R.color.negativeBalance;
-                ((TextView) v.findViewById(R.id.transactionTitle)).setTextColor(ResourcesCompat.getColor(getResources(), colorId, null));
-            }
-        };
-    }
-
 }

@@ -36,11 +36,22 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:visibility="gone"/>
 
+    <Button
+        android:id="@+id/toggleShowList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="127dp"
+        android:text="@string/dashboardShowList"
+        android:visibility="gone"
+        android:onClick="toggleList"/>
+
     <ListView
         android:id="@+id/transactionList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/dashboardCurrentBalance"
+        android:layout_below="@id/toggleShowList"
         android:visibility="gone">
 
     </ListView>
@@ -59,6 +70,38 @@
         android:text="@string/noDataFoundText"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:visibility="gone"/>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toggleDataRadio"
+        android:layout_marginTop="169dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@id/transactionList"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/showAllRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/showAllRadio"/>
+
+        <RadioButton
+            android:id="@+id/showExpenditureRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/showExpenditureRadio"/>
+
+        <RadioButton
+            android:id="@+id/showIncomeRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/showIncomeRadio"/>
+    </RadioGroup>
 
 
 </RelativeLayout>

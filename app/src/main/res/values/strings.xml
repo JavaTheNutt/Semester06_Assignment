@@ -23,4 +23,8 @@
     <string name="incomeRadio">Income</string>
     <string name="expenditureRadio">Expenditure</string>
     <string name="noDataFoundText">There has been no transaction data found. Please add a transaction to see it show up here.</string>
+    <string name="dashboardShowList">Show Transactions</string>
+    <string name="showAllRadio">All</string>
+    <string name="showIncomeRadio">Income</string>
+    <string name="showExpenditureRadio">Expenditure</string>
 </resources>
