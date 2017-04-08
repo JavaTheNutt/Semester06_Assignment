@@ -15,9 +15,6 @@ import org.jetbrains.annotations.Contract;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observer;
-import java.util.stream.DoubleStream;
-
 
 import ie.wit.application.exceptions.NoUserLoggedInException;
 import ie.wit.application.main.FinanceApp;
@@ -93,10 +90,14 @@ public class TransactionDataService
         }
         return transactions;
     }
-    public List<Transaction> getIncomes(){
+
+    public List<Transaction> getIncomes()
+    {
         return Stream.of(transactions).filter(Transaction::isIncome).collect(Collectors.toList());
     }
-    public List<Transaction> getExpenditures(){
+
+    public List<Transaction> getExpenditures()
+    {
         return Stream.of(transactions).filter(transaction -> !transaction.isIncome()).collect(Collectors.toList());
     }
 
@@ -105,9 +106,11 @@ public class TransactionDataService
         observer.observe(currentBalance);
     }
 
-    public void registerTransactionCallback(Consumer<String> callback){
+    public void registerTransactionCallback(Consumer<String> callback)
+    {
         this.updateTransactionListCallback = callback;
     }
+
     /**
      * Add transaction.
      *
