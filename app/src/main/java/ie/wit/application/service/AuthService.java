@@ -73,7 +73,9 @@ public class AuthService
         auth.removeAuthStateListener(authListener);
     }
 
-    
+    public void signOut(){
+        auth.signOut();
+    }
     /**
      * Create account.
      *

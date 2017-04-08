@@ -28,6 +28,26 @@ public class InternalActivity extends BaseActivity
         detailsDatabaseReference = FirebaseDatabase.getInstance().getReference(FinanceApp.getCurrentUserId() + "/transactions");
     }
 
+    /**
+     * {{@inheritDoc}}
+     */
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        authService.registerUserNotLoggedInCallback(result -> showMainScreen());
+    }
+
+    /**
+     * {{@inheritDoc}}
+     */
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        authService.registerUserNotLoggedInCallback(null);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
@@ -58,9 +78,13 @@ public class InternalActivity extends BaseActivity
      */
     public void signOut(MenuItem item)
     {
-        startActivity(new Intent(this, MainActivity.class));
+        authService.signOut();
+        //startActivity(new Intent(this, MainActivity.class));
     }
 
+    private void showMainScreen(){
+        startActivity(new Intent(this, MainActivity.class));
+    }
     /**
      * Add income.
      *
