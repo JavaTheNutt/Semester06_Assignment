@@ -55,8 +55,10 @@ public class LoginActivity extends EntryActivity
 
     private void validateUser(String email, String password)
     {
-       authService.login(email, password, (result) -> {
-           startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
+       authService.login(email, password, result -> {
+           if(result){
+               startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
+           }
        });
     }
 

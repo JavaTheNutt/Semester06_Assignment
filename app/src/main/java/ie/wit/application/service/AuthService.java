@@ -30,13 +30,11 @@ public class AuthService
     /**
      * instantiates a new auth service.
      *
-     * @param auth            the firebase auth instance
-     * @param userDataService the user data service
      */
-    public AuthService(FirebaseAuth auth, UserDataService userDataService)
+    public AuthService()
     {
-        this.auth = auth;
-        this.userDataService = userDataService;
+        this.auth = FirebaseAuth.getInstance();
+        this.userDataService = new UserDataService();
     }
 
     /**

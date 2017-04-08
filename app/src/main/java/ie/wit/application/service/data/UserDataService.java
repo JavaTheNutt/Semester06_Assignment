@@ -7,6 +7,7 @@ import com.annimon.stream.Stream;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.Contract;
@@ -35,12 +36,11 @@ public class UserDataService
     /**
      * Instantiates a new User data service.
      *
-     * @param databaseReference the firebase database reference
      */
-    public UserDataService(DatabaseReference databaseReference)
+    public UserDataService()
     {
         users = new ArrayList<>();
-        this.databaseReference = databaseReference;
+        this.databaseReference = FirebaseDatabase.getInstance().getReference();
     }
 
 
