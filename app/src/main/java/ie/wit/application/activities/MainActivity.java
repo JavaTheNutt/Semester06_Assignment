@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 
 import ie.wit.application.R;
 
@@ -13,11 +14,53 @@ import ie.wit.application.R;
 public final class MainActivity extends BaseActivity
 {
 
+    private ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        progressBar = (ProgressBar) findViewById(R.id.mainCheckAuthLoading);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * {{@inheritDoc}}
+     */
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        registerCallbacks(true);
+    }
+
+    /**
+     * {{@inheritDoc}}
+     */
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        registerCallbacks(false);
+    }
+
+    private void registerCallbacks(boolean register){
+        if (register){
+            authService.registerUserLoggedInCallback(result -> showDashboard());
+            authService.registerUserNotLoggedInCallback(result -> hideLoading());
+        }else{
+            authService.registerUserLoggedInCallback(null);
+            authService.registerUserNotLoggedInCallback(null);
+        }
+
+    }
+
+    private void showDashboard(){
+        startActivity(new Intent(this, DashboardActivity.class));
+    }
+    private void hideLoading(){
+        progressBar.setVisibility(View.GONE);
     }
 
     /**

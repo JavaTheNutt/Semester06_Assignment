@@ -16,6 +16,7 @@ public class FinanceApp extends Application
      */
     public static ServiceFactory serviceFactory;
     private static User currentUser;
+    private static String currentUserId;
 
     @Override
     public void onCreate()
@@ -43,5 +44,15 @@ public class FinanceApp extends Application
     public static void setCurrentUser(User currentUser)
     {
         FinanceApp.currentUser = currentUser;
+    }
+
+    public static String getCurrentUserId()
+    {
+        return currentUserId;
+    }
+
+    public static void setCurrentUserId(String currentUserId)
+    {
+        FinanceApp.currentUserId = currentUserId;
     }
 }

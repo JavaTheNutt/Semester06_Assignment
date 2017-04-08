@@ -102,7 +102,7 @@ public class DashboardActivity extends InternalActivity
         usernameLabel = (TextView) findViewById(R.id.userNameLabel);
         observer = new BalanceObserver(this, currentBalance);
         observer.observe(balance);
-        usernameLabel.setText("Welcome, " + FinanceApp.getCurrentUser().getFirstName() + " " + FinanceApp.getCurrentUser().getSurname() + "!");
+        //usernameLabel.setText("Welcome, " + FinanceApp.getCurrentUser().getFirstName() + " " + FinanceApp.getCurrentUser().getSurname() + "!");
     }
 
     @Contract(" -> !null")

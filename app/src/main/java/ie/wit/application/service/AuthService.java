@@ -26,10 +26,11 @@ public class AuthService
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authListener;
     private UserDataService userDataService;
+    private Consumer<String> userLoggedInCallback;
+    private Consumer<String> userNotLoggedInCallback;
 
     /**
      * instantiates a new auth service.
-     *
      */
     public AuthService()
     {
@@ -50,6 +51,15 @@ public class AuthService
         auth.addAuthStateListener(authListener);
     }
 
+    public void registerUserNotLoggedInCallback(Consumer<String> userNotLoggedInCallback)
+    {
+        this.userNotLoggedInCallback = userNotLoggedInCallback;
+    }
+
+    public void registerUserLoggedInCallback(Consumer<String> userLoggedInCallback)
+    {
+        this.userLoggedInCallback = userLoggedInCallback;
+    }
     /**
      * Stop the auth service.
      */
@@ -63,6 +73,7 @@ public class AuthService
         auth.removeAuthStateListener(authListener);
     }
 
+    
     /**
      * Create account.
      *
@@ -90,6 +101,7 @@ public class AuthService
 
     /**
      * This will create an authstate listener
+     *
      * @return an auth state listener to be attached to the firbase auth instance
      */
     @NonNull
@@ -100,16 +112,29 @@ public class AuthService
             if (user == null) {
                 Log.d(TAG, "onAuthStateChanged: user signed out");
                 FinanceApp.setCurrentUser(null);
+                if (userNotLoggedInCallback != null) {
+                    userNotLoggedInCallback.accept("logged out");
+                }
             } else {
                 Log.d(TAG, "onAuthStateChanged: user signed in: " + user.getUid());
+                FinanceApp.setCurrentUserId(user.getUid());
+                try {
+                    FinanceApp.setCurrentUser(userDataService.getUser(user.getUid()));
+                } catch (UserNotFoundException e) {
+                    Log.e(TAG, "setUpAuthListener: the uuid used to log in does not belong to a user yet", e);
+                }
+                if (userLoggedInCallback != null) {
+                    userLoggedInCallback.accept("logged in");
+                }
             }
         };
     }
 
     /**
      * This will create the on complete listener that will be used when a new account is created.
+     *
      * @param userDetails a map containing the user details
-     * @param callback the callback to be triggered to pass the signin result back to the activity.
+     * @param callback    the callback to be triggered to pass the signin result back to the activity.
      * @return an on complete listener
      */
     @NonNull
@@ -121,7 +146,7 @@ public class AuthService
                 Log.e(TAG, "setupSigninOnComplete: sign up failed", task.getException());
                 FinanceApp.setCurrentUser(null);
                 callback.accept(false);
-            }else{
+            } else {
                 Log.d(TAG, "setupSigninOnComplete: sign up succeeded");
                 User user = userDataService.mapUser(userDetails);
                 String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -135,7 +160,8 @@ public class AuthService
 
     /**
      * This will create an on complete listener that will be used when a user attempt to log in
-     * @param email the email address passed in
+     *
+     * @param email    the email address passed in
      * @param callback the callback that will be trigger changes in the activity
      * @return the on complete listener
      */
@@ -148,7 +174,7 @@ public class AuthService
                 Log.e(TAG, "setUpLogInComplete: sign in failed", task.getException());
                 FinanceApp.setCurrentUser(null);
                 callback.accept(false);
-            }else{
+            } else {
                 Log.d(TAG, "setUpLogInComplete: login succeeded");
                 try {
                     FinanceApp.setCurrentUser(userDataService.getOne(email));

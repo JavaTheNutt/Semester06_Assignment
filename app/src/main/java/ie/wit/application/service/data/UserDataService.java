@@ -85,7 +85,6 @@ public class UserDataService
      * @return a single user based on that email address
      * @throws Exception if the user is not found
      */
-// TODO: 25/03/2017 create custom exception
     public User getOne(String email) throws UserNotFoundException
     {
         for (User user : users) {
@@ -96,6 +95,15 @@ public class UserDataService
         throw new UserNotFoundException("user not found");
     }
 
+    public User getUser(String id) throws UserNotFoundException
+    {
+        for (User user: users){
+            if (user.getUuid() != null && user.getUuid().equals(id)) {
+                    return user;
+            }
+        }
+        throw new UserNotFoundException("user not found or user has not received uuid yet");
+    }
     public void addUser(User user){
         databaseReference.child(CHILD_NAME).child(user.getUuid()).setValue(user);
     }

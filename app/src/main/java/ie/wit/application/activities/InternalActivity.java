@@ -25,7 +25,7 @@ public class InternalActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        detailsDatabaseReference = FirebaseDatabase.getInstance().getReference(FinanceApp.getCurrentUser().getUuid() + "/transactions");
+        detailsDatabaseReference = FirebaseDatabase.getInstance().getReference(FinanceApp.getCurrentUserId() + "/transactions");
     }
 
     @Override
