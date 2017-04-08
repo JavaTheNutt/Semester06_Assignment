@@ -2,6 +2,7 @@ package ie.wit.application.service.data;
 
 import android.util.Log;
 
+import com.annimon.stream.Stream;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -12,10 +13,16 @@ import org.jetbrains.annotations.Contract;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observer;
+import java.util.stream.DoubleStream;
+
 
 import ie.wit.application.exceptions.NoUserLoggedInException;
 import ie.wit.application.main.FinanceApp;
 import ie.wit.application.model.Transaction;
+import ie.wit.application.model.ui_model.Balance;
+import ie.wit.application.model.ui_model.BalanceObserver;
+
 import static ie.wit.application.activities.BaseActivity.TAG;
 
 
@@ -31,6 +38,7 @@ public class TransactionDataService
     private List<Transaction> transactions;
     private ValueEventListener valueEventListener;
     private DatabaseReference transactionReference;
+    private Balance currentBalance;
 
     /**
      * Instantiates a new Transaction data service.
@@ -39,6 +47,7 @@ public class TransactionDataService
     {
         DATABASE_REF = FirebaseDatabase.getInstance().getReference();
         transactions = new ArrayList<>();
+        currentBalance = new Balance();
     }
 
     /**
@@ -64,7 +73,8 @@ public class TransactionDataService
     /**
      * Stop.
      */
-    public void stop(){
+    public void stop()
+    {
         transactionReference.removeEventListener(valueEventListener);
     }
 
@@ -73,11 +83,17 @@ public class TransactionDataService
      *
      * @return the list
      */
-    public List<Transaction> getTransactions(){
+    public List<Transaction> getTransactions()
+    {
         if (transactions == null) {
             transactions = new ArrayList<>();
         }
         return transactions;
+    }
+
+    public void registerBalanceObserver(BalanceObserver observer)
+    {
+        observer.observe(currentBalance);
     }
 
     /**
@@ -85,21 +101,39 @@ public class TransactionDataService
      *
      * @param transaction the transaction
      */
-    public void addTransaction(Transaction transaction){
+    public void addTransaction(Transaction transaction)
+    {
         transactionReference.child(transaction.getTimestamp().toString()).setValue(transaction);
     }
+
+    private float getBalance()
+    {
+        float tmpBalance = 0;
+        for (Transaction transaction : transactions) {
+            float tmpAmount = transaction.getAmount();
+            if (!transaction.isIncome()) {
+                tmpAmount = tmpAmount * -1;
+            }
+            tmpBalance += tmpAmount;
+        }
+        return tmpBalance;
+    }
+
     @Contract(" -> !null")
-    private ValueEventListener setupValueEventListener(){
+    private ValueEventListener setupValueEventListener()
+    {
         return new ValueEventListener()
         {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot)
             {
                 Log.d(TAG, "onDataChange: Transaction");
-                for (DataSnapshot transactionSnapshot: dataSnapshot.getChildren()){
+                for (DataSnapshot transactionSnapshot : dataSnapshot.getChildren()) {
                     Transaction transaction = transactionSnapshot.getValue(Transaction.class);
                     transactions.add(transaction);
                 }
+                float tmpBalance = getBalance();
+                currentBalance.setCurrentBalance(tmpBalance);
             }
 
             @Override

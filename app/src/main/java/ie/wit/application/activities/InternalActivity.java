@@ -2,6 +2,7 @@ package ie.wit.application.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -9,7 +10,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import ie.wit.application.R;
+import ie.wit.application.exceptions.NoUserLoggedInException;
 import ie.wit.application.main.FinanceApp;
+import ie.wit.application.service.data.TransactionDataService;
 
 /**
  * The type Internal activity.
@@ -20,12 +23,14 @@ public class InternalActivity extends BaseActivity
      * The Details database reference.
      */
     protected DatabaseReference detailsDatabaseReference;
+    protected TransactionDataService transactionDataService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         detailsDatabaseReference = FirebaseDatabase.getInstance().getReference(FinanceApp.getCurrentUserId() + "/transactions");
+        transactionDataService = new TransactionDataService();
     }
 
     /**
@@ -36,6 +41,11 @@ public class InternalActivity extends BaseActivity
     {
         super.onStart();
         authService.registerUserNotLoggedInCallback(result -> showMainScreen());
+        try {
+            transactionDataService.start();
+        } catch (NoUserLoggedInException e) {
+            Log.e(TAG, "onStart: there is no user logged in", e);
+        }
     }
 
     /**
@@ -46,6 +56,7 @@ public class InternalActivity extends BaseActivity
     {
         super.onStop();
         authService.registerUserNotLoggedInCallback(null);
+        transactionDataService.stop();
     }
 
     @Override
@@ -78,8 +89,8 @@ public class InternalActivity extends BaseActivity
      */
     public void signOut(MenuItem item)
     {
+        transactionDataService.stop();
         authService.signOut();
-        //startActivity(new Intent(this, MainActivity.class));
     }
 
     private void showMainScreen(){

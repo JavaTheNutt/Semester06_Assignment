@@ -23,6 +23,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import ie.wit.application.R;
+import ie.wit.application.exceptions.NoUserLoggedInException;
 import ie.wit.application.main.FinanceApp;
 import ie.wit.application.model.Transaction;
 import ie.wit.application.model.ui_model.Balance;
@@ -67,8 +68,14 @@ public class DashboardActivity extends InternalActivity
     protected void onStart()
     {
         super.onStart();
-        valueEventListener = setupValueEventListener();
-        detailsDatabaseReference.addValueEventListener(valueEventListener);
+        //valueEventListener = setupValueEventListener();
+        //detailsDatabaseReference.addValueEventListener(valueEventListener);
+        try {
+            transactionDataService.start();
+        } catch (NoUserLoggedInException e) {
+            e.printStackTrace();
+        }
+        transactionDataService.registerBalanceObserver(observer);
         transactionAdapter = setupFirebaseTransactionAdapter();
         listView.setAdapter(transactionAdapter);
     }
@@ -80,7 +87,8 @@ public class DashboardActivity extends InternalActivity
     protected void onStop()
     {
         super.onStop();
-        detailsDatabaseReference.removeEventListener(valueEventListener);
+        transactionDataService.stop();
+        //detailsDatabaseReference.removeEventListener(valueEventListener);
     }
 
     /**
@@ -101,11 +109,11 @@ public class DashboardActivity extends InternalActivity
         dashboardService = FinanceApp.serviceFactory.getDashboardService();
         usernameLabel = (TextView) findViewById(R.id.userNameLabel);
         observer = new BalanceObserver(this, currentBalance);
-        observer.observe(balance);
+        //observer.observe(balance);
         //usernameLabel.setText("Welcome, " + FinanceApp.getCurrentUser().getFirstName() + " " + FinanceApp.getCurrentUser().getSurname() + "!");
     }
 
-    @Contract(" -> !null")
+    /*@Contract(" -> !null")
     private ValueEventListener setupValueEventListener()
     {
         return new ValueEventListener()
@@ -153,7 +161,7 @@ public class DashboardActivity extends InternalActivity
             }
         };
     }
-
+*/
     @Contract(" -> !null")
     private FirebaseListAdapter<Transaction> setupFirebaseTransactionAdapter()
     {
