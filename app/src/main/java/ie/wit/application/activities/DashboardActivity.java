@@ -121,28 +121,37 @@ public class DashboardActivity extends InternalActivity
     @Override
     public boolean onContextItemSelected(MenuItem item)
     {
-        //return super.onContextItemSelected(item);
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch(item.getItemId()){
             case R.id.contextEditItem:
                 Log.d(TAG, "onContextItemSelected: edit selected");
+                manipulateItem(info.position, true);
                 return true;
             case R.id.contextDeleteItem:
                 Log.d(TAG, "onContextItemSelected: delete selected");
-                deleteItem(info.position);
+                manipulateItem(info.position, false);
                 return true;
         }
         return super.onContextItemSelected(item);
     }
 
-    private void deleteItem(int position){
-        Log.d(TAG, "deleteItem: deleting item at position: " + position);
+    private void manipulateItem(int position, boolean isEdit){
+        String operation = isEdit ? "editing" : "deleting";
+        Log.d(TAG, "manipulateItem: " + operation + " item at position" + position);
         Transaction transaction = (Transaction) listView.getItemAtPosition(position);
+        if (isEdit){
+            editItem(transaction);
+            return;
+        }
+        deleteItem(transaction);
+    }
+    private void deleteItem(Transaction transaction){
         Log.d(TAG, "deleteItem: item to be deleted: "  + transaction.toString());
         transactionDataService.removeTransaction(transaction.getTimestamp());
     }
-    private void editItem(int position){
-        
+    private void editItem(Transaction transaction){
+        Log.d(TAG, "editItem: editing transaction: " + transaction.toString());
+
     }
     /**
      * {@inheritDoc}
