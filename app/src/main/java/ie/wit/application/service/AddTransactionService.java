@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.EditText;
 
 import java.util.HashMap;
+import java.util.LongSummaryStatistics;
 import java.util.Map;
 
 import ie.wit.application.exceptions.InvalidTransactionException;
@@ -41,6 +42,15 @@ public class AddTransactionService
         details.put("title", title);
         details.put("amount", amount);
         return details;
+    }
+    public Transaction createTransaction(Map<String, String> values){
+        Transaction transaction = new Transaction();
+        boolean isIncome = values.get("isIncome").equalsIgnoreCase("true");
+        transaction.setTitle(values.get("title"));
+        transaction.setIncome(isIncome);
+        transaction.setAmount(Float.parseFloat(values.get("amount")));
+        transaction.setTimestamp(Long.parseLong(values.get("timestamp")));
+        return transaction;
     }
 
     private boolean validateFields(String titleValue, String amountValue) throws InvalidTransactionException
