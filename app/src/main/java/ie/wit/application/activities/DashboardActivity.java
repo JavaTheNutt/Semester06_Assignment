@@ -25,6 +25,7 @@ import ie.wit.application.exceptions.NoUserLoggedInException;
 import ie.wit.application.model.Transaction;
 import ie.wit.application.model.ui.BalanceObserver;
 import ie.wit.application.model.ui.TransactionAdapter;
+import ie.wit.application.model.ui.UserDisplayNameObserver;
 
 /**
  * This class represents the activity that will control the dashboard.
@@ -45,6 +46,7 @@ public class DashboardActivity extends InternalActivity
     private ArrayAdapter<Transaction> transactionAdapter;
 
     private BalanceObserver observer;
+    private UserDisplayNameObserver userObserver;
 
     private boolean listShown = true;
 
@@ -74,6 +76,7 @@ public class DashboardActivity extends InternalActivity
             Log.e(TAG, "onStart: no user logged in", e);
         }
         transactionDataService.registerBalanceObserver(observer);
+        authService.registerUserObserver(userObserver);
         transactionDataService.registerTransactionCallback(result -> updateView());
         transactionAdapter = new TransactionAdapter(this, transactionDataService.getTransactions());
         listView.setAdapter(transactionAdapter);
@@ -208,6 +211,7 @@ public class DashboardActivity extends InternalActivity
         });
         //observer = new BalanceObserver(this, currentBalance);
         observer = new BalanceObserver(this, totals);
+        userObserver = new UserDisplayNameObserver(usernameLabel);
     }
 
     private void updateView()

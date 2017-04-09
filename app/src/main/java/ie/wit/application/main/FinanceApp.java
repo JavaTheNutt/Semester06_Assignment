@@ -18,6 +18,7 @@ public class FinanceApp extends Application
     private static User currentUser;
     private static String currentUserId;
 
+
     @Override
     public void onCreate()
     {

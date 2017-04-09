@@ -14,6 +14,8 @@ import java.util.Map;
 import ie.wit.application.exceptions.UserNotFoundException;
 import ie.wit.application.main.FinanceApp;
 import ie.wit.application.model.User;
+import ie.wit.application.model.ui.UserDisplayName;
+import ie.wit.application.model.ui.UserDisplayNameObserver;
 import ie.wit.application.service.data.UserDataService;
 
 import static ie.wit.application.activities.BaseActivity.TAG;
@@ -28,6 +30,7 @@ public class AuthService
     private UserDataService userDataService;
     private Consumer<String> userLoggedInCallback;
     private Consumer<String> userNotLoggedInCallback;
+    private UserDisplayName userDisplayName;
 
     /**
      * instantiates a new auth service.
@@ -36,6 +39,7 @@ public class AuthService
     {
         this.auth = FirebaseAuth.getInstance();
         this.userDataService = new UserDataService();
+        userDisplayName = new UserDisplayName();
     }
 
     /**
@@ -59,6 +63,9 @@ public class AuthService
     public void registerUserLoggedInCallback(Consumer<String> userLoggedInCallback)
     {
         this.userLoggedInCallback = userLoggedInCallback;
+    }
+    public void registerUserObserver(UserDisplayNameObserver observer){
+        observer.observe(userDisplayName);
     }
     /**
      * Stop the auth service.
@@ -120,11 +127,17 @@ public class AuthService
             } else {
                 Log.d(TAG, "onAuthStateChanged: user signed in: " + user.getUid());
                 FinanceApp.setCurrentUserId(user.getUid());
+                User tmpUser = null;
                 try {
-                    FinanceApp.setCurrentUser(userDataService.getUser(user.getUid()));
+                    tmpUser = userDataService.getUser(user.getUid());
                 } catch (UserNotFoundException e) {
                     Log.e(TAG, "setUpAuthListener: the uuid used to log in does not belong to a user yet", e);
                 }
+                if (tmpUser != null) {
+                    FinanceApp.setCurrentUser(tmpUser);
+                    userDisplayName.setName(tmpUser.getFirstName(), tmpUser.getSurname());
+                }
+
                 if (userLoggedInCallback != null) {
                     userLoggedInCallback.accept("logged in");
                 }
