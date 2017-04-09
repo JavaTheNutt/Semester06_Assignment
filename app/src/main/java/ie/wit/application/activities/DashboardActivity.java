@@ -219,23 +219,12 @@ public class DashboardActivity extends InternalActivity
 
     private void toggleUi(boolean hasData)
     {
-        View[] shownHasData = {
-                listView,
-                currentBalance,
-                usernameLabel,
-                toggleListButton,
-                toggleDataRadio
-        };
         if (hasData) {
             noDataFoundLabel.setVisibility(View.GONE);
-            for (View view : shownHasData) {
-                view.setVisibility(View.VISIBLE);
-            }
+            listView.setVisibility(View.VISIBLE);
             return;
         }
         noDataFoundLabel.setVisibility(View.VISIBLE);
-        for (View view : shownHasData) {
-            view.setVisibility(View.GONE);
-        }
+        listView.setVisibility(View.GONE);
     }
 }
