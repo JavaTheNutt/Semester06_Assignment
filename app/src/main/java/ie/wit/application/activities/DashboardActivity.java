@@ -1,5 +1,6 @@
 package ie.wit.application.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import ie.wit.application.R;
+import ie.wit.application.exceptions.InvalidTransactionException;
 import ie.wit.application.exceptions.NoUserLoggedInException;
 import ie.wit.application.model.Transaction;
 import ie.wit.application.model.ui.BalanceObserver;
@@ -151,7 +153,9 @@ public class DashboardActivity extends InternalActivity
     }
     private void editItem(Transaction transaction){
         Log.d(TAG, "editItem: editing transaction: " + transaction.toString());
-
+        Intent intent = new Intent(this, AddTransactionActivity.class);
+        intent.putExtra("transaction", transaction);
+        startActivity(intent);
     }
     /**
      * {@inheritDoc}
