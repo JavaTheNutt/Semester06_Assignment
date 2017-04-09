@@ -28,4 +28,6 @@
     <string name="showIncomeRadio">Income</string>
     <string name="showExpenditureRadio">Expenditure</string>
     <string name="dashboardHideList">Hide Transactions</string>
+    <string name="dashboardContextEdit">Edit Transaction</string>
+    <string name="dashboardContextDelete">Delete Transaction</string>
 </resources>

@@ -120,6 +120,9 @@ public class TransactionDataService
     {
         transactionReference.child(transaction.getTimestamp().toString()).setValue(transaction);
     }
+    public void removeTransaction(Long timestamp){
+        transactionReference.child(timestamp.toString()).setValue(null);
+    }
 
     private float getBalance()
     {

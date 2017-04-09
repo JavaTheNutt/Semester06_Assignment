@@ -104,6 +104,7 @@ public class UserDataService
         }
         throw new UserNotFoundException("user not found or user has not received uuid yet");
     }
+    
     public void addUser(User user){
         databaseReference.child(CHILD_NAME).child(user.getUuid()).setValue(user);
     }
