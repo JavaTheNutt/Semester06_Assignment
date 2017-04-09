@@ -36,7 +36,7 @@ public class UserDisplayNameObserver implements Observer
     public void update(Observable o, Object arg)
     {
         Log.d(TAG, "update: updating username label with new value: " + ((UserDisplayName)o).getName());
-        userNameLabel.setText(((UserDisplayName)o).getName());
+        userNameLabel.setText("Welcome, " + ((UserDisplayName)o).getName());
         userNameLabel.setVisibility(View.VISIBLE);
     }
     public void observe(Observable o){

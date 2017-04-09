@@ -131,7 +131,9 @@ public class UserDataService
                     User user = userSnaphot.getValue(User.class);
                     users.add(user);
                 }
-                dataLoaded.accept("data loaded");
+                if (dataLoaded != null) {
+                    dataLoaded.accept("data loaded");
+                }
             }
 
             @Override
