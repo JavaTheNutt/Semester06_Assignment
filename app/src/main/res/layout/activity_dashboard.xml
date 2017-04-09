@@ -22,28 +22,96 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:visibility="gone"/>
 
-    <TextView
-        android:id="@+id/dashboardCurrentBalance"
-        android:layout_width="match_parent"
+    <TableLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_gravity="center_horizontal"
         android:layout_alignParentTop="true"
-        android:layout_below="@id/userNameLabel"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="40dp"
-        android:gravity="top|center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:visibility="visible"/>
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/tableLayout">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/totalIncomeLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:padding="3dip"
+                android:text="@string/totalIncomeLabel"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+
+            <TextView
+                android:id="@+id/totalIncomeView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:padding="3dip"
+                android:text="@string/emptyBalance"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:textColor="@color/positiveBalance"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/totalExpenditureLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:padding="3dip"
+                android:text="@string/totalExpenditureLabel"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+
+            <TextView
+                android:id="@+id/totalExpenditureView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:padding="3dip"
+                android:text="@string/emptyBalance"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:textColor="@color/negativeBalance"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/currentBalanceLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:padding="3dip"
+                android:text="@string/currentBalanceLabel"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+
+            <TextView
+                android:id="@+id/dashboardCurrentBalance"
+                android:layout_width="match_parent"
+                android:gravity="end"
+                android:padding="3dip"
+                android:text="@string/emptyBalance"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:visibility="visible"/>
+
+        </TableRow>
+
+    </TableLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="100dp"
-        android:id="@+id/linearLayout">
+        android:id="@+id/linearLayout"
+        android:layout_below="@+id/tableLayout"
+        android:layout_alignParentStart="true">
 
         <Button
             android:id="@+id/toggleShowList"
@@ -52,6 +120,7 @@
             android:background="@color/loginButtonColor"
             android:onClick="toggleList"
             android:text="@string/dashboardHideList"
+            android:textColor="@android:color/white"
             android:visibility="visible"/>
 
         <RadioGroup

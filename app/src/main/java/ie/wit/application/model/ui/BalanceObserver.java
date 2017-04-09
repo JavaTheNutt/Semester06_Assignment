@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
@@ -23,18 +24,7 @@ public class BalanceObserver implements Observer
     private TextView totalExpenditureView;
     private Context context;
 
-    /**
-     * Instantiates a new Balance observer.
-     *
-     * @param context     the context
-     * @param balanceView the balance view
-     */
-    public BalanceObserver(Context context, TextView balanceView){
-        super();
-        this.context = context;
-        this.balanceView = balanceView;
-    }
-    public BalanceObserver(Context context, Map<String, EditText> views){
+    public BalanceObserver(Context context, Map<String, TextView> views){
         super();
         this.context = context;
         this.balanceView = views.get("balance");
@@ -50,6 +40,8 @@ public class BalanceObserver implements Observer
     public void observe(Observable observable){
         observable.addObserver(this);
     }
+
+
     /**
      * This method is called whenever the observed object is changed. An
      * application calls an <tt>Observable</tt> object's
@@ -62,12 +54,21 @@ public class BalanceObserver implements Observer
     @Override
     public void update(Observable o, Object arg)
     {
-        float balance = ((Balance)o).getCurrentBalance();
-        String strTotal = "€" + Float.toString(balance);
-        int colorId = balance <= 0 ? R.color.negativeBalance : R.color.positiveBalance;
-        Log.d(BaseActivity.TAG, "update: " + ((Balance) o).getCurrentBalance());
-        balanceView.setTextColor(ContextCompat.getColor(context, colorId));
-        balanceView.setText(strTotal);
-    }
+        Map<String, Float> data = ((Balance)o).getAll();
+        String strBalance = "€" + roundFloat(data.get("balance").toString());
+        String strIncome = "€" + roundFloat(data.get("income").toString());
+        String strExpenditure = "€" + roundFloat(data.get("expenditure").toString());
+        int balanceColorId = data.get("balance") <= 0 ? R.color.negativeBalance : R.color.positiveBalance;
+        balanceView.setText(strBalance);
+        balanceView.setTextColor(ContextCompat.getColor(context, balanceColorId));
+        totalIncomeView.setText(strIncome);
+        totalExpenditureView.setText(strExpenditure);
 
+    }
+    //http://stackoverflow.com/a/2808648/4108556
+    private float roundFloat(String value){
+        BigDecimal bd = new BigDecimal(value);
+        bd.setScale(2, BigDecimal.ROUND_HALF_UP);
+        return bd.floatValue();
+    }
 }

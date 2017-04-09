@@ -30,4 +30,8 @@
     <string name="dashboardHideList">Hide Transactions</string>
     <string name="dashboardContextEdit">Edit Transaction</string>
     <string name="dashboardContextDelete">Delete Transaction</string>
+    <string name="totalIncomeLabel">Total Income</string>
+    <string name="totalExpenditureLabel">Total Expenditure:</string>
+    <string name="currentBalanceLabel">Current Balance:</string>
+    <string name="emptyBalance">€0.00</string>
 </resources>

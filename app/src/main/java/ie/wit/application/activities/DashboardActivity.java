@@ -16,7 +16,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ie.wit.application.R;
 import ie.wit.application.exceptions.NoUserLoggedInException;
@@ -185,7 +187,12 @@ public class DashboardActivity extends InternalActivity
 
     private void setUpReferences()
     {
+        Map<String, TextView> totals = new HashMap<>(3);
         currentBalance = (TextView) findViewById(R.id.dashboardCurrentBalance);
+        totals.put("balance", currentBalance);
+        totals.put("income", (TextView)findViewById(R.id.totalIncomeView));
+        totals.put("expenditure", (TextView)findViewById(R.id.totalExpenditureView));
+
         listView = (ListView) findViewById(R.id.transactionList);
         noDataFoundLabel = (TextView) findViewById(R.id.noDataFoundLabel);
         usernameLabel = (TextView) findViewById(R.id.userNameLabel);
@@ -199,7 +206,8 @@ public class DashboardActivity extends InternalActivity
             Transaction transaction = (Transaction) listView.getItemAtPosition(position);
             Toast.makeText(DashboardActivity.this, transaction.toString(), Toast.LENGTH_SHORT).show();
         });
-        observer = new BalanceObserver(this, currentBalance);
+        //observer = new BalanceObserver(this, currentBalance);
+        observer = new BalanceObserver(this, totals);
     }
 
     private void updateView()

@@ -124,17 +124,19 @@ public class TransactionDataService
         transactionReference.child(timestamp.toString()).setValue(null);
     }
 
-    private float getBalance()
-    {
-        float tmpBalance = 0;
-        for (Transaction transaction : transactions) {
-            float tmpAmount = transaction.getAmount();
-            if (!transaction.isIncome()) {
-                tmpAmount = tmpAmount * -1;
-            }
-            tmpBalance += tmpAmount;
+    private float getTotalIncome(){
+        float tmpIncome = 0;
+        for(Transaction transaction : getIncomes()){
+            tmpIncome += transaction.getAmount();
         }
-        return tmpBalance;
+        return tmpIncome;
+    }
+    private float getTotalExpenditure(){
+        float tmpExpenditure = 0;
+        for(Transaction transaction : getExpenditures()){
+            tmpExpenditure += transaction.getAmount();
+        }
+        return tmpExpenditure;
     }
 
     @Contract(" -> !null")
@@ -151,10 +153,9 @@ public class TransactionDataService
                     Transaction transaction = transactionSnapshot.getValue(Transaction.class);
                     transactions.add(transaction);
                 }
-                float tmpBalance = getBalance();
-                currentBalance.setCurrentBalance(tmpBalance);
+                currentBalance.setAll(getTotalIncome(), getTotalExpenditure());// this will update the totals and trigger relevant view updates
                 if (updateTransactionListCallback != null) {
-                    updateTransactionListCallback.accept("data changed");
+                    updateTransactionListCallback.accept("data changed"); //this will let the dashboard know that the data has been changed so it can refresh the list
                 }
             }
 
