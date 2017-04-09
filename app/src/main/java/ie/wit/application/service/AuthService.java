@@ -53,8 +53,22 @@ public class AuthService
             authListener = setUpAuthListener();
         }
         auth.addAuthStateListener(authListener);
+
     }
 
+    private void updateCurrentUser(){
+        User currentUser = null;
+        try {
+            currentUser = userDataService.getUser(FinanceApp.getCurrentUserId());
+        } catch (UserNotFoundException e) {
+            Log.e(TAG, "updateCurrentUser: user not found", e);
+        }
+        FinanceApp.setCurrentUser(currentUser);
+        if (currentUser != null) {
+            userDisplayName.setName(currentUser.getFirstName(), currentUser.getSurname());
+        }
+
+    }
     public void registerUserNotLoggedInCallback(Consumer<String> userNotLoggedInCallback)
     {
         this.userNotLoggedInCallback = userNotLoggedInCallback;
@@ -124,19 +138,11 @@ public class AuthService
                 if (userNotLoggedInCallback != null) {
                     userNotLoggedInCallback.accept("logged out");
                 }
+                userDataService.registerUsernameCallback(null);
             } else {
                 Log.d(TAG, "onAuthStateChanged: user signed in: " + user.getUid());
                 FinanceApp.setCurrentUserId(user.getUid());
-                User tmpUser = null;
-                try {
-                    tmpUser = userDataService.getUser(user.getUid());
-                } catch (UserNotFoundException e) {
-                    Log.e(TAG, "setUpAuthListener: the uuid used to log in does not belong to a user yet", e);
-                }
-                if (tmpUser != null) {
-                    FinanceApp.setCurrentUser(tmpUser);
-                    userDisplayName.setName(tmpUser.getFirstName(), tmpUser.getSurname());
-                }
+                userDataService.registerUsernameCallback((result) -> updateCurrentUser());
 
                 if (userLoggedInCallback != null) {
                     userLoggedInCallback.accept("logged in");

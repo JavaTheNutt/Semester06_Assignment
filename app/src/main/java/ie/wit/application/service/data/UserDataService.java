@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
+import com.annimon.stream.function.Consumer;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,6 +31,7 @@ public class UserDataService
     private DatabaseReference databaseReference;
     private ValueEventListener valueEventListener;
     private List<User> users;
+    private Consumer<String> dataLoaded;
 
     private static final String CHILD_NAME = "users";
 
@@ -108,6 +110,9 @@ public class UserDataService
     public void addUser(User user){
         databaseReference.child(CHILD_NAME).child(user.getUuid()).setValue(user);
     }
+    public void registerUsernameCallback(Consumer<String> callback){
+        this.dataLoaded = callback;
+    }
 
     /**
      * This will set up the value event listener to the database
@@ -126,6 +131,7 @@ public class UserDataService
                     User user = userSnaphot.getValue(User.class);
                     users.add(user);
                 }
+                dataLoaded.accept("data loaded");
             }
 
             @Override

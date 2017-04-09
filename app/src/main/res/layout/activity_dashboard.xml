@@ -11,172 +11,175 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ie.wit.application.activities.DashboardActivity">
 
-    <TextView
-        android:id="@+id/userNameLabel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="10dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:visibility="gone"/>
-
-    <TableLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
-        android:id="@+id/tableLayout">
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/totalIncomeLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:padding="3dip"
-                android:text="@string/totalIncomeLabel"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
-
-            <TextView
-                android:id="@+id/totalIncomeView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:padding="3dip"
-                android:text="@string/emptyBalance"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textColor="@color/positiveBalance"/>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/totalExpenditureLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:padding="3dip"
-                android:text="@string/totalExpenditureLabel"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
-
-            <TextView
-                android:id="@+id/totalExpenditureView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:padding="3dip"
-                android:text="@string/emptyBalance"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:textColor="@color/negativeBalance"/>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/currentBalanceLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:padding="3dip"
-                android:text="@string/currentBalanceLabel"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
-
-            <TextView
-                android:id="@+id/dashboardCurrentBalance"
-                android:layout_width="match_parent"
-                android:gravity="end"
-                android:padding="3dip"
-                android:text="@string/emptyBalance"
-                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:visibility="visible"/>
-
-        </TableRow>
-
-    </TableLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:id="@+id/linearLayout"
-        android:layout_below="@+id/tableLayout"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/toggleShowList"
+        <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/loginButtonColor"
-            android:onClick="toggleList"
-            android:text="@string/dashboardHideList"
-            android:textColor="@android:color/white"
-            android:visibility="visible"
-            android:layout_marginBottom="20dp"/>
+            android:layout_marginBottom="30dp"
+            android:orientation="vertical">
 
-        <RadioGroup
-            android:id="@+id/toggleDataRadio"
+            <TextView
+                android:id="@+id/userNameLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:visibility="gone"/>
+
+            <TableLayout
+                android:id="@+id/tableLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="20dp">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/totalIncomeLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1"
+                        android:padding="3dip"
+                        android:text="@string/totalIncomeLabel"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+
+                    <TextView
+                        android:id="@+id/totalIncomeView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:padding="3dip"
+                        android:text="@string/emptyBalance"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                        android:textColor="@color/positiveBalance"/>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/totalExpenditureLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1"
+                        android:padding="3dip"
+                        android:text="@string/totalExpenditureLabel"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+
+                    <TextView
+                        android:id="@+id/totalExpenditureView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:padding="3dip"
+                        android:text="@string/emptyBalance"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                        android:textColor="@color/negativeBalance"/>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/currentBalanceLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1"
+                        android:padding="3dip"
+                        android:text="@string/currentBalanceLabel"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+
+                    <TextView
+                        android:id="@+id/dashboardCurrentBalance"
+                        android:layout_width="match_parent"
+                        android:gravity="end"
+                        android:padding="3dip"
+                        android:text="@string/emptyBalance"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                        android:visibility="visible"/>
+
+                </TableRow>
+
+            </TableLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:checkedButton="@+id/showAllRadioButton"
-            android:orientation="horizontal"
-            android:visibility="visible"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="37dp"
+            android:orientation="vertical">
 
-            <RadioButton
-                android:id="@+id/showAllRadioButton"
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/toggleShowList"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/showAllRadio"/>
+                android:layout_marginBottom="20dp"
+                android:background="@color/loginButtonColor"
+                android:onClick="toggleList"
+                android:text="@string/dashboardHideList"
+                android:textColor="@android:color/white"
+                android:visibility="visible"/>
 
-            <RadioButton
-                android:id="@+id/showExpenditureRadioButton"
-                android:layout_width="wrap_content"
+            <RadioGroup
+                android:id="@+id/toggleDataRadio"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/showExpenditureRadio"/>
+                android:layout_marginBottom="20dp"
+                android:checkedButton="@+id/showAllRadioButton"
+                android:orientation="horizontal"
+                android:visibility="visible">
 
-            <RadioButton
-                android:id="@+id/showIncomeRadioButton"
-                android:layout_width="wrap_content"
+                <RadioButton
+                    android:id="@+id/showAllRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/showAllRadio"/>
+
+                <RadioButton
+                    android:id="@+id/showExpenditureRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/showExpenditureRadio"/>
+
+                <RadioButton
+                    android:id="@+id/showIncomeRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/showIncomeRadio"/>
+
+            </RadioGroup>
+
+            <ListView
+                android:id="@+id/transactionList"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"/>
+
+
+            <TextView
+                android:id="@+id/noDataFoundLabel"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="1"
-                android:text="@string/showIncomeRadio"/>
-
-        </RadioGroup>
-
-        <ListView
-            android:id="@+id/transactionList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone">
-
-        </ListView>
-
+                android:gravity="top|center"
+                android:text="@string/noDataFoundText"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:visibility="visible"/>
+        </LinearLayout>
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/noDataFoundLabel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="top|center"
-        android:text="@string/noDataFoundText"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:visibility="visible"
-        android:layout_below="@+id/linearLayout"
-        android:layout_alignParentEnd="true"/>
 
 </RelativeLayout>
