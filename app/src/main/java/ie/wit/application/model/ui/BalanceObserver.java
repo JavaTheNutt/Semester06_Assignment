@@ -3,8 +3,10 @@ package ie.wit.application.model.ui;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -17,6 +19,8 @@ import ie.wit.application.activities.BaseActivity;
 public class BalanceObserver implements Observer
 {
     private TextView balanceView;
+    private TextView totalIncomeView;
+    private TextView totalExpenditureView;
     private Context context;
 
     /**
@@ -29,6 +33,13 @@ public class BalanceObserver implements Observer
         super();
         this.context = context;
         this.balanceView = balanceView;
+    }
+    public BalanceObserver(Context context, Map<String, EditText> views){
+        super();
+        this.context = context;
+        this.balanceView = views.get("balance");
+        this.totalIncomeView = views.get("income");
+        this.totalExpenditureView = views.get("expenditure");
     }
 
     /**
