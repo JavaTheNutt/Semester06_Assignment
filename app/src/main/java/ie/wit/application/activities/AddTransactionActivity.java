@@ -20,11 +20,6 @@ import ie.wit.application.service.AddTransactionService;
 public class AddTransactionActivity extends InternalActivity
 {
 
-    private EditText title;
-    private EditText amount;
-
-    private Long currentTimestamp;
-
     private static final Map<String, EditText> fields = new HashMap<>(2);
     private static final Map<String, String> transactionDetails = new HashMap<>(4);
 
@@ -41,8 +36,7 @@ public class AddTransactionActivity extends InternalActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_income);
         addTransactionService = new AddTransactionService(this);
-        title = (EditText) findViewById(R.id.addIncomeTitle);
-        amount = (EditText) findViewById(R.id.addIncomeAmount);
+        setUpReferences();
         handleExtras(getIntent().getExtras());
     }
 
@@ -81,32 +75,14 @@ public class AddTransactionActivity extends InternalActivity
         }
         return true;
     }
-    /**
-     * Create the transaction and add it to the list.
-     *
-     * @param view the view that was clicked
-     */
-    public void submitClicked(View view)
-    {
-        if (title.getText().toString().length() > 3 && Float.parseFloat(amount.getText().toString()) > 0) {
-            Transaction tempIncome = new Transaction();
-            tempIncome.setTitle(title.getText().toString());
-            tempIncome.setAmount(Float.parseFloat(amount.getText().toString()));
-            tempIncome.setTimestamp(currentTimestamp);
-            tempIncome.setIncome(((RadioButton) findViewById(R.id.isIncome)).isChecked());
-            Log.v(TAG, tempIncome.toString());
-            transactionDataService.addTransaction(tempIncome);
-            //detailsDatabaseReference.child(tempIncome.getTimestamp().toString()).setValue(tempIncome);
-            startActivity(new Intent(this, DashboardActivity.class));
-        }
-    }
+    
     public void submitTransaction(View view){
         if(!validateAndCreate()){
             return;
         }
-        Transaction transaction = addTransactionService.createTransaction(transactionDetails);
         String isIncome = ((RadioButton)findViewById(R.id.isIncome)).isChecked() ? "true": "false";
         transactionDetails.put("isIncome", isIncome);
+        Transaction transaction = addTransactionService.createTransaction(transactionDetails);
         Log.d(TAG, "submitTransaction: creating transaction for " + transaction.toString());
         transactionDataService.addTransaction(transaction);
         startActivity(new Intent(this, DashboardActivity.class));

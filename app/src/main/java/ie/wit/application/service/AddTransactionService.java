@@ -5,7 +5,6 @@ import android.util.Log;
 import android.widget.EditText;
 
 import java.util.HashMap;
-import java.util.LongSummaryStatistics;
 import java.util.Map;
 
 import ie.wit.application.exceptions.InvalidTransactionException;
@@ -49,7 +48,12 @@ public class AddTransactionService
         transaction.setTitle(values.get("title"));
         transaction.setIncome(isIncome);
         transaction.setAmount(Float.parseFloat(values.get("amount")));
-        transaction.setTimestamp(Long.parseLong(values.get("timestamp")));
+        String timestamp = values.get("timestamp");
+        if(timestamp == null){
+            transaction.setTimestamp(null);
+            return transaction;
+        }
+        transaction.setTimestamp(Long.parseLong(timestamp));
         return transaction;
     }
 
