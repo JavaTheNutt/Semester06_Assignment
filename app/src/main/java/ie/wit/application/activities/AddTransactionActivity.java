@@ -63,7 +63,8 @@ public class AddTransactionActivity extends InternalActivity
             tempIncome.setTimestamp(currentTimestamp);
             tempIncome.setIncome(((RadioButton) findViewById(R.id.isIncome)).isChecked());
             Log.v(TAG, tempIncome.toString());
-            detailsDatabaseReference.child(tempIncome.getTimestamp().toString()).setValue(tempIncome);
+            transactionDataService.addTransaction(tempIncome);
+            //detailsDatabaseReference.child(tempIncome.getTimestamp().toString()).setValue(tempIncome);
             startActivity(new Intent(this, DashboardActivity.class));
         }
     }
