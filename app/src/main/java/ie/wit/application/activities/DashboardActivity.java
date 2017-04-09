@@ -1,26 +1,25 @@
 package ie.wit.application.activities;
 
 import android.os.Bundle;
-import android.support.v4.content.res.ResourcesCompat;
+import android.support.annotation.IdRes;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ie.wit.application.R;
 import ie.wit.application.exceptions.NoUserLoggedInException;
-import ie.wit.application.main.FinanceApp;
 import ie.wit.application.model.Transaction;
 import ie.wit.application.model.ui_model.BalanceObserver;
 import ie.wit.application.model.ui_model.TransactionAdapter;
-import ie.wit.application.service.DashboardService;
 
 /**
  * This class represents the activity that will control the dashboard.
@@ -32,13 +31,15 @@ public class DashboardActivity extends InternalActivity
     private TextView noDataFoundLabel;
     private TextView usernameLabel;
     private Button toggleListButton;
-    private RadioGroup toggleDataRadio;
 
-    private DashboardService dashboardService;
+    private RadioGroup toggleDataRadio;
+    private RadioButton allDataButton;
+    private RadioButton allIncomeButton;
+    private RadioButton allExpenditureButton;
+
     private ArrayAdapter<Transaction> transactionAdapter;
 
     private BalanceObserver observer;
-    private List<Transaction> transactions = new ArrayList<>();
 
     private boolean listShown = true;
 
@@ -87,14 +88,11 @@ public class DashboardActivity extends InternalActivity
     public void toggleList(View v)
     {
         listShown = !listShown;
-        Button btn = (Button) v;
         int visibilityId = listShown ? View.VISIBLE : View.GONE;
-        String buttonText = listShown ? "Hide Transactions" : "Show Transactions";
-        int btnColor = listShown ? R.color.negativeBalance : R.color.positiveBalance;
+        int buttonTextId = listShown ? R.string.dashboardShowList : R.string.dashboardHideList;
         listView.setVisibility(visibilityId);
         toggleDataRadio.setVisibility(visibilityId);
-        btn.setText(buttonText);
-        btn.setBackgroundColor(ResourcesCompat.getColor(getResources(), btnColor, null));
+        ((Button) v).setText(getString(buttonTextId));
     }
 
     private void setUpReferences()
@@ -102,16 +100,30 @@ public class DashboardActivity extends InternalActivity
         currentBalance = (TextView) findViewById(R.id.dashboardCurrentBalance);
         listView = (ListView) findViewById(R.id.transactionList);
         noDataFoundLabel = (TextView) findViewById(R.id.noDataFoundLabel);
-        dashboardService = FinanceApp.serviceFactory.getDashboardService();
         usernameLabel = (TextView) findViewById(R.id.userNameLabel);
         toggleListButton = (Button) findViewById(R.id.toggleShowList);
         toggleDataRadio = (RadioGroup) findViewById(R.id.toggleDataRadio);
+        allDataButton = (RadioButton) findViewById(R.id.showAllRadioButton);
+        allIncomeButton = (RadioButton) findViewById(R.id.showIncomeRadioButton);
+        allExpenditureButton = (RadioButton) findViewById(R.id.showExpenditureRadioButton);
+        toggleDataRadio.setOnCheckedChangeListener((group, checkedId) -> updateView());
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            Transaction transaction  = (Transaction) listView.getItemAtPosition(position);
+            Toast.makeText(DashboardActivity.this, transaction.toString(), Toast.LENGTH_SHORT).show();
+        });
         observer = new BalanceObserver(this, currentBalance);
     }
 
     private void updateView()
     {
-        List<Transaction> transactionList = transactionDataService.getTransactions();
+        List<Transaction> transactionList;
+        if (allDataButton.isChecked()) {
+            transactionList = transactionDataService.getTransactions();
+        }else if(allIncomeButton.isChecked()){
+            transactionList = transactionDataService.getIncomes();
+        }else {
+            transactionList = transactionDataService.getExpenditures();
+        }
         transactionAdapter = new TransactionAdapter(this, transactionList);
         listView.setAdapter(transactionAdapter);
         toggleUi(!(transactionList == null || transactionList.isEmpty()));

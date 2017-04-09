@@ -27,4 +27,5 @@
     <string name="showAllRadio">All</string>
     <string name="showIncomeRadio">Income</string>
     <string name="showExpenditureRadio">Expenditure</string>
+    <string name="dashboardHideList">Hide Transactions</string>
 </resources>
