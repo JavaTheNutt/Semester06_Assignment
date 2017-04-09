@@ -1,5 +1,7 @@
 package ie.wit.application.model.ui;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
 
 /**
@@ -8,6 +10,8 @@ import java.util.Observable;
 public class Balance extends Observable
 {
     private float currentBalance = 0;
+    private float totalIncome = 0;
+    private float totalExpenditure = 0;
 
     /**
      * This will set the currentBalance to a specified amount and notify observers.
@@ -24,28 +28,11 @@ public class Balance extends Observable
         notifyObservers();
     }
 
-
-    /**
-     * Increment currentBalance.
-     *
-     * @param amount the amount
-     */
-    public void incrementBalance(float amount){
+    public void setAll(float totalIncome, float totalExpenditure){
         synchronized (this){
-            this.currentBalance += amount;
-        }
-        setChanged();
-        notifyObservers();
-    }
-
-    /**
-     * Decrement currentBalance.
-     *
-     * @param amount the amount
-     */
-    public void decrementBalance(float amount){
-        synchronized (this){
-            this.currentBalance -= amount;
+            this.totalIncome = totalIncome;
+            this.totalExpenditure = totalExpenditure;
+            this.currentBalance = totalIncome - totalIncome;
         }
         setChanged();
         notifyObservers();
@@ -58,5 +45,12 @@ public class Balance extends Observable
      */
     synchronized float getCurrentBalance(){
         return currentBalance;
+    }
+    synchronized Map<String, Float> getAll(){
+        Map<String, Float> values = new HashMap<>(3);
+        values.put("income", totalIncome);
+        values.put("expenditure", totalExpenditure);
+        values.put("balance", currentBalance);
+        return values;
     }
 }
