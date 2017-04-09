@@ -20,8 +20,8 @@ import java.util.List;
 import ie.wit.application.R;
 import ie.wit.application.exceptions.NoUserLoggedInException;
 import ie.wit.application.model.Transaction;
-import ie.wit.application.model.ui_model.BalanceObserver;
-import ie.wit.application.model.ui_model.TransactionAdapter;
+import ie.wit.application.model.ui.BalanceObserver;
+import ie.wit.application.model.ui.TransactionAdapter;
 
 /**
  * This class represents the activity that will control the dashboard.

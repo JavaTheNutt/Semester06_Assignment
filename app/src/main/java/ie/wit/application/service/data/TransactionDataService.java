@@ -19,8 +19,8 @@ import java.util.List;
 import ie.wit.application.exceptions.NoUserLoggedInException;
 import ie.wit.application.main.FinanceApp;
 import ie.wit.application.model.Transaction;
-import ie.wit.application.model.ui_model.Balance;
-import ie.wit.application.model.ui_model.BalanceObserver;
+import ie.wit.application.model.ui.Balance;
+import ie.wit.application.model.ui.BalanceObserver;
 
 import static ie.wit.application.activities.BaseActivity.TAG;
 

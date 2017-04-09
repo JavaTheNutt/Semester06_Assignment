@@ -1,4 +1,4 @@
-package ie.wit.application.model.ui_model;
+package ie.wit.application.model.ui;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;

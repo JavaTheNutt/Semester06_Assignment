@@ -35,7 +35,7 @@
         </activity>
         <activity android:name="ie.wit.application.activities.DashboardActivity">
         </activity>
-        <activity android:name="ie.wit.application.activities.AddIncomeActivity">
+        <activity android:name="ie.wit.application.activities.AddTransactionActivity">
         </activity>
 
     </application>

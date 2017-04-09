@@ -13,7 +13,7 @@ import ie.wit.application.model.Transaction;
 /**
  * This class will be the activity for adding a transaction to the associated transactions for a specific user
  */
-public class AddIncomeActivity extends InternalActivity
+public class AddTransactionActivity extends InternalActivity
 {
 
     private EditText title;

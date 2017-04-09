@@ -75,7 +75,7 @@ public class InternalActivity extends BaseActivity
         if (this instanceof DashboardActivity) {
             dashboard.setEnabled(false);
             addIncome.setEnabled(true);
-        } else if (this instanceof AddIncomeActivity) {
+        } else if (this instanceof AddTransactionActivity) {
             addIncome.setEnabled(false);
             dashboard.setEnabled(true);
         }
@@ -103,7 +103,7 @@ public class InternalActivity extends BaseActivity
      */
     public void addIncome(MenuItem item)
     {
-        startActivity(new Intent(this, AddIncomeActivity.class));
+        startActivity(new Intent(this, AddTransactionActivity.class));
     }
 
     /**
