@@ -19,7 +19,6 @@ import android.widget.Toast;
 import java.util.List;
 
 import ie.wit.application.R;
-import ie.wit.application.exceptions.InvalidTransactionException;
 import ie.wit.application.exceptions.NoUserLoggedInException;
 import ie.wit.application.model.Transaction;
 import ie.wit.application.model.ui.BalanceObserver;
@@ -91,8 +90,8 @@ public class DashboardActivity extends InternalActivity
      * <p>
      * It is not safe to hold onto the context menu after this method returns.
      *
-     * @param menu the context menu
-     * @param v the view the user selected
+     * @param menu     the context menu
+     * @param v        the view the user selected
      * @param menuInfo info about the item selected
      */
     @Override
@@ -124,7 +123,7 @@ public class DashboardActivity extends InternalActivity
     public boolean onContextItemSelected(MenuItem item)
     {
         AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.contextEditItem:
                 Log.d(TAG, "onContextItemSelected: edit selected");
                 manipulateItem(info.position, true);
@@ -137,26 +136,32 @@ public class DashboardActivity extends InternalActivity
         return super.onContextItemSelected(item);
     }
 
-    private void manipulateItem(int position, boolean isEdit){
+    private void manipulateItem(int position, boolean isEdit)
+    {
         String operation = isEdit ? "editing" : "deleting";
         Log.d(TAG, "manipulateItem: " + operation + " item at position" + position);
         Transaction transaction = (Transaction) listView.getItemAtPosition(position);
-        if (isEdit){
+        if (isEdit) {
             editItem(transaction);
             return;
         }
         deleteItem(transaction);
     }
-    private void deleteItem(Transaction transaction){
-        Log.d(TAG, "deleteItem: item to be deleted: "  + transaction.toString());
+
+    private void deleteItem(Transaction transaction)
+    {
+        Log.d(TAG, "deleteItem: item to be deleted: " + transaction.toString());
         transactionDataService.removeTransaction(transaction.getTimestamp());
     }
-    private void editItem(Transaction transaction){
+
+    private void editItem(Transaction transaction)
+    {
         Log.d(TAG, "editItem: editing transaction: " + transaction.toString());
         Intent intent = new Intent(this, AddTransactionActivity.class);
         intent.putExtra("transaction", transaction);
         startActivity(intent);
     }
+
     /**
      * {@inheritDoc}
      */
@@ -191,7 +196,7 @@ public class DashboardActivity extends InternalActivity
         allExpenditureButton = (RadioButton) findViewById(R.id.showExpenditureRadioButton);
         toggleDataRadio.setOnCheckedChangeListener((group, checkedId) -> updateView());
         listView.setOnItemClickListener((parent, view, position, id) -> {
-            Transaction transaction  = (Transaction) listView.getItemAtPosition(position);
+            Transaction transaction = (Transaction) listView.getItemAtPosition(position);
             Toast.makeText(DashboardActivity.this, transaction.toString(), Toast.LENGTH_SHORT).show();
         });
         observer = new BalanceObserver(this, currentBalance);
@@ -202,9 +207,9 @@ public class DashboardActivity extends InternalActivity
         List<Transaction> transactionList;
         if (allDataButton.isChecked()) {
             transactionList = transactionDataService.getTransactions();
-        }else if(allIncomeButton.isChecked()){
+        } else if (allIncomeButton.isChecked()) {
             transactionList = transactionDataService.getIncomes();
-        }else {
+        } else {
             transactionList = transactionDataService.getExpenditures();
         }
         transactionAdapter = new TransactionAdapter(this, transactionList);

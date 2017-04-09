@@ -3,13 +3,13 @@ package ie.wit.application.service;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.annimon.stream.function.Consumer;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Map;
-import java.util.function.Consumer;
 
 import ie.wit.application.exceptions.UserNotFoundException;
 import ie.wit.application.main.FinanceApp;
