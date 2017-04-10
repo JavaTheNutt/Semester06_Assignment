@@ -32,16 +32,8 @@ import ie.wit.application.model.ui.UserDisplayNameObserver;
  */
 public class DashboardActivity extends InternalActivity
 {
-    private TextView currentBalance;
     private ListView listView;
     private TextView noDataFoundLabel;
-    private TextView usernameLabel;
-    private Button toggleListButton;
-
-    private RadioGroup toggleDataRadio;
-    private RadioButton allDataButton;
-    private RadioButton allIncomeButton;
-    private RadioButton allExpenditureButton;
 
     private ArrayAdapter<Transaction> transactionAdapter;
 
@@ -181,43 +173,35 @@ public class DashboardActivity extends InternalActivity
     {
         listShown = !listShown;
         int visibilityId = listShown ? View.VISIBLE : View.GONE;
-        int buttonTextId = listShown ? R.string.dashboardShowList : R.string.dashboardHideList;
+        int buttonTextId = listShown ? R.string.dashboardHideList : R.string.dashboardShowList;
         listView.setVisibility(visibilityId);
-        toggleDataRadio.setVisibility(visibilityId);
+        findViewById(R.id.toggleDataRadio).setVisibility(visibilityId);
         ((Button) v).setText(getString(buttonTextId));
     }
 
     private void setUpReferences()
     {
         Map<String, TextView> totals = new HashMap<>(3);
-        currentBalance = (TextView) findViewById(R.id.dashboardCurrentBalance);
-        totals.put("balance", currentBalance);
+        totals.put("balance", (TextView) findViewById(R.id.dashboardCurrentBalance));
         totals.put("income", (TextView)findViewById(R.id.totalIncomeView));
         totals.put("expenditure", (TextView)findViewById(R.id.totalExpenditureView));
-
         listView = (ListView) findViewById(R.id.transactionList);
         noDataFoundLabel = (TextView) findViewById(R.id.noDataFoundLabel);
-        usernameLabel = (TextView) findViewById(R.id.userNameLabel);
-        toggleListButton = (Button) findViewById(R.id.toggleShowList);
-        toggleDataRadio = (RadioGroup) findViewById(R.id.toggleDataRadio);
-        allDataButton = (RadioButton) findViewById(R.id.showAllRadioButton);
-        allIncomeButton = (RadioButton) findViewById(R.id.showIncomeRadioButton);
-        allExpenditureButton = (RadioButton) findViewById(R.id.showExpenditureRadioButton);
-        toggleDataRadio.setOnCheckedChangeListener((group, checkedId) -> updateView());
+        ((RadioGroup) findViewById(R.id.toggleDataRadio)).setOnCheckedChangeListener((group, checkedId) -> updateView());
         listView.setOnItemClickListener((parent, view, position, id) -> {
             Transaction transaction = (Transaction) listView.getItemAtPosition(position);
             Toast.makeText(DashboardActivity.this, transaction.toString(), Toast.LENGTH_SHORT).show();
         });
         observer = new BalanceObserver(this, totals);
-        userObserver = new UserDisplayNameObserver(this, usernameLabel);
+        userObserver = new UserDisplayNameObserver(this, ((TextView)findViewById(R.id.userNameLabel)));
     }
 
     private void updateView()
     {
         List<Transaction> transactionList;
-        if (allDataButton.isChecked()) {
+        if (((RadioButton)findViewById(R.id.showAllRadioButton)).isChecked()) {
             transactionList = transactionDataService.getTransactions();
-        } else if (allIncomeButton.isChecked()) {
+        } else if (((RadioButton)findViewById(R.id.showIncomeRadioButton)).isChecked()) {
             transactionList = transactionDataService.getIncomes();
         } else {
             transactionList = transactionDataService.getExpenditures();
