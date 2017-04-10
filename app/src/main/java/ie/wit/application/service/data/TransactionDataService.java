@@ -118,7 +118,7 @@ public class TransactionDataService
      */
     public void addTransaction(Transaction transaction)
     {
-        transactionReference.child(transaction.getTimestamp().toString()).setValue(transaction);
+        transactionReference.push().setValue(transaction);
     }
     public void removeTransaction(Long timestamp){
         transactionReference.child(timestamp.toString()).setValue(null);

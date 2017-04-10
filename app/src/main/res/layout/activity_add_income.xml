@@ -70,6 +70,7 @@
             android:hint="@string/addIncomeAmountHint"
             android:inputType="numberDecimal"/>
 
+
         <Button
             android:text="@string/submitLabel"
             android:layout_width="match_parent"
