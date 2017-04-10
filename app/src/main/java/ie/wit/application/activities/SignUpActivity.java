@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +20,8 @@ import ie.wit.application.main.FinanceApp;
 public class SignUpActivity extends EntryActivity
 {
     private Map<String, EditText> namedFields;
+    private ScrollView formContainer;
+    private RelativeLayout progressContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -35,6 +39,9 @@ public class SignUpActivity extends EntryActivity
     public void registerClicked(View view)
     {
         Log.v(TAG, "Register User button clicked");
+        formContainer.setAlpha(0.3f);
+        progressContainer.setVisibility(View.VISIBLE);
+        progressContainer.setOnClickListener(this::consumeClick);
         boolean detailsValid = entryService.validateSignUp(this, namedFields);
         String validationResult = detailsValid ? "All fields are valid" : "Some fields are invalid";
         Log.w(TAG, validationResult);
@@ -54,6 +61,11 @@ public class SignUpActivity extends EntryActivity
         namedFields.put("password", (EditText) findViewById(R.id.signUpPasswordField));
         namedFields.put("confPassword", (EditText) findViewById(R.id.signUpConfirmPassword));
         namedFields.put("email", (EditText) findViewById(R.id.signUpEmailField));
+        formContainer = (ScrollView) findViewById(R.id.signUpFormContainer);
+        progressContainer = (RelativeLayout) findViewById(R.id.signUpProgressContainer);
+    }
+    private void consumeClick(View v){
+        Log.d(TAG, "consumeClick: attempting to click while spinner is active");
     }
 
     /**
@@ -76,7 +88,10 @@ public class SignUpActivity extends EntryActivity
             if (result) {
                 startActivity(new Intent(this, DashboardActivity.class));
             } else {
-                makeToast("Login details are incorrect");
+                makeToast("Sign up failed");
+                formContainer.setAlpha(1f);
+                progressContainer.setVisibility(View.GONE);
+                progressContainer.setOnClickListener(null);
             }
         });
     }
