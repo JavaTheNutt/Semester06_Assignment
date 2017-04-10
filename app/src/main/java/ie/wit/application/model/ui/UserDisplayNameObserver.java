@@ -8,7 +8,10 @@ import android.widget.TextView;
 import java.util.Observable;
 import java.util.Observer;
 
+import ie.wit.application.R;
+
 import static ie.wit.application.activities.BaseActivity.TAG;
+
 /**
  * Created by joewe on 09/04/2017.
  */
@@ -16,10 +19,12 @@ import static ie.wit.application.activities.BaseActivity.TAG;
 public class UserDisplayNameObserver implements Observer
 {
     private TextView userNameLabel;
+    private Context context;
 
-    public UserDisplayNameObserver(TextView userNameLabel)
+    public UserDisplayNameObserver(Context context, TextView userNameLabel)
     {
         super();
+        this.context = context;
         this.userNameLabel = userNameLabel;
     }
 
@@ -35,11 +40,19 @@ public class UserDisplayNameObserver implements Observer
     @Override
     public void update(Observable o, Object arg)
     {
-        Log.d(TAG, "update: updating username label with new value: " + ((UserDisplayName)o).getName());
-        userNameLabel.setText("Welcome, " + ((UserDisplayName)o).getName());
+        String nameStr = ((UserDisplayName) o).getName();
+        if(nameStr == null){
+            userNameLabel.setVisibility(View.GONE);
+            return;
+        }
+        String labelText = context.getResources().getString(R.string.greeting, nameStr);
+        Log.d(TAG, "update: updating username label with new value: " + labelText);
+        userNameLabel.setText(labelText);
         userNameLabel.setVisibility(View.VISIBLE);
     }
-    public void observe(Observable o){
+
+    public void observe(Observable o)
+    {
         o.addObserver(this);
     }
 }

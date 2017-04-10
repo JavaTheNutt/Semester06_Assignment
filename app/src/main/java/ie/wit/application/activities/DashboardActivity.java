@@ -143,8 +143,7 @@ public class DashboardActivity extends InternalActivity
 
     private void manipulateItem(int position, boolean isEdit)
     {
-        String operation = isEdit ? "editing" : "deleting";
-        Log.d(TAG, "manipulateItem: " + operation + " item at position" + position);
+        Log.d(TAG, "manipulateItem: manipulating item at position" + position);
         Transaction transaction = (Transaction) listView.getItemAtPosition(position);
         if (isEdit) {
             editItem(transaction);
@@ -209,9 +208,8 @@ public class DashboardActivity extends InternalActivity
             Transaction transaction = (Transaction) listView.getItemAtPosition(position);
             Toast.makeText(DashboardActivity.this, transaction.toString(), Toast.LENGTH_SHORT).show();
         });
-        //observer = new BalanceObserver(this, currentBalance);
         observer = new BalanceObserver(this, totals);
-        userObserver = new UserDisplayNameObserver(usernameLabel);
+        userObserver = new UserDisplayNameObserver(this, usernameLabel);
     }
 
     private void updateView()
