@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import ie.wit.application.R;
 import ie.wit.application.main.FinanceApp;
@@ -16,6 +18,8 @@ public class LoginActivity extends EntryActivity
 {
     private EditText emailField;
     private EditText passwordField;
+    private LinearLayout formContainer;
+    private RelativeLayout progressContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -24,6 +28,8 @@ public class LoginActivity extends EntryActivity
         setContentView(R.layout.activity_login);
         emailField = (EditText) findViewById(R.id.logInEmailField);
         passwordField = (EditText) findViewById(R.id.logInPasswordField);
+        formContainer = (LinearLayout) findViewById(R.id.loginFormContainer);
+        progressContainer = (RelativeLayout) findViewById(R.id.progressContainer);
     }
 
     /**
@@ -33,6 +39,9 @@ public class LoginActivity extends EntryActivity
      */
     public void loginClicked(View view)
     {
+        progressContainer.setVisibility(View.VISIBLE);
+        formContainer.setAlpha(0.3f);
+        progressContainer.setOnClickListener(this::consumePageClick);
         validation();
     }
 
@@ -55,11 +64,21 @@ public class LoginActivity extends EntryActivity
 
     private void validateUser(String email, String password)
     {
-       authService.login(email, password, result -> {
-           if(result){
-               startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
-           }
-       });
+        authService.login(email, password, result -> {
+            if (result) {
+                startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
+            } else {
+                progressContainer.setVisibility(View.GONE);
+                formContainer.setAlpha(1f);
+                progressContainer.setOnClickListener(null);
+                makeToast("Login failed");
+            }
+        });
+    }
+
+    public void consumePageClick(View v)
+    {
+        Log.d(TAG, "consumePageClick: attempting to click while spinner is active");
     }
 
     private void makeToast(String msg)
