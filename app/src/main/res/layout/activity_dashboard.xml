@@ -31,8 +31,17 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 android:visibility="gone"/>
 
+            <Button
+                android:id="@+id/toggleTotals"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/signinButtonColor"
+                android:text="@string/hideTotals"
+                android:onClick="toggleTotals"/>
+
             <TableLayout
-                android:id="@+id/tableLayout"
+                android:id="@+id/totalsTable"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
@@ -127,7 +136,7 @@
                 android:layout_marginBottom="20dp"
                 android:background="@color/loginButtonColor"
                 android:onClick="toggleList"
-                android:text="@string/dashboardHideList"
+                android:text="@string/dashboardShowList"
                 android:textColor="@android:color/white"
                 android:visibility="visible"/>
 
@@ -138,7 +147,7 @@
                 android:layout_marginBottom="20dp"
                 android:checkedButton="@+id/showAllRadioButton"
                 android:orientation="horizontal"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <RadioButton
                     android:id="@+id/showAllRadioButton"

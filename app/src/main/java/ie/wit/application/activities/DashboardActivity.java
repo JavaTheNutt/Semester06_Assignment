@@ -40,7 +40,8 @@ public class DashboardActivity extends InternalActivity
     private BalanceObserver observer;
     private UserDisplayNameObserver userObserver;
 
-    private boolean listShown = true;
+    private boolean listShown = false;
+    private boolean totalsShown = true;
 
     /**
      * {@inheritDoc}
@@ -176,7 +177,16 @@ public class DashboardActivity extends InternalActivity
         int buttonTextId = listShown ? R.string.dashboardHideList : R.string.dashboardShowList;
         listView.setVisibility(visibilityId);
         findViewById(R.id.toggleDataRadio).setVisibility(visibilityId);
+        findViewById(R.id.noDataFoundLabel).setVisibility(visibilityId);
         ((Button) v).setText(getString(buttonTextId));
+    }
+
+    public void toggleTotals(View v){
+        totalsShown = !totalsShown;
+        int visibilityId = totalsShown ? View.VISIBLE: View.GONE;
+        int buttonTextId = totalsShown ? R.string.hideTotals : R.string.showTotals;
+        ((Button) v).setText(getString(buttonTextId));
+        findViewById(R.id.totalsTable).setVisibility(visibilityId);
     }
 
     private void setUpReferences()
@@ -215,7 +225,9 @@ public class DashboardActivity extends InternalActivity
     {
         if (hasData) {
             noDataFoundLabel.setVisibility(View.GONE);
-            listView.setVisibility(View.VISIBLE);
+            if(listShown){
+                listView.setVisibility(View.VISIBLE);
+            }
             return;
         }
         noDataFoundLabel.setVisibility(View.VISIBLE);

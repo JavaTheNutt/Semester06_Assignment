@@ -64,10 +64,11 @@ public class LoginActivity extends EntryActivity
 
     private void validateUser(String email, String password)
     {
+        //third param is anonymous method
         authService.login(email, password, result -> {
-            if (result.isEmpty()) {
+            if (result.isEmpty()) { //if login is successfull
                 startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
-            } else {
+            } else { //if login fails
                 progressContainer.setVisibility(View.GONE);
                 formContainer.setAlpha(1f);
                 progressContainer.setOnClickListener(null);

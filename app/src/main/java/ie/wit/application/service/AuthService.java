@@ -228,7 +228,7 @@ public class AuthService
         } catch (FirebaseAuthWeakPasswordException e3) {
             return "The password is not strong enough";
         } catch (FirebaseAuthInvalidCredentialsException e4) {
-            return e4.getMessage();
+            return e4.getMessage(); //return the message because this could be caused by either a badly formatted email address or incorrect password
         } catch (Exception e5) {
             return "An Unknown error has occurred";
         }

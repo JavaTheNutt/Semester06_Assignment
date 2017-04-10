@@ -35,4 +35,6 @@
     <string name="currentBalanceLabel">Current Balance:</string>
     <string name="emptyBalance">€0.00</string>
     <string name="greeting"><b>Welcome</b>, <i>%s</i></string>
+    <string name="showTotals">Show Totals</string>
+    <string name="hideTotals">Hide Totals</string>
 </resources>
