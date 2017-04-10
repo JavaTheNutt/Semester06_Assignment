@@ -65,13 +65,13 @@ public class LoginActivity extends EntryActivity
     private void validateUser(String email, String password)
     {
         authService.login(email, password, result -> {
-            if (result) {
+            if (result.isEmpty()) {
                 startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
             } else {
                 progressContainer.setVisibility(View.GONE);
                 formContainer.setAlpha(1f);
                 progressContainer.setOnClickListener(null);
-                makeToast("Login failed");
+                makeToast(result);
             }
         });
     }

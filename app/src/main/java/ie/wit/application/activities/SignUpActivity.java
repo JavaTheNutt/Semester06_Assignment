@@ -85,10 +85,10 @@ public class SignUpActivity extends EntryActivity
     {
         /*AuthService.createAccount takes a Consumer<Boolean> where the result will be true if the user successfully logged in, or false otherwise*/
         authService.createAccount(entryService.extractText(namedFields), result -> {
-            if (result) {
+            if (result.isEmpty()) {
                 startActivity(new Intent(this, DashboardActivity.class));
             } else {
-                makeToast("Sign up failed");
+                makeToast(result);
                 formContainer.setAlpha(1f);
                 progressContainer.setVisibility(View.GONE);
                 progressContainer.setOnClickListener(null);

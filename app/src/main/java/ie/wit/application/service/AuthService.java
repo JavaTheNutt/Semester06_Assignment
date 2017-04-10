@@ -7,7 +7,14 @@ import com.annimon.stream.function.Consumer;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
+
+import org.jetbrains.annotations.Contract;
 
 import java.util.Map;
 
@@ -56,7 +63,8 @@ public class AuthService
 
     }
 
-    private void updateCurrentUser(){
+    private void updateCurrentUser()
+    {
         User currentUser = null;
         try {
             currentUser = userDataService.getUser(FinanceApp.getCurrentUserId());
@@ -69,6 +77,7 @@ public class AuthService
         }
 
     }
+
     public void registerUserNotLoggedInCallback(Consumer<String> userNotLoggedInCallback)
     {
         this.userNotLoggedInCallback = userNotLoggedInCallback;
@@ -78,9 +87,12 @@ public class AuthService
     {
         this.userLoggedInCallback = userLoggedInCallback;
     }
-    public void registerUserObserver(UserDisplayNameObserver observer){
+
+    public void registerUserObserver(UserDisplayNameObserver observer)
+    {
         observer.observe(userDisplayName);
     }
+
     /**
      * Stop the auth service.
      */
@@ -94,16 +106,18 @@ public class AuthService
         auth.removeAuthStateListener(authListener);
     }
 
-    public void signOut(){
+    public void signOut()
+    {
         auth.signOut();
     }
+
     /**
      * Create account.
      *
      * @param userDetails the user details
      * @param callback    the callback
      */
-    public void createAccount(Map<String, String> userDetails, Consumer<Boolean> callback)
+    public void createAccount(Map<String, String> userDetails, Consumer<String> callback)
     {
         Log.d(TAG, "createAccount: creating an account for " + userDetails.get("email"));
         auth.createUserWithEmailAndPassword(userDetails.get("email"), userDetails.get("password")).addOnCompleteListener(setupSigninOnComplete(userDetails, callback));
@@ -116,7 +130,7 @@ public class AuthService
      * @param password the password
      * @param callback the callback that will trigger the new activity if successful
      */
-    public void login(String email, String password, Consumer<Boolean> callback)
+    public void login(String email, String password, Consumer<String> callback)
     {
         Log.d(TAG, "login: user " + email + " attempting to log in");
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(setUpLogInComplete(email, callback));
@@ -143,7 +157,6 @@ public class AuthService
                 Log.d(TAG, "onAuthStateChanged: user signed in: " + user.getUid());
                 FinanceApp.setCurrentUserId(user.getUid());
                 userDataService.registerUsernameCallback((result) -> updateCurrentUser());
-
                 if (userLoggedInCallback != null) {
                     userLoggedInCallback.accept("logged in");
                 }
@@ -159,14 +172,14 @@ public class AuthService
      * @return an on complete listener
      */
     @NonNull
-    private OnCompleteListener<AuthResult> setupSigninOnComplete(Map<String, String> userDetails, Consumer<Boolean> callback)
+    private OnCompleteListener<AuthResult> setupSigninOnComplete(Map<String, String> userDetails, Consumer<String> callback)
     {
         return task -> {
             Log.d(TAG, "setupSigninOnComplete: result: " + task.isSuccessful());
             if (!task.isSuccessful()) {
                 Log.e(TAG, "setupSigninOnComplete: sign up failed", task.getException());
                 FinanceApp.setCurrentUser(null);
-                callback.accept(false);
+                callback.accept(handleException(task.getException()));
             } else {
                 Log.d(TAG, "setupSigninOnComplete: sign up succeeded");
                 User user = userDataService.mapUser(userDetails);
@@ -174,7 +187,7 @@ public class AuthService
                 user.setUuid(uid);
                 userDataService.addUser(user);
                 FinanceApp.setCurrentUser(user);
-                callback.accept(true);
+                callback.accept("");
             }
         };
     }
@@ -187,25 +200,37 @@ public class AuthService
      * @return the on complete listener
      */
     @NonNull
-    private OnCompleteListener<AuthResult> setUpLogInComplete(String email, Consumer<Boolean> callback)
+    private OnCompleteListener<AuthResult> setUpLogInComplete(String email, Consumer<String> callback)
     {
         return task -> {
             Log.d(TAG, "setUpLogInComplete: " + task.isSuccessful());
             if (!task.isSuccessful()) {
                 Log.e(TAG, "setUpLogInComplete: sign in failed", task.getException());
                 FinanceApp.setCurrentUser(null);
-                callback.accept(false);
+                callback.accept(handleException(task.getException()));
             } else {
                 Log.d(TAG, "setUpLogInComplete: login succeeded");
-                try {
-                    FinanceApp.setCurrentUser(userDataService.getOne(email));
-                    callback.accept(true);
-                } catch (UserNotFoundException e) {
-                    FinanceApp.setCurrentUser(null);
-                    Log.e(TAG, "setUpLogInComplete: user not found", e);
-                    callback.accept(false);
-                }
+                callback.accept("");
             }
         };
+    }
+
+    @NonNull
+    @Contract(pure = true)
+    private String handleException(Exception e)
+    {
+        try {
+            throw e;
+        } catch (FirebaseAuthInvalidUserException e1) {
+            return "User does not exist";
+        } catch (FirebaseAuthUserCollisionException e2) {
+            return "Email address is already in use";
+        } catch (FirebaseAuthWeakPasswordException e3) {
+            return "The password is not strong enough";
+        } catch (FirebaseAuthInvalidCredentialsException e4) {
+            return e4.getMessage();
+        } catch (Exception e5) {
+            return "An Unknown error has occurred";
+        }
     }
 }
