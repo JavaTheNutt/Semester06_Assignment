@@ -69,6 +69,7 @@ public class AddTransactionActivity extends InternalActivity
         transactionDetails.put("isIncome", isIncome);
         transactionDetails.put("timestamp", transaction.getTimestamp().toString());
         transactionDetails.put("dueDate", transaction.getDueDate().toString());
+        transactionDetails.put("firebaseId", transaction.getFirebaseId());
         dueDateTimestamp = transaction.getDueDate();
         dueDateText = FinanceApp.serviceFactory.getUtil().convertFromTimestamp(dueDateTimestamp);
         addDetailsToView();

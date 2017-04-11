@@ -118,7 +118,11 @@ public class TransactionDataService
      */
     public void addTransaction(Transaction transaction)
     {
-        transactionReference.push().setValue(transaction);
+        if (transaction.getFirebaseId() == null) {
+            transactionReference.push().setValue(transaction);
+            return;
+        }
+        transactionReference.child(transaction.getFirebaseId()).setValue(transaction);
     }
     public void removeTransaction(Long timestamp){
         transactionReference.child(timestamp.toString()).setValue(null);
@@ -151,6 +155,7 @@ public class TransactionDataService
                 Log.d(TAG, "onDataChange: Transaction");
                 for (DataSnapshot transactionSnapshot : dataSnapshot.getChildren()) {
                     Transaction transaction = transactionSnapshot.getValue(Transaction.class);
+                    transaction.setFirebaseId(transactionSnapshot.getKey());
                     transactions.add(transaction);
                 }
                 currentBalance.setAll(getTotalIncome(), getTotalExpenditure());// this will update the totals and trigger relevant view updates

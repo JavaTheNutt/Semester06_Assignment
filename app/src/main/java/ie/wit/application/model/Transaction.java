@@ -13,8 +13,7 @@ public class Transaction implements Serializable
     private Float amount;
     private boolean isIncome;
     private Long dueDate;
-
-
+    private String firebaseId;
 
     /**
      * Instantiates a new Transaction.
@@ -115,14 +114,45 @@ public class Transaction implements Serializable
     {
         isIncome = income;
     }
+
+    /**
+     * Gets due date.
+     *
+     * @return the due date
+     */
     public Long getDueDate()
     {
         return dueDate;
     }
 
+    /**
+     * Sets due date.
+     *
+     * @param dueDate the due date
+     */
     public void setDueDate(Long dueDate)
     {
         this.dueDate = dueDate;
+    }
+
+    /**
+     * Gets firebase id.
+     *
+     * @return the firebase id
+     */
+    public String getFirebaseId()
+    {
+        return firebaseId;
+    }
+
+    /**
+     * Sets firebase id.
+     *
+     * @param firebaseId the firebase id
+     */
+    public void setFirebaseId(String firebaseId)
+    {
+        this.firebaseId = firebaseId;
     }
 
     @Override

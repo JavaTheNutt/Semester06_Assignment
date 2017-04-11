@@ -50,6 +50,9 @@ public class AddTransactionService
         transaction.setAmount(Float.parseFloat(values.get("amount")));
         String timestamp = values.get("timestamp");
         transaction.setDueDate(Long.parseLong(values.get("dueDate")));
+        if(values.get("firebaseId") != null){
+            transaction.setFirebaseId(values.get("firebaseId"));
+        }
         if(timestamp == null){
             transaction.setTimestamp(null);
             return transaction;
