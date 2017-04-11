@@ -71,11 +71,11 @@
             android:inputType="numberDecimal"/>
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/dueDateLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+            android:textSize="18sp"/>
 
         <Button
             android:text="@string/changeDueDateButton"

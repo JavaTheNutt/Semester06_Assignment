@@ -1,13 +1,16 @@
 package ie.wit.application.activities;
 
-import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,6 +30,8 @@ public class AddTransactionActivity extends InternalActivity
 
     private AddTransactionService addTransactionService;
 
+    private String dueDateText;
+
     /**
      * {{@inheritDoc}}
      *
@@ -40,6 +45,7 @@ public class AddTransactionActivity extends InternalActivity
         addTransactionService = new AddTransactionService(this);
         setUpReferences();
         handleExtras(getIntent().getExtras());
+        changeDueDateLabel();
     }
 
     private void handleExtras(Bundle extras){
@@ -64,6 +70,8 @@ public class AddTransactionActivity extends InternalActivity
     }
     private void dateSelected(String date){
         Log.d(TAG, "dateSelected: " + date + "has been selected by the datepicker");
+        dueDateText = date;
+        changeDueDateLabel();
     }
     private void addDetailsToView(){
         fields.get("title").setText(transactionDetails.get("title"));
@@ -74,6 +82,18 @@ public class AddTransactionActivity extends InternalActivity
     private void setUpReferences(){
         fields.put("title", ((EditText)findViewById(R.id.addIncomeTitle)));
         fields.put("amount", ((EditText)findViewById(R.id.addIncomeAmount)));
+        ((RadioGroup)findViewById(R.id.transactionType)).setOnCheckedChangeListener((a, b) -> changeDueDateLabel());
+    }
+    private void changeDueDateLabel(){
+        if (dueDateText == null) {
+            Calendar calendar = Calendar.getInstance();
+            dueDateText = calendar.get(Calendar.DAY_OF_MONTH) + "/" + (calendar.get(Calendar.MONTH) + 1) + "/" + calendar.get(Calendar.YEAR);
+        }
+        String transactionType = ((RadioButton)findViewById(R.id.isIncome)).isChecked() ? "Income" : "Expenditure";
+        int textColorId = transactionType.equalsIgnoreCase("income") ? R.color.positiveBalance : R.color.negativeBalance;
+        String dateLabelText = getString(R.string.transactionDueDate, transactionType, dueDateText);
+        ((TextView)findViewById(R.id.dueDateLabel)).setText(dateLabelText);
+        ((TextView) findViewById(R.id.dueDateLabel)).setTextColor(ResourcesCompat.getColor(getResources(), textColorId, null));
     }
     private boolean validateAndCreate(){
         Map<String, String> result = addTransactionService.extractTransactionDetails(fields);
