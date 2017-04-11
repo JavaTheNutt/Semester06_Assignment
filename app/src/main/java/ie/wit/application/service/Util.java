@@ -41,7 +41,14 @@ public class Util
         Date dateObj = formatter.parse(date);
         return dateObj.getTime();
     }
-    public boolean checkTimestampNotBeforeToday(String date) throws ParseException{
+
+    public boolean checkTimestampNotBeforeToday(String date) throws ParseException
+    {
         return convertToTimestamp(date) >= getTimestampToMidnight();
+    }
+
+    public String convertFromTimestamp(long timestamp)
+    {
+        return new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(timestamp);
     }
 }

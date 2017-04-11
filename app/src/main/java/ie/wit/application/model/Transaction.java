@@ -12,6 +12,9 @@ public class Transaction implements Serializable
     private String title;
     private Float amount;
     private boolean isIncome;
+    private Long dueDate;
+
+
 
     /**
      * Instantiates a new Transaction.
@@ -111,6 +114,15 @@ public class Transaction implements Serializable
     public void setIncome(boolean income)
     {
         isIncome = income;
+    }
+    public Long getDueDate()
+    {
+        return dueDate;
+    }
+
+    public void setDueDate(Long dueDate)
+    {
+        this.dueDate = dueDate;
     }
 
     @Override

@@ -49,6 +49,7 @@ public class AddTransactionService
         transaction.setIncome(isIncome);
         transaction.setAmount(Float.parseFloat(values.get("amount")));
         String timestamp = values.get("timestamp");
+        transaction.setDueDate(Long.parseLong(values.get("dueDate")));
         if(timestamp == null){
             transaction.setTimestamp(null);
             return transaction;

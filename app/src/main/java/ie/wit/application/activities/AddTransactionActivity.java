@@ -37,8 +37,7 @@ public class AddTransactionActivity extends InternalActivity
     private AddTransactionService addTransactionService;
 
     private String dueDateText;
-    private long dueDateTimestamp;
-    private long todayTimestamp;
+    private Long dueDateTimestamp;
 
     /**
      * {{@inheritDoc}}
@@ -56,17 +55,6 @@ public class AddTransactionActivity extends InternalActivity
         changeDueDateLabel();
     }
 
-    /**
-     * {{@inheritDoc}}
-     */
-    @Override
-    protected void onStart()
-    {
-        super.onStart();
-        todayTimestamp = FinanceApp.serviceFactory.getUtil().getTimestampToMidnight();
-        Log.d(TAG, "onStart: created new timestamp: " + todayTimestamp);
-    }
-
     private void handleExtras(Bundle extras){
         if (extras == null) {
             return;
@@ -80,7 +68,11 @@ public class AddTransactionActivity extends InternalActivity
         transactionDetails.put("amount", transaction.getAmount().toString());
         transactionDetails.put("isIncome", isIncome);
         transactionDetails.put("timestamp", transaction.getTimestamp().toString());
+        transactionDetails.put("dueDate", transaction.getDueDate().toString());
+        dueDateTimestamp = transaction.getDueDate();
+        dueDateText = FinanceApp.serviceFactory.getUtil().convertFromTimestamp(dueDateTimestamp);
         addDetailsToView();
+        changeDueDateLabel();
     }
     public void showDatePicker(View v){
         DatePickerFragment datePickerFragment = new DatePickerFragment();
@@ -104,6 +96,7 @@ public class AddTransactionActivity extends InternalActivity
         fields.get("amount").setText(transactionDetails.get("amount"));
         int checkedId = transactionDetails.get("isIncome").equalsIgnoreCase("true")? R.id.isIncome: R.id.isExpenditure;
         ((RadioButton)findViewById(checkedId)).setChecked(true);
+
     }
     private void setUpReferences(){
         fields.put("title", ((EditText)findViewById(R.id.addIncomeTitle)));
@@ -111,7 +104,7 @@ public class AddTransactionActivity extends InternalActivity
         ((RadioGroup)findViewById(R.id.transactionType)).setOnCheckedChangeListener((a, b) -> changeDueDateLabel());
     }
     private void changeDueDateLabel(){
-        if (dueDateText == null) {
+        if (dueDateTimestamp == null) {
             Calendar calendar = Calendar.getInstance();
             dueDateTimestamp = calendar.getTimeInMillis();
             Log.d(TAG, "changeDueDateLabel: due timestamp: "  + dueDateTimestamp);
@@ -140,6 +133,7 @@ public class AddTransactionActivity extends InternalActivity
         }
         String isIncome = ((RadioButton)findViewById(R.id.isIncome)).isChecked() ? "true": "false";
         transactionDetails.put("isIncome", isIncome);
+        transactionDetails.put("dueDate", Long.toString(dueDateTimestamp));
         Transaction transaction = addTransactionService.createTransaction(transactionDetails);
         Log.d(TAG, "submitTransaction: creating transaction for " + transaction.toString());
         transactionDataService.addTransaction(transaction);
