@@ -1,5 +1,6 @@
 package ie.wit.application.activities;
 
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ie.wit.application.R;
+import ie.wit.application.fragments.DatePickerFragment;
 import ie.wit.application.model.Transaction;
 import ie.wit.application.service.AddTransactionService;
 
@@ -54,6 +56,14 @@ public class AddTransactionActivity extends InternalActivity
         transactionDetails.put("isIncome", isIncome);
         transactionDetails.put("timestamp", transaction.getTimestamp().toString());
         addDetailsToView();
+    }
+    public void showDatePicker(View v){
+        DatePickerFragment datePickerFragment = new DatePickerFragment();
+        datePickerFragment.registerDateSelectedCallback(this::dateSelected);
+        datePickerFragment.show(getFragmentManager(), "addTransactionDatePicker");
+    }
+    private void dateSelected(String date){
+        Log.d(TAG, "dateSelected: " + date + "has been selected by the datepicker");
     }
     private void addDetailsToView(){
         fields.get("title").setText(transactionDetails.get("title"));

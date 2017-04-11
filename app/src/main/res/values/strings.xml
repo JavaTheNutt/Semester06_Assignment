@@ -37,4 +37,6 @@
     <string name="greeting"><b>Welcome</b>, <i>%s</i></string>
     <string name="showTotals">Show Totals</string>
     <string name="hideTotals">Hide Totals</string>
+    <string name="transactionDueDate">%1$s due on %2$s</string>
+    <string name="changeDueDateButton">Select Due Date</string>
 </resources>

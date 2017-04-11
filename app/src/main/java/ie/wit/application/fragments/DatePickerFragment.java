@@ -46,6 +46,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
+        registerDateSelectedCallback(null);
         return new DatePickerDialog(getActivity(), this, year, month, day);
     }
 
@@ -63,7 +64,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
             dateSelectedCallback.accept(dayOfMonth + "/" + month + "/" + year);
         }
     }
-    private void registerDateSelectedCallback(Consumer<String> cb){
+    public void registerDateSelectedCallback(Consumer<String> cb){
         this.dateSelectedCallback = cb;
     }
 }

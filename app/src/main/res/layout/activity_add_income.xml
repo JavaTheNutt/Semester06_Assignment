@@ -70,7 +70,19 @@
             android:hint="@string/addIncomeAmountHint"
             android:inputType="numberDecimal"/>
 
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
 
+        <Button
+            android:text="@string/changeDueDateButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/button3"
+            android:onClick="showDatePicker"/>
         <Button
             android:text="@string/submitLabel"
             android:layout_width="match_parent"
