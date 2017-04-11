@@ -2,8 +2,6 @@ package ie.wit.application.model.ui;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import java.math.BigDecimal;
@@ -12,7 +10,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import ie.wit.application.R;
-import ie.wit.application.activities.BaseActivity;
 
 /**
  * http://stackoverflow.com/a/15434375/4108556
@@ -24,7 +21,14 @@ public class BalanceObserver implements Observer
     private TextView totalExpenditureView;
     private Context context;
 
-    public BalanceObserver(Context context, Map<String, TextView> views){
+    /**
+     * Instantiates a new Balance observer.
+     *
+     * @param context the context
+     * @param views   the views
+     */
+    public BalanceObserver(Context context, Map<String, TextView> views)
+    {
         super();
         this.context = context;
         this.balanceView = views.get("balance");
@@ -37,7 +41,8 @@ public class BalanceObserver implements Observer
      *
      * @param observable the observable
      */
-    public void observe(Observable observable){
+    public void observe(Observable observable)
+    {
         observable.addObserver(this);
     }
 
@@ -54,7 +59,7 @@ public class BalanceObserver implements Observer
     @Override
     public void update(Observable o, Object arg)
     {
-        Map<String, Float> data = ((Balance)o).getAll();
+        Map<String, Float> data = ((Balance) o).getAll();
         String strBalance = "€" + roundFloat(data.get("balance").toString());
         String strIncome = "€" + roundFloat(data.get("income").toString());
         String strExpenditure = "€" + roundFloat(data.get("expenditure").toString());
@@ -65,8 +70,10 @@ public class BalanceObserver implements Observer
         totalExpenditureView.setText(strExpenditure);
 
     }
+
     //http://stackoverflow.com/a/2808648/4108556
-    private float roundFloat(String value){
+    private float roundFloat(String value)
+    {
         BigDecimal bd = new BigDecimal(value);
         bd.setScale(2, BigDecimal.ROUND_HALF_UP);
         return bd.floatValue();

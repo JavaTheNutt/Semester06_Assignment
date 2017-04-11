@@ -16,16 +16,26 @@ import static ie.wit.application.activities.BaseActivity.TAG;
 /**
  * Created by joewe on 09/04/2017.
  */
-
 public class AddTransactionService
 {
     private Context activity;
 
+    /**
+     * Instantiates a new Add transaction service.
+     *
+     * @param activity the activity
+     */
     public AddTransactionService(Context activity)
     {
         this.activity = activity;
     }
 
+    /**
+     * Extract transaction details map.
+     *
+     * @param fields the fields
+     * @return the map
+     */
     public Map<String, String> extractTransactionDetails(Map<String, EditText> fields)
     {
         String title = fields.get("title").getText().toString();
@@ -42,7 +52,15 @@ public class AddTransactionService
         details.put("amount", amount);
         return details;
     }
-    public Transaction createTransaction(Map<String, String> values){
+
+    /**
+     * Create transaction transaction.
+     *
+     * @param values the values
+     * @return the transaction
+     */
+    public Transaction createTransaction(Map<String, String> values)
+    {
         Transaction transaction = new Transaction();
         boolean isIncome = values.get("isIncome").equalsIgnoreCase("true");
         transaction.setTitle(values.get("title"));
@@ -50,10 +68,10 @@ public class AddTransactionService
         transaction.setAmount(Float.parseFloat(values.get("amount")));
         String timestamp = values.get("timestamp");
         transaction.setDueDate(Long.parseLong(values.get("dueDate")));
-        if(values.get("firebaseId") != null){
+        if (values.get("firebaseId") != null) {
             transaction.setFirebaseId(values.get("firebaseId"));
         }
-        if(timestamp == null){
+        if (timestamp == null) {
             transaction.setTimestamp(null);
             return transaction;
         }

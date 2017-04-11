@@ -18,15 +18,6 @@ public class FinanceApp extends Application
     private static User currentUser;
     private static String currentUserId;
 
-
-    @Override
-    public void onCreate()
-    {
-        super.onCreate();
-        Log.v("Finance", "Application started");
-        serviceFactory = new ServiceFactory();
-    }
-
     /**
      * Gets current user.
      *
@@ -47,13 +38,31 @@ public class FinanceApp extends Application
         FinanceApp.currentUser = currentUser;
     }
 
+    /**
+     * Gets current user id.
+     *
+     * @return the current user id
+     */
     public static String getCurrentUserId()
     {
         return currentUserId;
     }
 
+    /**
+     * Sets current user id.
+     *
+     * @param currentUserId the current user id
+     */
     public static void setCurrentUserId(String currentUserId)
     {
         FinanceApp.currentUserId = currentUserId;
+    }
+
+    @Override
+    public void onCreate()
+    {
+        super.onCreate();
+        Log.v("Finance", "Application started");
+        serviceFactory = new ServiceFactory();
     }
 }

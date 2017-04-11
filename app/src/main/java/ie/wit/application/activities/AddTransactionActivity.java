@@ -12,11 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import ie.wit.application.R;
@@ -55,7 +52,8 @@ public class AddTransactionActivity extends InternalActivity
         changeDueDateLabel();
     }
 
-    private void handleExtras(Bundle extras){
+    private void handleExtras(Bundle extras)
+    {
         if (extras == null) {
             return;
         }
@@ -63,7 +61,7 @@ public class AddTransactionActivity extends InternalActivity
         if (transaction == null) {
             return;
         }
-        String isIncome = transaction.isIncome() ? "true": "false";
+        String isIncome = transaction.isIncome() ? "true" : "false";
         transactionDetails.put("title", transaction.getTitle());
         transactionDetails.put("amount", transaction.getAmount().toString());
         transactionDetails.put("isIncome", isIncome);
@@ -75,12 +73,21 @@ public class AddTransactionActivity extends InternalActivity
         addDetailsToView();
         changeDueDateLabel();
     }
-    public void showDatePicker(View v){
+
+    /**
+     * Show date picker.
+     *
+     * @param v the v
+     */
+    public void showDatePicker(View v)
+    {
         DatePickerFragment datePickerFragment = new DatePickerFragment();
         datePickerFragment.registerDateSelectedCallback(this::dateSelected);
         datePickerFragment.show(getFragmentManager(), "addTransactionDatePicker");
     }
-    private void dateSelected(String date){
+
+    private void dateSelected(String date)
+    {
         Log.d(TAG, "dateSelected: " + date + " has been selected by the datepicker.");
         try {
             dueDateTimestamp = FinanceApp.serviceFactory.getUtil().convertToTimestamp(date);
@@ -92,32 +99,40 @@ public class AddTransactionActivity extends InternalActivity
         dueDateText = date;
         changeDueDateLabel();
     }
-    private void addDetailsToView(){
+
+    private void addDetailsToView()
+    {
         fields.get("title").setText(transactionDetails.get("title"));
         fields.get("amount").setText(transactionDetails.get("amount"));
-        int checkedId = transactionDetails.get("isIncome").equalsIgnoreCase("true")? R.id.isIncome: R.id.isExpenditure;
-        ((RadioButton)findViewById(checkedId)).setChecked(true);
+        int checkedId = transactionDetails.get("isIncome").equalsIgnoreCase("true") ? R.id.isIncome : R.id.isExpenditure;
+        ((RadioButton) findViewById(checkedId)).setChecked(true);
 
     }
-    private void setUpReferences(){
-        fields.put("title", ((EditText)findViewById(R.id.addIncomeTitle)));
-        fields.put("amount", ((EditText)findViewById(R.id.addIncomeAmount)));
-        ((RadioGroup)findViewById(R.id.transactionType)).setOnCheckedChangeListener((a, b) -> changeDueDateLabel());
+
+    private void setUpReferences()
+    {
+        fields.put("title", ((EditText) findViewById(R.id.addIncomeTitle)));
+        fields.put("amount", ((EditText) findViewById(R.id.addIncomeAmount)));
+        ((RadioGroup) findViewById(R.id.transactionType)).setOnCheckedChangeListener((a, b) -> changeDueDateLabel());
     }
-    private void changeDueDateLabel(){
+
+    private void changeDueDateLabel()
+    {
         if (dueDateTimestamp == null) {
             Calendar calendar = Calendar.getInstance();
             dueDateTimestamp = calendar.getTimeInMillis();
-            Log.d(TAG, "changeDueDateLabel: due timestamp: "  + dueDateTimestamp);
+            Log.d(TAG, "changeDueDateLabel: due timestamp: " + dueDateTimestamp);
             dueDateText = calendar.get(Calendar.DAY_OF_MONTH) + "/" + (calendar.get(Calendar.MONTH) + 1) + "/" + calendar.get(Calendar.YEAR);
         }
-        String transactionType = ((RadioButton)findViewById(R.id.isIncome)).isChecked() ? "Income" : "Expenditure";
+        String transactionType = ((RadioButton) findViewById(R.id.isIncome)).isChecked() ? "Income" : "Expenditure";
         int textColorId = transactionType.equalsIgnoreCase("income") ? R.color.positiveBalance : R.color.negativeBalance;
         String dateLabelText = getString(R.string.transactionDueDate, transactionType, dueDateText);
-        ((TextView)findViewById(R.id.dueDateLabel)).setText(dateLabelText);
+        ((TextView) findViewById(R.id.dueDateLabel)).setText(dateLabelText);
         ((TextView) findViewById(R.id.dueDateLabel)).setTextColor(ResourcesCompat.getColor(getResources(), textColorId, null));
     }
-    private boolean validateAndCreate(){
+
+    private boolean validateAndCreate()
+    {
         Map<String, String> result = addTransactionService.extractTransactionDetails(fields);
         if (result == null) {
             return false;
@@ -127,12 +142,18 @@ public class AddTransactionActivity extends InternalActivity
         }
         return true;
     }
-    
-    public void submitTransaction(View view){
-        if(!validateAndCreate()){
+
+    /**
+     * Submit transaction.
+     *
+     * @param view the view
+     */
+    public void submitTransaction(View view)
+    {
+        if (!validateAndCreate()) {
             return;
         }
-        String isIncome = ((RadioButton)findViewById(R.id.isIncome)).isChecked() ? "true": "false";
+        String isIncome = ((RadioButton) findViewById(R.id.isIncome)).isChecked() ? "true" : "false";
         transactionDetails.put("isIncome", isIncome);
         transactionDetails.put("dueDate", Long.toString(dueDateTimestamp));
         Transaction transaction = addTransactionService.createTransaction(transactionDetails);

@@ -35,7 +35,7 @@ public class User
      * @param firstName the first name
      * @param surname   the surname
      */
-    public User (String email, String uuid, String firstName, String surname)
+    public User(String email, String uuid, String firstName, String surname)
     {
 
         this.email = email;
@@ -49,7 +49,8 @@ public class User
      *
      * @param userDetails the user details
      */
-    public User(Map<String, String> userDetails){
+    public User(Map<String, String> userDetails)
+    {
         this.email = userDetails.get("email");
         this.firstName = userDetails.get("firstName");
         this.surname = userDetails.get("surname");
@@ -142,14 +143,15 @@ public class User
      * @return the string
      */
     @Exclude
-    public String getKey(){
+    public String getKey()
+    {
         Log.v(BaseActivity.TAG, "Formatting " + this.email + " so it can be used as a key");
         String[] splitAddress = this.email.split("");
         String newKey = "";
         for (String character : splitAddress) {
-            if(!character.equals(".")){
+            if (!character.equals(".")) {
                 newKey += character;
-            }else{
+            } else {
                 newKey += "_";
             }
         }

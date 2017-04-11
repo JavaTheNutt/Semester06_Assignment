@@ -7,7 +7,6 @@ import com.annimon.stream.function.Consumer;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
@@ -78,16 +77,31 @@ public class AuthService
 
     }
 
+    /**
+     * Register user not logged in callback.
+     *
+     * @param userNotLoggedInCallback the user not logged in callback
+     */
     public void registerUserNotLoggedInCallback(Consumer<String> userNotLoggedInCallback)
     {
         this.userNotLoggedInCallback = userNotLoggedInCallback;
     }
 
+    /**
+     * Register user logged in callback.
+     *
+     * @param userLoggedInCallback the user logged in callback
+     */
     public void registerUserLoggedInCallback(Consumer<String> userLoggedInCallback)
     {
         this.userLoggedInCallback = userLoggedInCallback;
     }
 
+    /**
+     * Register user observer.
+     *
+     * @param observer the observer
+     */
     public void registerUserObserver(UserDisplayNameObserver observer)
     {
         observer.observe(userDisplayName);
@@ -106,6 +120,9 @@ public class AuthService
         auth.removeAuthStateListener(authListener);
     }
 
+    /**
+     * Sign out.
+     */
     public void signOut()
     {
         auth.signOut();

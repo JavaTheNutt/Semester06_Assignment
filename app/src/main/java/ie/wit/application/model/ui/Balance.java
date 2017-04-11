@@ -13,8 +13,15 @@ public class Balance extends Observable
     private float totalIncome = 0;
     private float totalExpenditure = 0;
 
-    public void setAll(float totalIncome, float totalExpenditure){
-        synchronized (this){
+    /**
+     * Sets all.
+     *
+     * @param totalIncome      the total income
+     * @param totalExpenditure the total expenditure
+     */
+    public void setAll(float totalIncome, float totalExpenditure)
+    {
+        synchronized (this) {
             this.totalIncome = totalIncome;
             this.totalExpenditure = totalExpenditure;
             this.currentBalance = totalIncome - totalExpenditure;
@@ -23,7 +30,13 @@ public class Balance extends Observable
         notifyObservers();
     }
 
-    synchronized Map<String, Float> getAll(){
+    /**
+     * Gets all.
+     *
+     * @return the all
+     */
+    synchronized Map<String, Float> getAll()
+    {
         Map<String, Float> values = new HashMap<>(3);
         values.put("income", totalIncome);
         values.put("expenditure", totalExpenditure);

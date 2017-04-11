@@ -45,21 +45,25 @@ public final class MainActivity extends BaseActivity
         registerCallbacks(false);
     }
 
-    private void registerCallbacks(boolean register){
-        if (register){
+    private void registerCallbacks(boolean register)
+    {
+        if (register) {
             authService.registerUserLoggedInCallback(result -> showDashboard());
             authService.registerUserNotLoggedInCallback(result -> hideLoading());
-        }else{
+        } else {
             authService.registerUserLoggedInCallback(null);
             authService.registerUserNotLoggedInCallback(null);
         }
 
     }
 
-    private void showDashboard(){
+    private void showDashboard()
+    {
         startActivity(new Intent(this, DashboardActivity.class));
     }
-    private void hideLoading(){
+
+    private void hideLoading()
+    {
         progressBar.setVisibility(View.GONE);
     }
 

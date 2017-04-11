@@ -23,6 +23,9 @@ public class InternalActivity extends BaseActivity
      * The Details database reference.
      */
     protected DatabaseReference detailsDatabaseReference;
+    /**
+     * The Transaction data service.
+     */
     protected TransactionDataService transactionDataService;
 
     @Override
@@ -93,9 +96,11 @@ public class InternalActivity extends BaseActivity
         authService.signOut();
     }
 
-    private void showMainScreen(){
+    private void showMainScreen()
+    {
         startActivity(new Intent(this, MainActivity.class));
     }
+
     /**
      * Add income.
      *

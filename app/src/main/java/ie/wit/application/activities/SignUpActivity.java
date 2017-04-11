@@ -64,7 +64,9 @@ public class SignUpActivity extends EntryActivity
         formContainer = (ScrollView) findViewById(R.id.signUpFormContainer);
         progressContainer = (RelativeLayout) findViewById(R.id.signUpProgressContainer);
     }
-    private void consumeClick(View v){
+
+    private void consumeClick(View v)
+    {
         Log.d(TAG, "consumeClick: attempting to click while spinner is active");
     }
 

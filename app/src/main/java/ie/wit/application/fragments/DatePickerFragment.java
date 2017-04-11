@@ -3,9 +3,7 @@ package ie.wit.application.fragments;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.Toast;
@@ -22,10 +20,10 @@ import static ie.wit.application.activities.BaseActivity.TAG;
 /**
  * Found: https://developer.android.com/guide/topics/ui/controls/pickers.html
  */
-
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener
 {
     private Consumer<String> dateSelectedCallback;
+
     /**
      * Override to build your own custom Dialog container.  This is typically
      * used to show an AlertDialog instead of a generic Dialog; when doing so,
@@ -70,7 +68,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         if (dateSelectedCallback != null) {
             String dateStr = dayOfMonth + "/" + (month + 1) + "/" + year;
             try {
-                if(FinanceApp.serviceFactory.getUtil().checkTimestampNotBeforeToday(dateStr)){
+                if (FinanceApp.serviceFactory.getUtil().checkTimestampNotBeforeToday(dateStr)) {
                     dateSelectedCallback.accept(dateStr);
                     return;
                 }
@@ -81,7 +79,14 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
         }
     }
-    public void registerDateSelectedCallback(Consumer<String> cb){
+
+    /**
+     * Register date selected callback.
+     *
+     * @param cb the cb
+     */
+    public void registerDateSelectedCallback(Consumer<String> cb)
+    {
         this.dateSelectedCallback = cb;
     }
 }

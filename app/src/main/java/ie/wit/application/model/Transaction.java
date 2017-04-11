@@ -1,11 +1,15 @@
 package ie.wit.application.model;
 
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
+
 import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by joewe on 01/03/2017.
  */
+@IgnoreExtraProperties
 public class Transaction implements Serializable
 {
     private Long timestamp;
@@ -13,6 +17,7 @@ public class Transaction implements Serializable
     private Float amount;
     private boolean isIncome;
     private Long dueDate;
+    @Exclude
     private String firebaseId;
 
     /**
@@ -64,6 +69,16 @@ public class Transaction implements Serializable
     }
 
     /**
+     * Sets amount.
+     *
+     * @param amount the amount
+     */
+    public void setAmount(Float amount)
+    {
+        this.amount = amount;
+    }
+
+    /**
      * Gets timestamp.
      *
      * @return the timestamp
@@ -78,21 +93,12 @@ public class Transaction implements Serializable
      *
      * @param timestamp the timestamp
      */
-    public void setTimestamp(Long timestamp){
-        if(timestamp == null){
+    public void setTimestamp(Long timestamp)
+    {
+        if (timestamp == null) {
             timestamp = new Date().getTime();
         }
         this.timestamp = timestamp;
-    }
-
-    /**
-     * Sets amount.
-     *
-     * @param amount the amount
-     */
-    public void setAmount(Float amount)
-    {
-        this.amount = amount;
     }
 
     /**
@@ -140,6 +146,7 @@ public class Transaction implements Serializable
      *
      * @return the firebase id
      */
+    @Exclude
     public String getFirebaseId()
     {
         return firebaseId;
@@ -150,6 +157,7 @@ public class Transaction implements Serializable
      *
      * @param firebaseId the firebase id
      */
+    @Exclude
     public void setFirebaseId(String firebaseId)
     {
         this.firebaseId = firebaseId;
@@ -158,8 +166,9 @@ public class Transaction implements Serializable
     @Override
     public String toString()
     {
-        return "IncomeDTOIn{" +
+        return "Transaction{" +
                 "timestamp=" + timestamp +
+                ", due on=" + dueDate +
                 ", title='" + title + '\'' +
                 ", amount=" + amount +
                 '}';

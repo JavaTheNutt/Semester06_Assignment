@@ -15,12 +15,17 @@ import static ie.wit.application.activities.BaseActivity.TAG;
 /**
  * Created by joewe on 09/04/2017.
  */
-
 public class UserDisplayNameObserver implements Observer
 {
     private TextView userNameLabel;
     private Context context;
 
+    /**
+     * Instantiates a new User display name observer.
+     *
+     * @param context       the context
+     * @param userNameLabel the user name label
+     */
     public UserDisplayNameObserver(Context context, TextView userNameLabel)
     {
         super();
@@ -41,7 +46,7 @@ public class UserDisplayNameObserver implements Observer
     public void update(Observable o, Object arg)
     {
         String nameStr = ((UserDisplayName) o).getName();
-        if(nameStr == null){
+        if (nameStr == null) {
             userNameLabel.setVisibility(View.GONE);
             return;
         }
@@ -51,6 +56,11 @@ public class UserDisplayNameObserver implements Observer
         userNameLabel.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Observe.
+     *
+     * @param o the o
+     */
     public void observe(Observable o)
     {
         o.addObserver(this);

@@ -77,6 +77,11 @@ public class LoginActivity extends EntryActivity
         });
     }
 
+    /**
+     * Consume page click.
+     *
+     * @param v the v
+     */
     public void consumePageClick(View v)
     {
         Log.d(TAG, "consumePageClick: attempting to click while spinner is active");

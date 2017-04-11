@@ -24,7 +24,6 @@ import static ie.wit.application.activities.BaseActivity.TAG;
 /**
  * Created by joewe on 08/04/2017.
  */
-
 public class TransactionAdapter extends ArrayAdapter<Transaction>
 {
     private final Context context;
@@ -33,7 +32,8 @@ public class TransactionAdapter extends ArrayAdapter<Transaction>
     /**
      * Constructor
      *
-     * @param context The current context.
+     * @param context      The current context.
+     * @param transactions the transactions
      */
     public TransactionAdapter(@NonNull Context context, List<Transaction> transactions)
     {
@@ -49,7 +49,7 @@ public class TransactionAdapter extends ArrayAdapter<Transaction>
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.row_transaction, parent, false);
         Transaction transaction = transactions.get(position);
-        Log.d(TAG, "getView: called for"  + transaction.getTitle());
+        Log.d(TAG, "getView: called for" + transaction.getTitle());
         ((TextView) view.findViewById(R.id.transactionTitle)).setText(transaction.getTitle());
         ((TextView) view.findViewById(R.id.rowDate)).setText(new SimpleDateFormat("dd-MM-yyyy", Locale.UK).format(new Date(transaction.getTimestamp())));
         ((TextView) view.findViewById(R.id.rowAmount)).setText(transaction.getAmount().toString());

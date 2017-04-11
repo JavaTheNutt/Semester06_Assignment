@@ -28,16 +28,14 @@ import static ie.wit.application.activities.BaseActivity.TAG;
  */
 public class UserDataService
 {
+    private static final String CHILD_NAME = "users";
     private DatabaseReference databaseReference;
     private ValueEventListener valueEventListener;
     private List<User> users;
     private Consumer<String> dataLoaded;
 
-    private static final String CHILD_NAME = "users";
-
     /**
      * Instantiates a new User data service.
-     *
      */
     public UserDataService()
     {
@@ -85,7 +83,7 @@ public class UserDataService
      *
      * @param email the email
      * @return a single user based on that email address
-     * @throws Exception if the user is not found
+     * @throws UserNotFoundException the user not found exception
      */
     public User getOne(String email) throws UserNotFoundException
     {
@@ -97,20 +95,40 @@ public class UserDataService
         throw new UserNotFoundException("user not found");
     }
 
+    /**
+     * Gets user.
+     *
+     * @param id the id
+     * @return the user
+     * @throws UserNotFoundException the user not found exception
+     */
     public User getUser(String id) throws UserNotFoundException
     {
-        for (User user: users){
+        for (User user : users) {
             if (user.getUuid() != null && user.getUuid().equals(id)) {
-                    return user;
+                return user;
             }
         }
         throw new UserNotFoundException("user not found or user has not received uuid yet");
     }
-    
-    public void addUser(User user){
+
+    /**
+     * Add user.
+     *
+     * @param user the user
+     */
+    public void addUser(User user)
+    {
         databaseReference.child(CHILD_NAME).child(user.getUuid()).setValue(user);
     }
-    public void registerUsernameCallback(Consumer<String> callback){
+
+    /**
+     * Register username callback.
+     *
+     * @param callback the callback
+     */
+    public void registerUsernameCallback(Consumer<String> callback)
+    {
         this.dataLoaded = callback;
     }
 

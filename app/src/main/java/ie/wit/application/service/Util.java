@@ -25,6 +25,11 @@ public class Util
         Toast.makeText(src, msg, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Gets timestamp to midnight.
+     *
+     * @return the timestamp to midnight
+     */
     public long getTimestampToMidnight()
     {
         Calendar c = Calendar.getInstance();
@@ -35,6 +40,13 @@ public class Util
         return c.getTimeInMillis();
     }
 
+    /**
+     * Convert to timestamp long.
+     *
+     * @param date the date
+     * @return the long
+     * @throws ParseException the parse exception
+     */
     public long convertToTimestamp(String date) throws ParseException
     {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
@@ -42,11 +54,24 @@ public class Util
         return dateObj.getTime();
     }
 
+    /**
+     * Check timestamp not before today boolean.
+     *
+     * @param date the date
+     * @return the boolean
+     * @throws ParseException the parse exception
+     */
     public boolean checkTimestampNotBeforeToday(String date) throws ParseException
     {
         return convertToTimestamp(date) >= getTimestampToMidnight();
     }
 
+    /**
+     * Convert from timestamp string.
+     *
+     * @param timestamp the timestamp
+     * @return the string
+     */
     public String convertFromTimestamp(long timestamp)
     {
         return new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(timestamp);

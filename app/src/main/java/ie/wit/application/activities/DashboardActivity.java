@@ -170,6 +170,11 @@ public class DashboardActivity extends InternalActivity
         transactionDataService.stop();
     }
 
+    /**
+     * Toggle list.
+     *
+     * @param v the v
+     */
     public void toggleList(View v)
     {
         listShown = !listShown;
@@ -181,9 +186,15 @@ public class DashboardActivity extends InternalActivity
         ((Button) v).setText(getString(buttonTextId));
     }
 
-    public void toggleTotals(View v){
+    /**
+     * Toggle totals.
+     *
+     * @param v the v
+     */
+    public void toggleTotals(View v)
+    {
         totalsShown = !totalsShown;
-        int visibilityId = totalsShown ? View.VISIBLE: View.GONE;
+        int visibilityId = totalsShown ? View.VISIBLE : View.GONE;
         int buttonTextId = totalsShown ? R.string.hideTotals : R.string.showTotals;
         ((Button) v).setText(getString(buttonTextId));
         findViewById(R.id.totalsTable).setVisibility(visibilityId);
@@ -193,8 +204,8 @@ public class DashboardActivity extends InternalActivity
     {
         Map<String, TextView> totals = new HashMap<>(3);
         totals.put("balance", (TextView) findViewById(R.id.dashboardCurrentBalance));
-        totals.put("income", (TextView)findViewById(R.id.totalIncomeView));
-        totals.put("expenditure", (TextView)findViewById(R.id.totalExpenditureView));
+        totals.put("income", (TextView) findViewById(R.id.totalIncomeView));
+        totals.put("expenditure", (TextView) findViewById(R.id.totalExpenditureView));
         listView = (ListView) findViewById(R.id.transactionList);
         noDataFoundLabel = (TextView) findViewById(R.id.noDataFoundLabel);
         ((RadioGroup) findViewById(R.id.toggleDataRadio)).setOnCheckedChangeListener((group, checkedId) -> updateView());
@@ -203,15 +214,15 @@ public class DashboardActivity extends InternalActivity
             Toast.makeText(DashboardActivity.this, transaction.toString(), Toast.LENGTH_SHORT).show();
         });
         observer = new BalanceObserver(this, totals);
-        userObserver = new UserDisplayNameObserver(this, ((TextView)findViewById(R.id.userNameLabel)));
+        userObserver = new UserDisplayNameObserver(this, ((TextView) findViewById(R.id.userNameLabel)));
     }
 
     private void updateView()
     {
         List<Transaction> transactionList;
-        if (((RadioButton)findViewById(R.id.showAllRadioButton)).isChecked()) {
+        if (((RadioButton) findViewById(R.id.showAllRadioButton)).isChecked()) {
             transactionList = transactionDataService.getTransactions();
-        } else if (((RadioButton)findViewById(R.id.showIncomeRadioButton)).isChecked()) {
+        } else if (((RadioButton) findViewById(R.id.showIncomeRadioButton)).isChecked()) {
             transactionList = transactionDataService.getIncomes();
         } else {
             transactionList = transactionDataService.getExpenditures();
@@ -225,7 +236,7 @@ public class DashboardActivity extends InternalActivity
     {
         if (hasData) {
             noDataFoundLabel.setVisibility(View.GONE);
-            if(listShown){
+            if (listShown) {
                 listView.setVisibility(View.VISIBLE);
             }
             return;

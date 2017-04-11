@@ -91,21 +91,41 @@ public class TransactionDataService
         return transactions;
     }
 
+    /**
+     * Gets incomes.
+     *
+     * @return the incomes
+     */
     public List<Transaction> getIncomes()
     {
         return Stream.of(transactions).filter(Transaction::isIncome).collect(Collectors.toList());
     }
 
+    /**
+     * Gets expenditures.
+     *
+     * @return the expenditures
+     */
     public List<Transaction> getExpenditures()
     {
         return Stream.of(transactions).filter(transaction -> !transaction.isIncome()).collect(Collectors.toList());
     }
 
+    /**
+     * Register balance observer.
+     *
+     * @param observer the observer
+     */
     public void registerBalanceObserver(BalanceObserver observer)
     {
         observer.observe(currentBalance);
     }
 
+    /**
+     * Register transaction callback.
+     *
+     * @param callback the callback
+     */
     public void registerTransactionCallback(Consumer<String> callback)
     {
         this.updateTransactionListCallback = callback;
@@ -124,20 +144,30 @@ public class TransactionDataService
         }
         transactionReference.child(transaction.getFirebaseId()).setValue(transaction);
     }
-    public void removeTransaction(Long timestamp){
+
+    /**
+     * Remove transaction.
+     *
+     * @param timestamp the timestamp
+     */
+    public void removeTransaction(Long timestamp)
+    {
         transactionReference.child(timestamp.toString()).setValue(null);
     }
 
-    private float getTotalIncome(){
+    private float getTotalIncome()
+    {
         float tmpIncome = 0;
-        for(Transaction transaction : getIncomes()){
+        for (Transaction transaction : getIncomes()) {
             tmpIncome += transaction.getAmount();
         }
         return tmpIncome;
     }
-    private float getTotalExpenditure(){
+
+    private float getTotalExpenditure()
+    {
         float tmpExpenditure = 0;
-        for(Transaction transaction : getExpenditures()){
+        for (Transaction transaction : getExpenditures()) {
             tmpExpenditure += transaction.getAmount();
         }
         return tmpExpenditure;
