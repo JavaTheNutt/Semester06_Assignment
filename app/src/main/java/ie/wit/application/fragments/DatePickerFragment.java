@@ -1,5 +1,6 @@
 package ie.wit.application.fragments;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -13,6 +14,7 @@ import com.annimon.stream.function.Consumer;
 import java.text.ParseException;
 import java.util.Calendar;
 
+import ie.wit.application.R;
 import ie.wit.application.main.FinanceApp;
 
 import static ie.wit.application.activities.BaseActivity.TAG;
@@ -52,7 +54,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        return new DatePickerDialog(getActivity(), this, year, month, day);
+        return new DatePickerDialog(getActivity(), android.R.style.Theme_Holo_Dialog, this, year, month, day);
     }
 
     /**
