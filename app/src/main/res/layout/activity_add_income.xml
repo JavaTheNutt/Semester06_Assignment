@@ -38,7 +38,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/transactionType"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp">
 
             <RadioButton
                 android:text="@string/incomeRadio"
@@ -61,34 +62,44 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/addIncomeTitleHint"
-            android:inputType="textAutoComplete"/>
+            android:inputType="textAutoComplete"
+            android:layout_marginTop="20dp"/>
 
         <EditText
             android:id="@+id/addIncomeAmount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/addIncomeAmountHint"
-            android:inputType="numberDecimal"/>
+            android:inputType="numberDecimal"
+            android:layout_marginTop="20dp"/>
 
         <TextView
             android:id="@+id/dueDateLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:layout_marginTop="20dp"/>
 
         <Button
-            android:text="@string/changeDueDateButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/button3"
-            android:onClick="showDatePicker"/>
-        <Button
-            android:text="@string/submitLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@color/loginButtonColor"
+            android:onClick="showDatePicker"
+            android:text="@string/changeDueDateButton"
+            android:textColor="@android:color/white"/>
+
+        <Button
             android:id="@+id/button2"
-            android:onClick="submitTransaction"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@color/signinButtonColor"
+            android:onClick="submitTransaction"
+            android:text="@string/submitLabel"
+            android:textColor="@android:color/white"/>
 
     </LinearLayout>
 

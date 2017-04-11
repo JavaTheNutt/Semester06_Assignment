@@ -9,13 +9,19 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import ie.wit.application.R;
 import ie.wit.application.fragments.DatePickerFragment;
+import ie.wit.application.main.FinanceApp;
 import ie.wit.application.model.Transaction;
 import ie.wit.application.service.AddTransactionService;
 
@@ -31,6 +37,8 @@ public class AddTransactionActivity extends InternalActivity
     private AddTransactionService addTransactionService;
 
     private String dueDateText;
+    private long dueDateTimestamp;
+    private long todayTimestamp;
 
     /**
      * {{@inheritDoc}}
@@ -46,6 +54,17 @@ public class AddTransactionActivity extends InternalActivity
         setUpReferences();
         handleExtras(getIntent().getExtras());
         changeDueDateLabel();
+    }
+
+    /**
+     * {{@inheritDoc}}
+     */
+    @Override
+    protected void onStart()
+    {
+        super.onStart();
+        todayTimestamp = FinanceApp.serviceFactory.getUtil().getTimestampToMidnight();
+        Log.d(TAG, "onStart: created new timestamp: " + todayTimestamp);
     }
 
     private void handleExtras(Bundle extras){
@@ -69,7 +88,14 @@ public class AddTransactionActivity extends InternalActivity
         datePickerFragment.show(getFragmentManager(), "addTransactionDatePicker");
     }
     private void dateSelected(String date){
-        Log.d(TAG, "dateSelected: " + date + "has been selected by the datepicker");
+        Log.d(TAG, "dateSelected: " + date + " has been selected by the datepicker.");
+        try {
+            dueDateTimestamp = FinanceApp.serviceFactory.getUtil().convertToTimestamp(date);
+            Log.d(TAG, "dateSelected: converted " + date + " to " + dueDateTimestamp);
+        } catch (ParseException e) {
+            Log.e(TAG, "dateSelected: date is not in correct format", e);
+            Toast.makeText(this, "date selection failed", Toast.LENGTH_SHORT).show();
+        }
         dueDateText = date;
         changeDueDateLabel();
     }
@@ -87,6 +113,8 @@ public class AddTransactionActivity extends InternalActivity
     private void changeDueDateLabel(){
         if (dueDateText == null) {
             Calendar calendar = Calendar.getInstance();
+            dueDateTimestamp = calendar.getTimeInMillis();
+            Log.d(TAG, "changeDueDateLabel: due timestamp: "  + dueDateTimestamp);
             dueDateText = calendar.get(Calendar.DAY_OF_MONTH) + "/" + (calendar.get(Calendar.MONTH) + 1) + "/" + calendar.get(Calendar.YEAR);
         }
         String transactionType = ((RadioButton)findViewById(R.id.isIncome)).isChecked() ? "Income" : "Expenditure";
