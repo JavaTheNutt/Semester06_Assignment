@@ -39,4 +39,7 @@
     <string name="hideTotals">Hide Totals</string>
     <string name="transactionDueDate">%1$s due on %2$s</string>
     <string name="changeDueDateButton">Select Due Date</string>
+    <string name="title_activity_transaction_list">TransactionListActivity</string>
+    <string name="showPendingRadio">Pending</string>
+    <string name="showCompletedRadio">Completed</string>
 </resources>

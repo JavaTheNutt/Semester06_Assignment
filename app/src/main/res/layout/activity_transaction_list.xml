@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context="ie.wit.application.activities.TransactionListActivity">
+
+    <RadioGroup
+        android:id="@+id/transactionListSelectType"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/transactionListShowAllTypes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/showAllRadio"/>
+
+        <RadioButton
+            android:id="@+id/transactionListShowIncome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/showIncomeRadio"/>
+
+        <RadioButton
+            android:id="@+id/transactionListShowExpenditure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/showExpenditureRadio"/>
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/transactionListSelectDate"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/transactionListShowAllDates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/showAllRadio"/>
+
+        <RadioButton
+            android:id="@+id/transactionListShowPending"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/showPendingRadio"/>
+
+        <RadioButton
+            android:id="@+id/transactionListShowCompleted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/showCompletedRadio"/>
+    </RadioGroup>
+
+    <ListView
+        android:id="@+id/transactionListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@android:drawable/divider_horizontal_dark"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"/>
+
+</LinearLayout>

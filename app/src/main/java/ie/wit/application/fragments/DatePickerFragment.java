@@ -1,6 +1,5 @@
 package ie.wit.application.fragments;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -14,7 +13,6 @@ import com.annimon.stream.function.Consumer;
 import java.text.ParseException;
 import java.util.Calendar;
 
-import ie.wit.application.R;
 import ie.wit.application.main.FinanceApp;
 
 import static ie.wit.application.activities.BaseActivity.TAG;

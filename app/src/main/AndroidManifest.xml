@@ -14,30 +14,31 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
-        android:name="ie.wit.application.main.FinanceApp"
+        android:name=".main.FinanceApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/headerTitle"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="ie.wit.application.activities.MainActivity">
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="ie.wit.application.activities.LoginActivity">
+        <activity android:name=".activities.LoginActivity">
         </activity>
-        <activity android:name="ie.wit.application.activities.SignUpActivity">
+        <activity android:name=".activities.SignUpActivity">
         </activity>
-        <activity android:name="ie.wit.application.activities.InternalActivity">
+        <activity android:name=".activities.InternalActivity">
         </activity>
-        <activity android:name="ie.wit.application.activities.DashboardActivity">
+        <activity android:name=".activities.DashboardActivity">
         </activity>
-        <activity android:name="ie.wit.application.activities.AddTransactionActivity">
+        <activity android:name=".activities.AddTransactionActivity">
         </activity>
-
+        <activity android:name=".activities.TransactionListActivity">
+        </activity>
     </application>
 
 </manifest>
