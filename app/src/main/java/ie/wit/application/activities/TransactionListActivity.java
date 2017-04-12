@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import java.util.List;
 
@@ -20,6 +22,12 @@ import ie.wit.application.model.ui.TransactionAdapter;
 public class TransactionListActivity extends InternalActivity
 {
     private ListView transactionList;
+    private RadioButton showALlTypes;
+    private RadioButton showIncome;
+    private RadioButton showExpenditure;
+    private RadioButton showAllDates;
+    private RadioButton showPending;
+    private RadioButton showCompleted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -114,16 +122,54 @@ public class TransactionListActivity extends InternalActivity
         return super.onContextItemSelected(item);
     }
 
-    private void setUpReferences(){
+    private void setUpReferences()
+    {
         transactionList = (ListView) findViewById(R.id.transactionListView);
+        showALlTypes = (RadioButton) findViewById(R.id.transactionListShowAllTypes);
+        showIncome = (RadioButton) findViewById(R.id.transactionListShowIncome);
+        showExpenditure = (RadioButton) findViewById(R.id.transactionListShowExpenditure);
+        showAllDates = (RadioButton) findViewById(R.id.transactionListShowAllDates);
+        showPending = (RadioButton) findViewById(R.id.transactionListShowPending);
+        showCompleted = (RadioButton) findViewById(R.id.transactionListShowCompleted);
+        ((RadioGroup)findViewById(R.id.transactionListSelectDate)).setOnCheckedChangeListener((a, b) -> updateView(null));
+        ((RadioGroup)findViewById(R.id.transactionListSelectType)).setOnCheckedChangeListener((a, b) -> updateView(null));
     }
 
     private void updateView(String data)
     {
-        List<Transaction> transactions = transactionDataService.getTransactions();
-        TransactionAdapter adapter = new TransactionAdapter(this, transactions);
+        TransactionAdapter adapter = new TransactionAdapter(this, getTransactions());
         ((ListView) findViewById(R.id.transactionListView)).setAdapter(adapter);
     }
+
+    private List<Transaction> getTransactions()
+    {
+        if (showALlTypes.isChecked()) {
+            if (showAllDates.isChecked()) {
+                return transactionDataService.getTransactions();
+            } else if (showPending.isChecked()) {
+                return transactionDataService.getAllPending();
+            } else {
+                return transactionDataService.getAllCompleted();
+            }
+        } else if (showIncome.isChecked()) {
+            if (showAllDates.isChecked()) {
+                return transactionDataService.getIncomes();
+            } else if (showPending.isChecked()) {
+                return transactionDataService.getIncomePending();
+            } else {
+                return transactionDataService.getIncomeCompleted();
+            }
+        } else {
+            if (showAllDates.isChecked()) {
+                return transactionDataService.getExpenditures();
+            } else if (showPending.isChecked()) {
+                return transactionDataService.getExpenditurePending();
+            } else {
+                return transactionDataService.getExpenditureCompleted();
+            }
+        }
+    }
+
     private void manipulateItem(int position, boolean isEdit)
     {
         Log.d(TAG, "manipulateItem: manipulating item at position" + position);
