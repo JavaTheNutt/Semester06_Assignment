@@ -42,4 +42,5 @@
     <string name="title_activity_transaction_list">TransactionListActivity</string>
     <string name="showPendingRadio">Pending</string>
     <string name="showCompletedRadio">Completed</string>
+    <string name="transactionListMenu">Transaction List</string>
 </resources>

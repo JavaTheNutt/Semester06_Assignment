@@ -75,12 +75,19 @@ public class InternalActivity extends BaseActivity
         super.onPrepareOptionsMenu(menu);
         MenuItem dashboard = menu.findItem(R.id.menuDashboard);
         MenuItem addIncome = menu.findItem(R.id.menuAddIncome);
+        MenuItem transactionList = menu.findItem(R.id.menuList);
         if (this instanceof DashboardActivity) {
             dashboard.setEnabled(false);
             addIncome.setEnabled(true);
+            transactionList.setEnabled(true);
         } else if (this instanceof AddTransactionActivity) {
             addIncome.setEnabled(false);
             dashboard.setEnabled(true);
+            transactionList.setEnabled(true);
+        } else if(this instanceof TransactionListActivity){
+            dashboard.setEnabled(true);
+            addIncome.setEnabled(true);
+            transactionList.setEnabled(false);
         }
         return true;
     }
@@ -119,5 +126,8 @@ public class InternalActivity extends BaseActivity
     public void dashboard(MenuItem item)
     {
         startActivity(new Intent(this, DashboardActivity.class));
+    }
+    public void transactionList(MenuItem item){
+        startActivity(new Intent(this, TransactionListActivity.class));
     }
 }
