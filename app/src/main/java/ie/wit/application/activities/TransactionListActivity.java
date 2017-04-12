@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ import ie.wit.application.R;
 import ie.wit.application.exceptions.NoUserLoggedInException;
 import ie.wit.application.model.Transaction;
 import ie.wit.application.model.ui.TransactionAdapter;
+import ie.wit.application.model.ui.UserDisplayNameObserver;
 
 public class TransactionListActivity extends InternalActivity
 {
@@ -28,6 +30,7 @@ public class TransactionListActivity extends InternalActivity
     private RadioButton showAllDates;
     private RadioButton showPending;
     private RadioButton showCompleted;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -51,6 +54,7 @@ public class TransactionListActivity extends InternalActivity
             Log.e(TAG, "TransactionListActivity#onStart: no user logged in", e);
         }
         transactionDataService.registerTransactionCallback(this::updateView);
+        authService.registerUserObserver(new UserDisplayNameObserver(this, ((TextView) findViewById(R.id.listViewUsername))));
         registerForContextMenu(transactionList);
     }
 
@@ -131,8 +135,8 @@ public class TransactionListActivity extends InternalActivity
         showAllDates = (RadioButton) findViewById(R.id.transactionListShowAllDates);
         showPending = (RadioButton) findViewById(R.id.transactionListShowPending);
         showCompleted = (RadioButton) findViewById(R.id.transactionListShowCompleted);
-        ((RadioGroup)findViewById(R.id.transactionListSelectDate)).setOnCheckedChangeListener((a, b) -> updateView(null));
-        ((RadioGroup)findViewById(R.id.transactionListSelectType)).setOnCheckedChangeListener((a, b) -> updateView(null));
+        ((RadioGroup) findViewById(R.id.transactionListSelectDate)).setOnCheckedChangeListener((a, b) -> updateView(null));
+        ((RadioGroup) findViewById(R.id.transactionListSelectType)).setOnCheckedChangeListener((a, b) -> updateView(null));
     }
 
     private void updateView(String data)
