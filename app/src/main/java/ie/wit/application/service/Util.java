@@ -76,4 +76,7 @@ public class Util
     {
         return new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(timestamp);
     }
+    public boolean checkTimestampPending(Long timestamp){
+        return timestamp >= getTimestampToMidnight();
+    }
 }

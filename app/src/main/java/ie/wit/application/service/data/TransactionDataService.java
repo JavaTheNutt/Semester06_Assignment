@@ -111,6 +111,42 @@ public class TransactionDataService
         return Stream.of(transactions).filter(transaction -> !transaction.isIncome()).collect(Collectors.toList());
     }
 
+    public List<Transaction> getAllPending()
+    {
+        return Stream.of(transactions).filter(this::isPending).collect(Collectors.toList());
+    }
+
+    public List<Transaction> getAllCompleted()
+    {
+        return Stream.of(transactions).filter((transaction) -> !isPending(transaction)).collect(Collectors.toList());
+    }
+
+    public List<Transaction> getIncomePending()
+    {
+        return Stream.of(getIncomes()).filter(this::isPending).collect(Collectors.toList());
+    }
+
+    public List<Transaction> getIncomeCompleted()
+    {
+        return Stream.of(getIncomes()).filter((transaction) -> !isPending(transaction)).collect(Collectors.toList());
+    }
+
+    public List<Transaction> getExpenditurePending()
+    {
+        return Stream.of(getExpenditures()).filter(this::isPending).collect(Collectors.toList());
+    }
+
+    public List<Transaction> getExpenditureCompleted()
+    {
+        return Stream.of(getExpenditures()).filter((transaction) -> !isPending(transaction)).collect(Collectors.toList());
+    }
+
+
+    private boolean isPending(Transaction transaction)
+    {
+        return FinanceApp.serviceFactory.getUtil().checkTimestampPending(transaction.getDueDate());
+    }
+
     /**
      * Register balance observer.
      *
