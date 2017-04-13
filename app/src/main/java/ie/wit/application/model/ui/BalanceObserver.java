@@ -16,10 +16,11 @@ import ie.wit.application.R;
  */
 public class BalanceObserver implements Observer
 {
-    private TextView balanceView;
-    private TextView totalIncomeView;
-    private TextView totalExpenditureView;
-    private Context context;
+    private final TextView balanceView;
+    private final TextView totalIncomeView;
+    private final TextView totalExpenditureView;
+    private final Context context;
+    private final String VALUE;
 
     /**
      * Instantiates a new Balance observer.
@@ -27,14 +28,16 @@ public class BalanceObserver implements Observer
      * @param context the context
      * @param views   the views
      */
-    public BalanceObserver(Context context, Map<String, TextView> views)
+    public BalanceObserver(Context context, Map<String, TextView> views, String value)
     {
         super();
         this.context = context;
         this.balanceView = views.get("balance");
         this.totalIncomeView = views.get("income");
         this.totalExpenditureView = views.get("expenditure");
+        this.VALUE = value;
     }
+
 
     /**
      * Observe.
@@ -59,7 +62,7 @@ public class BalanceObserver implements Observer
     @Override
     public void update(Observable o, Object arg)
     {
-        Map<String, Float> data = ((Balance) o).getAll();
+        Map<String, Float> data = ((Balance) o).getAll(VALUE);
         String strBalance = "€" + roundFloat(data.get("balance").toString());
         String strIncome = "€" + roundFloat(data.get("income").toString());
         String strExpenditure = "€" + roundFloat(data.get("expenditure").toString());

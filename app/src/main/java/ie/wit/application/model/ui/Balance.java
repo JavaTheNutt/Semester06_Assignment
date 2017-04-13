@@ -56,18 +56,27 @@ public class Balance extends Observable
      *
      * @return the all
      */
-    synchronized Map<String, Float> getAll()
+    synchronized Map<String, Float> getAll(String value)
     {
         Map<String, Float> values = new HashMap<>(3);
-        values.put("income", totalIncome);
-        values.put("expenditure", totalExpenditure);
-        values.put("balance", currentBalance);
-        values.put("pendingIncome", totalPendingIncome);
-        values.put("completedIncome", totalCompletedIncome);
-        values.put("pendingExpenditure", totalPendingExpenditure);
-        values.put("completedExpenditure", totalCompletedExpenditure);
-        values.put("pendingBalance", totalPendingBalance);
-        values.put("completedBalance", totalCompletedBalance);
+        if(value.equalsIgnoreCase("total")){
+            values.put("income", totalIncome);
+            values.put("expenditure", totalExpenditure);
+            values.put("balance", currentBalance);
+        }else if(value.equalsIgnoreCase("pending")){
+            values.put("income", totalPendingIncome);
+            values.put("expenditure", totalPendingExpenditure);
+            values.put("balance", totalPendingBalance);
+        }else if(value.equalsIgnoreCase("completed")){
+            values.put("income", totalCompletedIncome);
+            values.put("expenditure", totalCompletedExpenditure);
+            values.put("balance", totalCompletedBalance);
+        } else{
+            values.put("income", 0f);
+            values.put("expenditure", 0f);
+            values.put("balance", 0f);
+        }
         return values;
     }
+
 }

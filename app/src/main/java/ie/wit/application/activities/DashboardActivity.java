@@ -32,7 +32,8 @@ import ie.wit.application.model.ui.UserDisplayNameObserver;
  */
 public class DashboardActivity extends InternalActivity
 {
-    private BalanceObserver observer;
+    private BalanceObserver totalBalanceObserver;
+
     private UserDisplayNameObserver userObserver;
 
     private boolean totalsShown = true;
@@ -62,7 +63,7 @@ public class DashboardActivity extends InternalActivity
         } catch (NoUserLoggedInException e) {
             Log.e(TAG, "onStart: no user logged in", e);
         }
-        transactionDataService.registerBalanceObserver(observer);
+        transactionDataService.registerBalanceObserver(totalBalanceObserver);
         authService.registerUserObserver(userObserver);
     }
 
@@ -100,7 +101,7 @@ public class DashboardActivity extends InternalActivity
         totals.put("balance", (TextView) findViewById(R.id.dashboardCurrentBalance));
         totals.put("income", (TextView) findViewById(R.id.totalIncomeView));
         totals.put("expenditure", (TextView) findViewById(R.id.totalExpenditureView));
-        observer = new BalanceObserver(this, totals);
+        totalBalanceObserver = new BalanceObserver(this, totals, "total");
         userObserver = new UserDisplayNameObserver(this, ((TextView) findViewById(R.id.userNameLabel)));
     }
 

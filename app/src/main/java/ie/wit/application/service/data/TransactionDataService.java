@@ -14,7 +14,9 @@ import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.Contract;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ie.wit.application.exceptions.NoUserLoggedInException;
 import ie.wit.application.main.FinanceApp;
@@ -197,22 +199,40 @@ public class TransactionDataService
 
     private float getTotalIncome()
     {
-        float tmpIncome = 0;
-        for (Transaction transaction : getIncomes()) {
-            tmpIncome += transaction.getAmount();
-        }
-        return tmpIncome;
+        return getTotal(getIncomes());
     }
 
     private float getTotalExpenditure()
     {
-        float tmpExpenditure = 0;
-        for (Transaction transaction : getExpenditures()) {
-            tmpExpenditure += transaction.getAmount();
-        }
-        return tmpExpenditure;
+        return getTotal(getExpenditures());
     }
-
+    private float getPendingIncomeTotal(){
+        return getTotal(getIncomePending());
+    }
+    private float getPendingExpenditureTotal(){
+        return getTotal(getExpenditurePending());
+    }
+    private float getCompletedExpenditureTotal(){
+        return getTotal(getExpenditureCompleted());
+    }
+    private float getCompletedIncomeTotal(){
+        return getTotal(getIncomeCompleted());
+    }
+    private Map<String, Float> getTotals(){
+        Map<String, Float> totals = new HashMap<>();
+        totals.put("pendingIncome", getPendingIncomeTotal());
+        totals.put("completedIncome", getCompletedIncomeTotal());
+        totals.put("pendingExpenditure", getPendingExpenditureTotal());
+        totals.put("completedExpenditure", getCompletedExpenditureTotal());
+        return totals;
+    }
+    private float getTotal(List<Transaction> transactions){
+        float tmpTotal = 0;
+        for (Transaction transaction : transactions) {
+            tmpTotal += transaction.getAmount();
+        }
+        return tmpTotal;
+    }
     @Contract(" -> !null")
     private ValueEventListener setupValueEventListener()
     {
@@ -228,7 +248,8 @@ public class TransactionDataService
                     transaction.setFirebaseId(transactionSnapshot.getKey());
                     transactions.add(transaction);
                 }
-                currentBalance.setAll(getTotalIncome(), getTotalExpenditure());// this will update the totals and trigger relevant view updates
+                //currentBalance.setAll(getTotalIncome(), getTotalExpenditure());// this will update the totals and trigger relevant view updates
+                currentBalance.setAll(getTotals());
                 if (updateTransactionListCallback != null) {
                     updateTransactionListCallback.accept("data changed"); //this will let the dashboard know that the data has been changed so it can refresh the list
                 }
