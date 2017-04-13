@@ -158,6 +158,11 @@ public class TransactionDataService
     {
         observer.observe(currentBalance);
     }
+    public void registerBalanceObservers(BalanceObserver[] observers){
+        for (BalanceObserver observer : observers) {
+            observer.observe(currentBalance);
+        }
+    }
 
     /**
      * Register transaction callback.

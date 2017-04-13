@@ -1,30 +1,18 @@
 package ie.wit.application.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import ie.wit.application.R;
 import ie.wit.application.exceptions.NoUserLoggedInException;
-import ie.wit.application.model.Transaction;
+import ie.wit.application.model.ui.Balance;
 import ie.wit.application.model.ui.BalanceObserver;
-import ie.wit.application.model.ui.TransactionAdapter;
 import ie.wit.application.model.ui.UserDisplayNameObserver;
 
 /**
@@ -33,6 +21,8 @@ import ie.wit.application.model.ui.UserDisplayNameObserver;
 public class DashboardActivity extends InternalActivity
 {
     private BalanceObserver totalBalanceObserver;
+    private BalanceObserver pendingBalanceObserver;
+    private BalanceObserver completedBalanceObserver;
 
     private UserDisplayNameObserver userObserver;
 
@@ -63,7 +53,9 @@ public class DashboardActivity extends InternalActivity
         } catch (NoUserLoggedInException e) {
             Log.e(TAG, "onStart: no user logged in", e);
         }
-        transactionDataService.registerBalanceObserver(totalBalanceObserver);
+        //transactionDataService.registerBalanceObserver(totalBalanceObserver);
+        BalanceObserver[] balanceObservers = {totalBalanceObserver, pendingBalanceObserver, completedBalanceObserver};
+        transactionDataService.registerBalanceObservers(balanceObservers);
         authService.registerUserObserver(userObserver);
     }
 
@@ -97,12 +89,30 @@ public class DashboardActivity extends InternalActivity
 
     private void setUpReferences()
     {
+        Map<String, Map> views = getBalanceViews();
+        totalBalanceObserver = new BalanceObserver(this, views.get("total"), "total");
+        pendingBalanceObserver = new BalanceObserver(this, views.get("pending"), "pending");
+        completedBalanceObserver = new BalanceObserver(this, views.get("completed"), "completed");
+        userObserver = new UserDisplayNameObserver(this, ((TextView) findViewById(R.id.userNameLabel)));
+    }
+    private Map<String, Map> getBalanceViews(){
+        Map<String, Map> views = new HashMap<>(3);
         Map<String, TextView> totals = new HashMap<>(3);
-        totals.put("balance", (TextView) findViewById(R.id.dashboardCurrentBalance));
+        Map<String, TextView> pending = new HashMap<>(3);
+        Map<String, TextView> completed = new HashMap<>(3);
+        totals.put("balance", (TextView) findViewById(R.id.completedBalanceView));
         totals.put("income", (TextView) findViewById(R.id.totalIncomeView));
         totals.put("expenditure", (TextView) findViewById(R.id.totalExpenditureView));
-        totalBalanceObserver = new BalanceObserver(this, totals, "total");
-        userObserver = new UserDisplayNameObserver(this, ((TextView) findViewById(R.id.userNameLabel)));
+        pending.put("balance", (TextView) findViewById(R.id.pendingBalanceView));
+        pending.put("income", (TextView) findViewById(R.id.pendingIncomeView));
+        pending.put("expenditure", (TextView) findViewById(R.id.pendingExpenditureView));
+        completed.put("balance", (TextView) findViewById(R.id.completedBalanceView));
+        completed.put("income", (TextView) findViewById(R.id.completedIncomeView));
+        completed.put("expenditure", (TextView) findViewById(R.id.completedExpenditureView));
+        views.put("total", totals);
+        views.put("pending", pending);
+        views.put("completed", completed);
+        return views;
     }
 
 

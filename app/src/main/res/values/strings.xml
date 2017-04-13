@@ -46,4 +46,13 @@
     <string name="transactionRowDueLabel">Due on %s</string>
     <string name="transactionRowEnteredLabel">Entered on %s</string>
     <string name="transactionAmountLabel">Amount €%s</string>
+    <string name="pendingIncomeLabel">Pending Income</string>
+    <string name="pendingExpenditureLabel">Pending Expenditure</string>
+    <string name="pendingBalanceLabel">Pending Balance:</string>
+    <string name="completedIncomeLabel">Completed Income:</string>
+    <string name="completedExpenditureLabel">Completed Expenditure:</string>
+    <string name="completedBalanceLabel">Completed Balance:</string>
+    <string name="completedTotals">Completed Totals</string>
+    <string name="pendingTotals">Pending Totals</string>
+    <string name="currentTotals">Current Totals</string>
 </resources>
