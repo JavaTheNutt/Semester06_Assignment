@@ -190,6 +190,10 @@ public class TransactionDataService
     {
         transactionReference.child(timestamp.toString()).setValue(null);
     }
+    public void removeTransaction(String id){
+        transactionReference.child(id).setValue(null);
+    }
+
 
     private float getTotalIncome()
     {

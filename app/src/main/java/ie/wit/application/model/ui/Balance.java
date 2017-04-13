@@ -12,6 +12,12 @@ public class Balance extends Observable
     private float currentBalance = 0;
     private float totalIncome = 0;
     private float totalExpenditure = 0;
+    private float totalPendingIncome = 0;
+    private float totalPendingExpenditure = 0;
+    private float totalCompletedIncome = 0;
+    private float totalCompletedExpenditure = 0;
+    private float totalPendingBalance = 0;
+    private float totalCompletedBalance = 0;
 
     /**
      * Sets all.
@@ -29,6 +35,21 @@ public class Balance extends Observable
         setChanged();
         notifyObservers();
     }
+    public void setAll(Map<String, Float> values){
+        synchronized (this){
+            this.totalPendingIncome = values.get("pendingIncome");
+            this.totalCompletedIncome = values.get("completedIncome");
+            this.totalIncome = this.totalCompletedIncome + this.totalPendingIncome;
+            this.totalCompletedExpenditure = values.get("completedExpenditure");
+            this.totalPendingExpenditure = values.get("pendingExpenditure");
+            this.totalExpenditure = this.totalCompletedExpenditure + totalPendingExpenditure;
+            this.currentBalance = this.totalIncome - this.totalExpenditure;
+            this.totalPendingBalance = this.totalPendingIncome - this.totalPendingExpenditure;
+            this.totalCompletedBalance = this.totalCompletedIncome - this.totalCompletedExpenditure;
+        }
+        setChanged();
+        notifyObservers();
+    }
 
     /**
      * Gets all.
@@ -41,6 +62,12 @@ public class Balance extends Observable
         values.put("income", totalIncome);
         values.put("expenditure", totalExpenditure);
         values.put("balance", currentBalance);
+        values.put("pendingIncome", totalPendingIncome);
+        values.put("completedIncome", totalCompletedIncome);
+        values.put("pendingExpenditure", totalPendingExpenditure);
+        values.put("completedExpenditure", totalCompletedExpenditure);
+        values.put("pendingBalance", totalPendingBalance);
+        values.put("completedBalance", totalCompletedBalance);
         return values;
     }
 }
