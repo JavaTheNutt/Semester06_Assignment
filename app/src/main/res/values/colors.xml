@@ -9,4 +9,5 @@
     <color name="newStatusBarColor">#181717</color>
     <color name="signinButtonColor">#5ca655</color>
     <color name="loginButtonColor">#6970ec</color>
+    <color name="listBorder">#858585</color>
 </resources>

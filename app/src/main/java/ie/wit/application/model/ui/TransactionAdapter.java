@@ -1,6 +1,8 @@
 package ie.wit.application.model.ui;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.res.ResourcesCompat;
@@ -17,6 +19,7 @@ import java.util.List;
 import java.util.Locale;
 
 import ie.wit.application.R;
+import ie.wit.application.main.FinanceApp;
 import ie.wit.application.model.Transaction;
 
 import static ie.wit.application.activities.BaseActivity.TAG;
@@ -50,9 +53,14 @@ public class TransactionAdapter extends ArrayAdapter<Transaction>
         View view = inflater.inflate(R.layout.row_transaction, parent, false);
         Transaction transaction = transactions.get(position);
         Log.d(TAG, "getView: called for" + transaction.getTitle());
-        ((TextView) view.findViewById(R.id.transactionTitle)).setText(transaction.getTitle());
-        ((TextView) view.findViewById(R.id.rowDate)).setText(new SimpleDateFormat("dd-MM-yyyy", Locale.UK).format(new Date(transaction.getTimestamp())));
-        ((TextView) view.findViewById(R.id.rowAmount)).setText(transaction.getAmount().toString());
+        Resources resources =  getContext().getResources();
+        String transactionDueDateLabelText = resources.getString(R.string.transactionRowDueLabel, FinanceApp.serviceFactory.getUtil().convertFromTimestamp(transaction.getDueDate()));
+        String transactionEnteredDateText = resources.getString(R.string.transactionRowEnteredLabel, FinanceApp.serviceFactory.getUtil().convertFromTimestamp(transaction.getTimestamp()));
+        String transactionAmountText = resources.getString(R.string.transactionAmountLabel, transaction.getAmount().toString());
+        ((TextView) view.findViewById(R.id.transactionTitle)).setText(FinanceApp.serviceFactory.getUtil().titleCase(transaction.getTitle()));
+        ((TextView) view.findViewById(R.id.rowDate)).setText(transactionEnteredDateText);
+        ((TextView) view.findViewById(R.id.rowAmount)).setText(transactionAmountText);
+        ((TextView) view.findViewById(R.id.dueDateLabel)).setText(transactionDueDateLabelText);
         int colorId = transaction.isIncome() ? R.color.positiveBalance : R.color.negativeBalance;
         ((TextView) view.findViewById(R.id.transactionTitle)).setTextColor(ResourcesCompat.getColor(context.getResources(), colorId, null));
         return view;

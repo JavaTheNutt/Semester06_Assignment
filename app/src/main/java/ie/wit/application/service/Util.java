@@ -1,6 +1,8 @@
 package ie.wit.application.service;
 
 import android.content.Context;
+import android.text.TextUtils;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.text.ParseException;
@@ -8,6 +10,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import static ie.wit.application.activities.BaseActivity.TAG;
 
 /**
  * Created by joewe on 24/02/2017.
@@ -78,5 +82,21 @@ public class Util
     }
     public boolean checkTimestampPending(Long timestamp){
         return timestamp >= getTimestampToMidnight();
+    }
+    public String titleCase(String str)
+    {
+        Log.d(TAG, "titleCase: fixing string: " + str);
+        String[] splitStr = str.split("\\s+");
+        String[] fixedStr = new String[splitStr.length];
+        Log.d(TAG, "titleCase: numbers of words: " + splitStr.length);
+        int i = 0;
+        for (String s : splitStr) {
+            Log.d(TAG, "titleCase: current string: " + s);
+            String tempStr = s.substring(0, 1).toUpperCase() + s.substring(1).toLowerCase();
+            fixedStr[i] = tempStr;
+            i++;
+        }
+
+        return TextUtils.join(" ", fixedStr);
     }
 }

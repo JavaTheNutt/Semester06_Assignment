@@ -43,4 +43,7 @@
     <string name="showPendingRadio">Pending</string>
     <string name="showCompletedRadio">Completed</string>
     <string name="transactionListMenu">Transaction List</string>
+    <string name="transactionRowDueLabel">Due on %s</string>
+    <string name="transactionRowEnteredLabel">Entered on %s</string>
+    <string name="transactionAmountLabel">Amount €%s</string>
 </resources>
