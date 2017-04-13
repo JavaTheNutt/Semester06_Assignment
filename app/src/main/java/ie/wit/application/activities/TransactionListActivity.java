@@ -8,9 +8,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TabHost;
 import android.widget.TextView;
 
 import java.util.List;
@@ -30,6 +32,8 @@ public class TransactionListActivity extends InternalActivity
     private RadioButton showAllDates;
     private RadioButton showPending;
     private RadioButton showCompleted;
+
+    private boolean filterShown = false;
 
 
     @Override
@@ -126,6 +130,26 @@ public class TransactionListActivity extends InternalActivity
         return super.onContextItemSelected(item);
     }
 
+    public void toggleFilter(View v){
+        int toBeSet = findViewById(R.id.filterSortTab).getVisibility() == View.GONE ? View.VISIBLE : View.GONE;
+        String btnTxt = toBeSet == View.GONE ? "Show Filter/Sort" : "Hide Filter/Sort";
+        findViewById(R.id.filterSortTab).setVisibility(toBeSet);
+        ((Button)findViewById(R.id.toggleFilter)).setText(btnTxt);
+    }
+    private void setUpTab(){
+        TabHost host = (TabHost) findViewById(R.id.filterSortTab);
+        host.setup();
+
+        TabHost.TabSpec spec = host.newTabSpec("Filter");
+        spec.setContent(R.id.filterTab);
+        spec.setIndicator("Filter");
+        host.addTab(spec);
+
+        spec = host.newTabSpec("Sort");
+        spec.setContent(R.id.sortTab);
+        spec.setIndicator("Sort");
+        host.addTab(spec);
+    }
     private void setUpReferences()
     {
         transactionList = (ListView) findViewById(R.id.transactionListView);
@@ -137,6 +161,8 @@ public class TransactionListActivity extends InternalActivity
         showCompleted = (RadioButton) findViewById(R.id.transactionListShowCompleted);
         ((RadioGroup) findViewById(R.id.transactionListSelectDate)).setOnCheckedChangeListener((a, b) -> updateView(null));
         ((RadioGroup) findViewById(R.id.transactionListSelectType)).setOnCheckedChangeListener((a, b) -> updateView(null));
+        setUpTab();
+        toggleFilter(null);
     }
 
     private void updateView(String data)

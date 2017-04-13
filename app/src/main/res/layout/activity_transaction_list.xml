@@ -15,71 +15,181 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:visibility="gone"/>
 
-    <RadioGroup
-        android:id="@+id/transactionListSelectType"
+    <TabHost
+        android:id="@+id/filterSortTab"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:checkedButton="@+id/transactionListShowAllTypes"
-        android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        android:paddingEnd="5dp"
-        android:paddingStart="5dp"
-        android:paddingTop="10dp">
+        android:layout_height="match_parent">
 
-        <RadioButton
-            android:id="@+id/transactionListShowAllTypes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/showAllRadio"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <RadioButton
-            android:id="@+id/transactionListShowIncome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/showIncomeRadio"/>
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
-        <RadioButton
-            android:id="@+id/transactionListShowExpenditure"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/showExpenditureRadio"/>
-    </RadioGroup>
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    <RadioGroup
-        android:id="@+id/transactionListSelectDate"
+                <LinearLayout
+                    android:id="@+id/filterTab"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <RadioGroup
+                        android:id="@+id/transactionListSelectDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:checkedButton="@+id/transactionListShowAllDates"
+                        android:orientation="horizontal"
+                        android:paddingBottom="10dp"
+                        android:paddingEnd="5dp"
+                        android:paddingStart="5dp"
+                        android:paddingTop="10dp"
+                        android:gravity="center">
+
+                        <RadioButton
+                            android:id="@+id/transactionListShowAllDates"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/showAllRadio"/>
+
+                        <RadioButton
+                            android:id="@+id/transactionListShowPending"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/showPendingRadio"/>
+
+                        <RadioButton
+                            android:id="@+id/transactionListShowCompleted"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/showCompletedRadio"/>
+                    </RadioGroup>
+
+                    <RadioGroup
+                        android:id="@+id/transactionListSelectType"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:checkedButton="@+id/transactionListShowAllTypes"
+                        android:orientation="horizontal"
+                        android:paddingBottom="10dp"
+                        android:paddingEnd="5dp"
+                        android:paddingStart="5dp"
+                        android:paddingTop="10dp"
+                        android:gravity="center">
+
+                        <RadioButton
+                            android:id="@+id/transactionListShowAllTypes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/showAllRadio"/>
+
+                        <RadioButton
+                            android:id="@+id/transactionListShowIncome"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/showIncomeRadio"/>
+
+                        <RadioButton
+                            android:id="@+id/transactionListShowExpenditure"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/showExpenditureRadio"/>
+                    </RadioGroup>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/sortTab"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:paddingBottom="10dp"
+                        android:paddingEnd="5dp"
+                        android:paddingStart="5dp"
+                        android:paddingTop="10dp"
+                        android:gravity="center">
+
+                        <RadioButton
+                            android:id="@+id/sortDue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/sortDueLabel"/>
+
+                        <RadioButton
+                            android:id="@+id/sortEntered"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:checked="true"
+                            android:text="@string/sortEnteredLabel"/>
+                    </RadioGroup>
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:paddingBottom="10dp"
+                        android:paddingEnd="5dp"
+                        android:paddingStart="5dp"
+                        android:paddingTop="10dp"
+                        android:gravity="center">
+
+                        <RadioButton
+                            android:id="@+id/sortAscending"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:checked="true"
+                            android:text="@string/sortAscending"/>
+
+                        <RadioButton
+                            android:id="@+id/sortDescending"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:checked="true"
+                            android:text="@string/sortDescending"/>
+                    </RadioGroup>
+                </LinearLayout>
+
+            </FrameLayout>
+        </LinearLayout>
+    </TabHost>
+
+    <Button
+        android:id="@+id/toggleFilter"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:checkedButton="@+id/transactionListShowAllDates"
-        android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        android:paddingEnd="5dp"
-        android:paddingStart="5dp"
-        android:paddingTop="10dp">
+        android:layout_height="wrap_content"
+        android:background="@color/signinButtonColor"
+        android:text="Button"
+        android:textColor="@android:color/white"
+        android:onClick="toggleFilter"
+        android:layout_margin="10dp"/>
 
-        <RadioButton
-            android:id="@+id/transactionListShowAllDates"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/showAllRadio"/>
-
-        <RadioButton
-            android:id="@+id/transactionListShowPending"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/showPendingRadio"/>
-
-        <RadioButton
-            android:id="@+id/transactionListShowCompleted"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/showCompletedRadio"/>
-    </RadioGroup>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/listBorder"
+        android:layout_margin="10dp"/>
 
     <ListView
         android:id="@+id/transactionListView"
@@ -87,6 +197,7 @@
         android:layout_height="match_parent"
         android:divider="@android:drawable/divider_horizontal_dark"
         android:footerDividersEnabled="false"
-        android:headerDividersEnabled="false"/>
+        android:headerDividersEnabled="false"
+        android:layout_margin="10dp"/>
 
 </LinearLayout>

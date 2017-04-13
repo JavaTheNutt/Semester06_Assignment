@@ -55,4 +55,8 @@
     <string name="completedTotals">Completed Totals</string>
     <string name="pendingTotals">Pending Totals</string>
     <string name="currentTotals">Current Totals</string>
+    <string name="sortDueLabel">Due Date</string>
+    <string name="sortEnteredLabel">Entered</string>
+    <string name="sortAscending">Ascending</string>
+    <string name="sortDescending">Descending</string>
 </resources>
