@@ -1,9 +1,12 @@
 package ie.wit.application.model;
 
+import android.support.annotation.NonNull;
+
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Date;
 
 /**
@@ -163,6 +166,7 @@ public class Transaction implements Serializable
         this.firebaseId = firebaseId;
     }
 
+
     @Override
     public String toString()
     {
@@ -173,5 +177,9 @@ public class Transaction implements Serializable
                 ", amount=" + amount +
                 '}';
     }
+    public static Comparator<Transaction> transactionDueAsc = (o1, o2) -> (int)(o1.getDueDate() - o2.getDueDate());
+    public static Comparator<Transaction> transactionDueDesc = (o1, o2) -> (int)(o2.getDueDate() - o1.getDueDate());
+    public static Comparator<Transaction> transactionEnteredAsc = (o1, o2) -> (int) (o1.getTimestamp() - o2.getTimestamp());
+    public static Comparator<Transaction> transactionEnteredDesc = (o1, o2) -> (int)(o2.getTimestamp() - o1.getTimestamp());
 
 }

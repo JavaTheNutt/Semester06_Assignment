@@ -144,6 +144,7 @@ public class TransactionDataService
     }
 
 
+
     private boolean isPending(Transaction transaction)
     {
         return FinanceApp.serviceFactory.getUtil().checkTimestampPending(transaction.getDueDate());
@@ -253,7 +254,6 @@ public class TransactionDataService
                     transaction.setFirebaseId(transactionSnapshot.getKey());
                     transactions.add(transaction);
                 }
-                //currentBalance.setAll(getTotalIncome(), getTotalExpenditure());// this will update the totals and trigger relevant view updates
                 currentBalance.setAll(getTotals());
                 if (updateTransactionListCallback != null) {
                     updateTransactionListCallback.accept("data changed"); //this will let the dashboard know that the data has been changed so it can refresh the list

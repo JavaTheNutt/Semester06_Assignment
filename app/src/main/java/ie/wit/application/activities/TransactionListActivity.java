@@ -24,7 +24,7 @@ import ie.wit.application.model.ui.UserDisplayNameObserver;
 public class TransactionListActivity extends InternalActivity
 {
     private ListView transactionList;
-    private RadioButton showALlTypes;
+    private RadioButton showAllTypes;
     private RadioButton showIncome;
     private RadioButton showExpenditure;
     private RadioButton showAllDates;
@@ -129,7 +129,7 @@ public class TransactionListActivity extends InternalActivity
     private void setUpReferences()
     {
         transactionList = (ListView) findViewById(R.id.transactionListView);
-        showALlTypes = (RadioButton) findViewById(R.id.transactionListShowAllTypes);
+        showAllTypes = (RadioButton) findViewById(R.id.transactionListShowAllTypes);
         showIncome = (RadioButton) findViewById(R.id.transactionListShowIncome);
         showExpenditure = (RadioButton) findViewById(R.id.transactionListShowExpenditure);
         showAllDates = (RadioButton) findViewById(R.id.transactionListShowAllDates);
@@ -147,7 +147,7 @@ public class TransactionListActivity extends InternalActivity
 
     private List<Transaction> getTransactions()
     {
-        if (showALlTypes.isChecked()) {
+        if (showAllTypes.isChecked()) {
             if (showAllDates.isChecked()) {
                 return transactionDataService.getTransactions();
             } else if (showPending.isChecked()) {
