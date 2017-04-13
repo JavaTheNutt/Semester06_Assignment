@@ -190,7 +190,7 @@ public class TransactionListActivity extends InternalActivity
     private void deleteItem(Transaction transaction)
     {
         Log.d(TAG, "deleteItem: item to be deleted: " + transaction.toString());
-        transactionDataService.removeTransaction(transaction.getTimestamp());
+        transactionDataService.removeTransaction(transaction.getFirebaseId());
     }
 
     private void editItem(Transaction transaction)
