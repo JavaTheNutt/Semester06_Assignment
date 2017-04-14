@@ -126,7 +126,7 @@ public class EntryService
     {
         Map<String, String> user = new HashMap<>(4);
         for (Map.Entry field : fields.entrySet()) {
-            user.put(field.getKey().toString(), ((EditText) field.getValue()).getText().toString().trim());
+            user.put(field.getKey().toString(), FinanceApp.serviceFactory.getUtil().titleCase(((EditText) field.getValue()).getText().toString().trim()));
         }
         return user;
     }
