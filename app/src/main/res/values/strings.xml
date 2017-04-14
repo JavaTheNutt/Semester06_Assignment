@@ -59,4 +59,6 @@
     <string name="sortEnteredLabel">Entered</string>
     <string name="sortAscending">Ascending</string>
     <string name="sortDescending">Descending</string>
+    <string name="sortAmount">Amount</string>
+    <string name="sortTitle">Title</string>
 </resources>

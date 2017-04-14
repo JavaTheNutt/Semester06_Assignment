@@ -36,6 +36,8 @@ public class TransactionListActivity extends InternalActivity
     private RadioButton showCompleted;
     private RadioButton sortAsc;
     private RadioButton sortDue;
+    private RadioButton sortTitle;
+    private RadioButton sortAmount;
 
     private boolean filterShown = false;
     private TransactionListService transactionListService;
@@ -170,6 +172,9 @@ public class TransactionListActivity extends InternalActivity
         showCompleted = (RadioButton) findViewById(R.id.transactionListShowCompleted);
         sortDue = (RadioButton) findViewById(R.id.sortDue);
         sortAsc = (RadioButton) findViewById(R.id.sortAscending);
+        sortAmount = (RadioButton) findViewById(R.id.sortAmount);
+        sortTitle = (RadioButton) findViewById(R.id.sortTitle);
+
         ((RadioGroup) findViewById(R.id.transactionListSelectDate)).setOnCheckedChangeListener((a, b) -> updateView(null));
         ((RadioGroup) findViewById(R.id.transactionListSelectType)).setOnCheckedChangeListener((a, b) -> updateView(null));
         ((RadioGroup)findViewById(R.id.sortDir)).setOnCheckedChangeListener((a, b) -> updateView(null));
@@ -216,17 +221,26 @@ public class TransactionListActivity extends InternalActivity
 
     private List<Transaction> sortTransactions(List<Transaction> transactions)
     {
+        TransactionSortType currentType = getCurrentType();
         if (sortAsc.isChecked()) {
-            if (sortDue.isChecked()) {
-                return transactionListService.sortAscending(transactions, TransactionSortType.DUE);
-            }
-            return transactionListService.sortAscending(transactions, TransactionSortType.ENTERED);
+            return transactionListService.sortAscending(transactions, currentType);
         }
-        if (sortDue.isChecked()) {
-            return transactionListService.sortDescending(transactions, TransactionSortType.DUE);
-        }
-        return transactionListService.sortDescending(transactions, TransactionSortType.ENTERED);
+        return transactionListService.sortDescending(transactions, currentType);
+
     }
+
+    private TransactionSortType getCurrentType(){
+        if(sortAmount.isChecked()){
+            return TransactionSortType.AMOUNT;
+        }else if (sortDue.isChecked()){
+            return TransactionSortType.DUE;
+        } else if(sortTitle.isChecked()){
+            return TransactionSortType.TITLE;
+        } else {
+            return TransactionSortType.ENTERED;
+        }
+    }
+
 
     private void manipulateItem(int position, boolean isEdit)
     {
