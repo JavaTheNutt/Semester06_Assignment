@@ -35,12 +35,15 @@ public class TransactionListActivity extends InternalActivity
     private RadioButton showPending;
     private RadioButton showCompleted;
     private RadioButton sortAsc;
+    private RadioButton sortDesc;
     private RadioButton sortDue;
     private RadioButton sortTitle;
     private RadioButton sortAmount;
 
-    private boolean filterShown = false;
     private TransactionListService transactionListService;
+
+    private String ascText = "";
+    private String descText = "";
 
 
     @Override
@@ -172,13 +175,15 @@ public class TransactionListActivity extends InternalActivity
         showCompleted = (RadioButton) findViewById(R.id.transactionListShowCompleted);
         sortDue = (RadioButton) findViewById(R.id.sortDue);
         sortAsc = (RadioButton) findViewById(R.id.sortAscending);
+        sortDesc = (RadioButton) findViewById(R.id.sortDescending);
         sortAmount = (RadioButton) findViewById(R.id.sortAmount);
         sortTitle = (RadioButton) findViewById(R.id.sortTitle);
 
         ((RadioGroup) findViewById(R.id.transactionListSelectDate)).setOnCheckedChangeListener((a, b) -> updateView(null));
         ((RadioGroup) findViewById(R.id.transactionListSelectType)).setOnCheckedChangeListener((a, b) -> updateView(null));
-        ((RadioGroup)findViewById(R.id.sortDir)).setOnCheckedChangeListener((a, b) -> updateView(null));
-        ((RadioGroup)findViewById(R.id.sortField)).setOnCheckedChangeListener((a,b) ->updateView(null));
+        ((RadioGroup) findViewById(R.id.sortDir)).setOnCheckedChangeListener((a, b) -> updateView(null));
+        ((RadioGroup) findViewById(R.id.sortField)).setOnCheckedChangeListener((a, b) -> updateView(null));
+
         transactionListService = new TransactionListService();
         setUpTab();
         toggleFilter(null);
@@ -189,6 +194,7 @@ public class TransactionListActivity extends InternalActivity
         TransactionAdapter adapter = new TransactionAdapter(this, sortTransactions(getTransactions()));
         ((ListView) findViewById(R.id.transactionListView)).setAdapter(adapter);
     }
+
 
     private List<Transaction> getTransactions()
     {
@@ -229,16 +235,27 @@ public class TransactionListActivity extends InternalActivity
 
     }
 
-    private TransactionSortType getCurrentType(){
-        if(sortAmount.isChecked()){
-            return TransactionSortType.AMOUNT;
-        }else if (sortDue.isChecked()){
-            return TransactionSortType.DUE;
-        } else if(sortTitle.isChecked()){
-            return TransactionSortType.TITLE;
-        } else {
-            return TransactionSortType.ENTERED;
+    private TransactionSortType getCurrentType()
+    {
+        TransactionSortType type = TransactionSortType.ENTERED;
+        String ascText = getResources().getString(R.string.earlierLabel);
+        String descText = getResources().getString(R.string.laterLabel);
+        if (sortAmount.isChecked()) {
+            type = TransactionSortType.AMOUNT;
+            ascText = getResources().getString(R.string.sortAscending);
+            descText = getResources().getString(R.string.sortDescending);
+        } else if (sortDue.isChecked()) {
+            type  = TransactionSortType.DUE;
+            ascText = getResources().getString(R.string.earlierLabel);
+            descText = getResources().getString(R.string.laterLabel);
+        } else if (sortTitle.isChecked()) {
+            type =  TransactionSortType.TITLE;
+            ascText = getResources().getString(R.string.forwardsAlpha);
+            descText = getResources().getString(R.string.backwardsAlpha);
         }
+        sortAsc.setText(ascText);
+        sortDesc.setText(descText);
+        return type;
     }
 
 

@@ -57,8 +57,12 @@
     <string name="currentTotals">Current Totals</string>
     <string name="sortDueLabel">Due Date</string>
     <string name="sortEnteredLabel">Entered</string>
-    <string name="sortAscending">Ascending</string>
-    <string name="sortDescending">Descending</string>
+    <string name="sortAscending">Lowest to Highest</string>
+    <string name="sortDescending">Highest to Lowest</string>
     <string name="sortAmount">Amount</string>
     <string name="sortTitle">Title</string>
+    <string name="earlierLabel">Oldest First</string>
+    <string name="laterLabel">Newest First</string>
+    <string name="forwardsAlpha">A-Z</string>
+    <string name="backwardsAlpha">Z-A</string>
 </resources>
