@@ -100,7 +100,7 @@ public class DashboardActivity extends InternalActivity
         Map<String, TextView> totals = new HashMap<>(3);
         Map<String, TextView> pending = new HashMap<>(3);
         Map<String, TextView> completed = new HashMap<>(3);
-        totals.put("balance", (TextView) findViewById(R.id.completedBalanceView));
+        totals.put("balance", (TextView) findViewById(R.id.currentBalanceView));
         totals.put("income", (TextView) findViewById(R.id.totalIncomeView));
         totals.put("expenditure", (TextView) findViewById(R.id.totalExpenditureView));
         pending.put("balance", (TextView) findViewById(R.id.pendingBalanceView));

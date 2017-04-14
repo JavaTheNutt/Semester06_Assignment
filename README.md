@@ -23,4 +23,4 @@ For this application, I used Firebase for data storage and authentication. This 
 I also used the Lightweight Stream API from [aNNiMON](https://github.com/aNNiMON). This API provides access to Java 8 features, such as Stream, Consumer and Exceptional, while still allowing users to target API levels below 24. 
 
 ### Retrolambda
-Retrolambda allows the use of lambdas for environments using JDK <= 7. This is useful to make the code more concise. This is particularly true in Android as there are usually quite a few anonymous inner classes. This plugin also works well with Lightweight Stream API, as it allows lambdas to be used for filtering functions.
+Retrolambda is a plugin from [Evan Tatarka](https://github.com/evant) that allows the use of lambdas for environments using JDK <= 7. This is useful to make the code more concise. This is particularly true in Android as there are usually quite a few anonymous inner classes. This plugin also works well with Lightweight Stream API, as it allows lambdas to be used for filtering functions.
