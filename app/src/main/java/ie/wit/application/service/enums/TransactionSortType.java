@@ -7,5 +7,7 @@ package ie.wit.application.service.enums;
 public enum TransactionSortType
 {
     ENTERED,
-    DUE
+    DUE,
+    TITLE,
+    AMOUNT
 }

@@ -13,16 +13,30 @@ import ie.wit.application.service.enums.TransactionSortType;
 public class TransactionListService
 {
     public List<Transaction> sortAscending(List<Transaction> transactions, TransactionSortType type){
-        if (type == TransactionSortType.DUE){
-            return sortDue(transactions, true);
-        }
-        return sortEntered(transactions, true);
+        return sort(transactions, type, true);
     }
     public List<Transaction> sortDescending(List<Transaction> transactions, TransactionSortType type){
-        if (type == TransactionSortType.DUE){
-            return sortDue(transactions, false);
+        return sort(transactions,type, false);
+    }
+    private List<Transaction> sort(List<Transaction> transactions,TransactionSortType type, boolean isAscending){
+        switch (type){
+            case TITLE:
+                sortTitle(transactions, isAscending);
+                break;
+            case AMOUNT:
+                sortAmount(transactions, isAscending);
+                break;
+            case DUE:
+                sortDue(transactions, isAscending);
+                break;
+            case ENTERED:
+                sortEntered(transactions, isAscending);
+                break;
+            default:
+                sortEntered(transactions, isAscending);
+                break;
         }
-        return sortEntered(transactions, false);
+        return transactions;
     }
     private List<Transaction> sortEntered(List<Transaction> transactions, boolean isAscending){
         if (isAscending){
@@ -38,6 +52,22 @@ public class TransactionListService
             return transactions;
         }
         Collections.sort(transactions, Transaction.transactionDueDesc);
+        return transactions;
+    }
+    private List<Transaction> sortTitle(List<Transaction> transactions, boolean isAscending){
+        if(isAscending){
+            Collections.sort(transactions, Transaction.transactionTitleAsc);
+            return transactions;
+        }
+        Collections.sort(transactions, Transaction.transactionTitleDesc);
+        return transactions;
+    }
+    private List<Transaction> sortAmount(List<Transaction> transactions, boolean isAscending){
+        if(isAscending){
+            Collections.sort(transactions, Transaction.transactionAmountAsc);
+            return transactions;
+        }
+        Collections.sort(transactions, Transaction.transactionAmountDesc);
         return transactions;
     }
 }

@@ -181,5 +181,10 @@ public class Transaction implements Serializable
     public static Comparator<Transaction> transactionDueDesc = (o1, o2) -> o2.getDueDate().compareTo(o1.getDueDate());
     public static Comparator<Transaction> transactionEnteredAsc = (o1, o2) -> o1.getTimestamp().compareTo(o2.getTimestamp());
     public static Comparator<Transaction> transactionEnteredDesc = (o1, o2) -> o2.getTimestamp().compareTo(o1.getTimestamp());
+    public static Comparator<Transaction> transactionTitleAsc = (o1, o2) -> o1.getTitle().toLowerCase().compareTo(o2.getTitle().toLowerCase());
+    public static Comparator<Transaction> transactionTitleDesc = (o1, o2) -> o2.getTitle().toLowerCase().compareTo(o1.getTitle().toLowerCase());
+    public static Comparator<Transaction> transactionAmountAsc = (o1, o2) -> o1.getAmount() >= o2.getAmount() ? 1:0;
+    public static Comparator<Transaction> transactionAmountDesc = (o1, o2) -> o1.getAmount() >= o2.getAmount() ? 0:1;
+
 
 }
