@@ -42,10 +42,6 @@ public class TransactionListActivity extends InternalActivity
 
     private TransactionListService transactionListService;
 
-    private String ascText = "";
-    private String descText = "";
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

@@ -57,7 +57,7 @@ public class TransactionAdapter extends ArrayAdapter<Transaction>
         String transactionDueDateLabelText = resources.getString(R.string.transactionRowDueLabel, FinanceApp.serviceFactory.getUtil().convertFromTimestamp(transaction.getDueDate()));
         String transactionEnteredDateText = resources.getString(R.string.transactionRowEnteredLabel, FinanceApp.serviceFactory.getUtil().convertFromTimestamp(transaction.getTimestamp()));
         String transactionAmountText = resources.getString(R.string.transactionAmountLabel, transaction.getAmount().toString());
-        ((TextView) view.findViewById(R.id.transactionTitle)).setText(FinanceApp.serviceFactory.getUtil().titleCase(transaction.getTitle()));
+        ((TextView) view.findViewById(R.id.transactionTitle)).setText(transaction.getTitle());
         ((TextView) view.findViewById(R.id.rowDate)).setText(transactionEnteredDateText);
         ((TextView) view.findViewById(R.id.rowAmount)).setText(transactionAmountText);
         ((TextView) view.findViewById(R.id.dueDateLabel)).setText(transactionDueDateLabelText);

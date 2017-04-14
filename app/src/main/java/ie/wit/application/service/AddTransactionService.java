@@ -63,7 +63,7 @@ public class AddTransactionService
     {
         Transaction transaction = new Transaction();
         boolean isIncome = values.get("isIncome").equalsIgnoreCase("true");
-        transaction.setTitle(values.get("title"));
+        transaction.setTitle(FinanceApp.serviceFactory.getUtil().titleCase(values.get("title")));
         transaction.setIncome(isIncome);
         transaction.setAmount(Float.parseFloat(values.get("amount")));
         String timestamp = values.get("timestamp");
