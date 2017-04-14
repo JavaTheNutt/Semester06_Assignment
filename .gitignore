@@ -12,7 +12,7 @@
 # Windows image file caches
 Thumbs.db
 ehthumbs.db
-
+app/google-services.json
 # Folder config file
 Desktop.ini
 
