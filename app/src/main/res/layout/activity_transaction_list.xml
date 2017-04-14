@@ -118,14 +118,15 @@
                     android:orientation="vertical">
 
                     <RadioGroup
+                        android:id="@+id/sortField"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:gravity="center"
                         android:orientation="horizontal"
                         android:paddingBottom="10dp"
                         android:paddingEnd="5dp"
                         android:paddingStart="5dp"
-                        android:paddingTop="10dp"
-                        android:gravity="center">
+                        android:paddingTop="10dp">
 
                         <RadioButton
                             android:id="@+id/sortDue"
@@ -144,14 +145,15 @@
                     </RadioGroup>
 
                     <RadioGroup
+                        android:id="@+id/sortDir"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:gravity="center"
                         android:orientation="horizontal"
                         android:paddingBottom="10dp"
                         android:paddingEnd="5dp"
                         android:paddingStart="5dp"
-                        android:paddingTop="10dp"
-                        android:gravity="center">
+                        android:paddingTop="10dp">
 
                         <RadioButton
                             android:id="@+id/sortAscending"

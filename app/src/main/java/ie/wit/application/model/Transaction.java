@@ -177,9 +177,9 @@ public class Transaction implements Serializable
                 ", amount=" + amount +
                 '}';
     }
-    public static Comparator<Transaction> transactionDueAsc = (o1, o2) -> (int)(o1.getDueDate() - o2.getDueDate());
-    public static Comparator<Transaction> transactionDueDesc = (o1, o2) -> (int)(o2.getDueDate() - o1.getDueDate());
-    public static Comparator<Transaction> transactionEnteredAsc = (o1, o2) -> (int) (o1.getTimestamp() - o2.getTimestamp());
-    public static Comparator<Transaction> transactionEnteredDesc = (o1, o2) -> (int)(o2.getTimestamp() - o1.getTimestamp());
+    public static Comparator<Transaction> transactionDueAsc = (o1, o2) -> o1.getDueDate().compareTo(o2.getDueDate());
+    public static Comparator<Transaction> transactionDueDesc = (o1, o2) -> o2.getDueDate().compareTo(o1.getDueDate());
+    public static Comparator<Transaction> transactionEnteredAsc = (o1, o2) -> o1.getTimestamp().compareTo(o2.getTimestamp());
+    public static Comparator<Transaction> transactionEnteredDesc = (o1, o2) -> o2.getTimestamp().compareTo(o1.getTimestamp());
 
 }

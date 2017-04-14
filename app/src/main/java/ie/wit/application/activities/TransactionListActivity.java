@@ -22,6 +22,8 @@ import ie.wit.application.exceptions.NoUserLoggedInException;
 import ie.wit.application.model.Transaction;
 import ie.wit.application.model.ui.TransactionAdapter;
 import ie.wit.application.model.ui.UserDisplayNameObserver;
+import ie.wit.application.service.TransactionListService;
+import ie.wit.application.service.enums.TransactionSortType;
 
 public class TransactionListActivity extends InternalActivity
 {
@@ -32,8 +34,11 @@ public class TransactionListActivity extends InternalActivity
     private RadioButton showAllDates;
     private RadioButton showPending;
     private RadioButton showCompleted;
+    private RadioButton sortAsc;
+    private RadioButton sortDue;
 
     private boolean filterShown = false;
+    private TransactionListService transactionListService;
 
 
     @Override
@@ -130,13 +135,16 @@ public class TransactionListActivity extends InternalActivity
         return super.onContextItemSelected(item);
     }
 
-    public void toggleFilter(View v){
+    public void toggleFilter(View v)
+    {
         int toBeSet = findViewById(R.id.filterSortTab).getVisibility() == View.GONE ? View.VISIBLE : View.GONE;
         String btnTxt = toBeSet == View.GONE ? "Show Filter/Sort" : "Hide Filter/Sort";
         findViewById(R.id.filterSortTab).setVisibility(toBeSet);
-        ((Button)findViewById(R.id.toggleFilter)).setText(btnTxt);
+        ((Button) findViewById(R.id.toggleFilter)).setText(btnTxt);
     }
-    private void setUpTab(){
+
+    private void setUpTab()
+    {
         TabHost host = (TabHost) findViewById(R.id.filterSortTab);
         host.setup();
 
@@ -150,6 +158,7 @@ public class TransactionListActivity extends InternalActivity
         spec.setIndicator("Sort");
         host.addTab(spec);
     }
+
     private void setUpReferences()
     {
         transactionList = (ListView) findViewById(R.id.transactionListView);
@@ -159,15 +168,20 @@ public class TransactionListActivity extends InternalActivity
         showAllDates = (RadioButton) findViewById(R.id.transactionListShowAllDates);
         showPending = (RadioButton) findViewById(R.id.transactionListShowPending);
         showCompleted = (RadioButton) findViewById(R.id.transactionListShowCompleted);
+        sortDue = (RadioButton) findViewById(R.id.sortDue);
+        sortAsc = (RadioButton) findViewById(R.id.sortAscending);
         ((RadioGroup) findViewById(R.id.transactionListSelectDate)).setOnCheckedChangeListener((a, b) -> updateView(null));
         ((RadioGroup) findViewById(R.id.transactionListSelectType)).setOnCheckedChangeListener((a, b) -> updateView(null));
+        ((RadioGroup)findViewById(R.id.sortDir)).setOnCheckedChangeListener((a, b) -> updateView(null));
+        ((RadioGroup)findViewById(R.id.sortField)).setOnCheckedChangeListener((a,b) ->updateView(null));
+        transactionListService = new TransactionListService();
         setUpTab();
         toggleFilter(null);
     }
 
     private void updateView(String data)
     {
-        TransactionAdapter adapter = new TransactionAdapter(this, getTransactions());
+        TransactionAdapter adapter = new TransactionAdapter(this, sortTransactions(getTransactions()));
         ((ListView) findViewById(R.id.transactionListView)).setAdapter(adapter);
     }
 
@@ -198,6 +212,20 @@ public class TransactionListActivity extends InternalActivity
                 return transactionDataService.getExpenditureCompleted();
             }
         }
+    }
+
+    private List<Transaction> sortTransactions(List<Transaction> transactions)
+    {
+        if (sortAsc.isChecked()) {
+            if (sortDue.isChecked()) {
+                return transactionListService.sortAscending(transactions, TransactionSortType.DUE);
+            }
+            return transactionListService.sortAscending(transactions, TransactionSortType.ENTERED);
+        }
+        if (sortDue.isChecked()) {
+            return transactionListService.sortDescending(transactions, TransactionSortType.DUE);
+        }
+        return transactionListService.sortDescending(transactions, TransactionSortType.ENTERED);
     }
 
     private void manipulateItem(int position, boolean isEdit)

@@ -1,7 +1,5 @@
 package ie.wit.application.service;
 
-import com.annimon.stream.Collectors;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -24,7 +22,7 @@ public class TransactionListService
         if (type == TransactionSortType.DUE){
             return sortDue(transactions, false);
         }
-        return sortDue(transactions, false);
+        return sortEntered(transactions, false);
     }
     private List<Transaction> sortEntered(List<Transaction> transactions, boolean isAscending){
         if (isAscending){
