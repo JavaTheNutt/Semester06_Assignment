@@ -1,0 +1,10 @@
+ie.wit.application.activities
+ie.wit.application.exceptions
+ie.wit.application.factory
+ie.wit.application.fragments
+ie.wit.application.main
+ie.wit.application.model
+ie.wit.application.model.ui
+ie.wit.application.service
+ie.wit.application.service.data
+ie.wit.application.service.enums
