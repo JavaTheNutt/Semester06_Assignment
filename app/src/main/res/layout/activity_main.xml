@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -16,13 +17,25 @@
         android:layout_height="wrap_content"
         android:text="@string/welcomeLabel"
         android:gravity="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:id="@+id/textView"/>
     <LinearLayout
         android:orientation="vertical"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:gravity="center_vertical"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentStart="true">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="257dp"
+            android:layout_height="268dp"
+            android:layout_gravity="center_horizontal"
+            android:adjustViewBounds="false"
+            android:contentDescription="@string/euro_symbol"
+            app:srcCompat="@drawable/money_briefcase"/>
 
         <ProgressBar
             android:id="@+id/mainCheckAuthLoading"
@@ -32,23 +45,24 @@
             android:layout_weight="0.13"/>
 
         <Button
-            android:text="@string/loginButtonLabel"
+            android:id="@+id/openApplication"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/openApplication"
-            android:onClick="loginClicked"
             android:background="@color/loginButtonColor"
+            android:onClick="loginClicked"
+            android:text="@string/loginButtonLabel"
             android:textColor="@color/fontColor01"/>
 
         <Button
-            android:text="@string/signUpButtonLabel"
+            android:id="@+id/signUpButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/signUpButton"
-            android:onClick="signUpClicked"
+            android:layout_marginTop="15dp"
             android:background="@color/signinButtonColor"
-            android:textColor="@color/fontColor01"
-            android:layout_marginTop="15dp"/>
+            android:onClick="signUpClicked"
+            android:text="@string/signUpButtonLabel"
+            android:textColor="@color/fontColor01"/>
+
     </LinearLayout>
 
 </RelativeLayout>
