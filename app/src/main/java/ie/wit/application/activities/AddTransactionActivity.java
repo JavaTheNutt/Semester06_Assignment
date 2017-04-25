@@ -133,6 +133,10 @@ public class AddTransactionActivity extends InternalActivity
         ((RadioGroup) findViewById(R.id.transactionType)).setOnCheckedChangeListener((a, b) -> changeDueDateLabel());
     }
 
+    /**
+     * Updatee the view to reflect changes in the due date and transaction type
+     * If there is no due date set, a new date will be created for today
+     */
     private void changeDueDateLabel()
     {
         if (dueDateTimestamp == null) {
@@ -148,6 +152,10 @@ public class AddTransactionActivity extends InternalActivity
         ((TextView) findViewById(R.id.dueDateLabel)).setTextColor(ResourcesCompat.getColor(getResources(), textColorId, null));
     }
 
+    /**
+     * Extract the text from the fields and add the new details into the map to create the transaction later
+     * @return true if all fields are valid, false otherwise
+     */
     private boolean validateAndCreate()
     {
         Map<String, String> result = addTransactionService.extractTransactionDetails(fields);

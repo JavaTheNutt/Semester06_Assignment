@@ -20,6 +20,7 @@ import ie.wit.application.model.ui.UserDisplayNameObserver;
  */
 public class DashboardActivity extends InternalActivity
 {
+    //these three observers
     private BalanceObserver totalBalanceObserver;
     private BalanceObserver pendingBalanceObserver;
     private BalanceObserver completedBalanceObserver;
@@ -90,7 +91,7 @@ public class DashboardActivity extends InternalActivity
     private void setUpReferences()
     {
         Map<String, Map> views = getBalanceViews();
-        totalBalanceObserver = new BalanceObserver(this, views.get("total"), "total");
+        totalBalanceObserver = new BalanceObserver(this, (Map<String, TextView>) views.get("total"), "total");
         pendingBalanceObserver = new BalanceObserver(this, views.get("pending"), "pending");
         completedBalanceObserver = new BalanceObserver(this, views.get("completed"), "completed");
         userObserver = new UserDisplayNameObserver(this, ((TextView) findViewById(R.id.userNameLabel)));

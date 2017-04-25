@@ -24,11 +24,11 @@ public class BaseActivity extends AppCompatActivity
      */
     public FinanceApp app; //Reference to the application object
     /**
-     * The M firebase analytics.
+     * reference to firebase analytics
      */
     protected FirebaseAnalytics mFirebaseAnalytics;
     /**
-     * The Auth service.
+     * reference to auth service
      */
     protected AuthService authService;
 
