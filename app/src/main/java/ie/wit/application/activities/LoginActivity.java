@@ -39,9 +39,6 @@ public class LoginActivity extends EntryActivity
      */
     public void loginClicked(View view)
     {
-        progressContainer.setVisibility(View.VISIBLE);
-        formContainer.setAlpha(0.3f);
-        progressContainer.setOnClickListener(this::consumePageClick);
         validation();
     }
 
@@ -64,6 +61,9 @@ public class LoginActivity extends EntryActivity
 
     private void validateUser(String email, String password)
     {
+        progressContainer.setVisibility(View.VISIBLE);
+        formContainer.setAlpha(0.3f);
+        progressContainer.setOnClickListener(this::consumePageClick);
         //third param is anonymous method
         authService.login(email, password, result -> {
             if (result.isEmpty()) { //if login is successfull

@@ -48,10 +48,15 @@ public class AddTransactionActivity extends InternalActivity
         setContentView(R.layout.activity_add_income);
         addTransactionService = new AddTransactionService(this);
         setUpReferences();
-        handleExtras(getIntent().getExtras());
+        handleExtras(getIntent().getExtras());//check if a transaction is provided for editing
         changeDueDateLabel();
     }
 
+    /**
+     * This method will check if there is a transaction provided for editing. If there is, its details will be added to the view
+     *
+     * @param extras the extras added to the intent to start the activity
+     */
     private void handleExtras(Bundle extras)
     {
         if (extras == null) {
@@ -86,6 +91,12 @@ public class AddTransactionActivity extends InternalActivity
         datePickerFragment.show(getFragmentManager(), "addTransactionDatePicker");
     }
 
+    /**
+     * This is the callback that will be attached to the datepicker fragment. This method will
+     * store the timestamp and also a memonic form of it for display to the user.
+     *
+     * @param date the date returned by the date picker fragment
+     */
     private void dateSelected(String date)
     {
         Log.d(TAG, "dateSelected: " + date + " has been selected by the datepicker.");
@@ -100,6 +111,9 @@ public class AddTransactionActivity extends InternalActivity
         changeDueDateLabel();
     }
 
+    /**
+     * Update view to reflect transaction changes
+     */
     private void addDetailsToView()
     {
         fields.get("title").setText(transactionDetails.get("title"));
@@ -109,6 +123,9 @@ public class AddTransactionActivity extends InternalActivity
 
     }
 
+    /**
+     * Get widget references
+     */
     private void setUpReferences()
     {
         fields.put("title", ((EditText) findViewById(R.id.addIncomeTitle)));

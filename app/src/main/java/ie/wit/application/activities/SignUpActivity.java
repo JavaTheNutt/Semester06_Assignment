@@ -39,9 +39,6 @@ public class SignUpActivity extends EntryActivity
     public void registerClicked(View view)
     {
         Log.v(TAG, "Register User button clicked");
-        formContainer.setAlpha(0.3f);
-        progressContainer.setVisibility(View.VISIBLE);
-        progressContainer.setOnClickListener(this::consumeClick);
         boolean detailsValid = entryService.validateSignUp(this, namedFields);
         String validationResult = detailsValid ? "All fields are valid" : "Some fields are invalid";
         Log.w(TAG, validationResult);
@@ -85,6 +82,9 @@ public class SignUpActivity extends EntryActivity
      */
     private void registerUser()
     {
+        formContainer.setAlpha(0.3f);
+        progressContainer.setVisibility(View.VISIBLE);
+        progressContainer.setOnClickListener(this::consumeClick);
         /*AuthService.createAccount takes a Consumer<Boolean> where the result will be true if the user successfully logged in, or false otherwise*/
         authService.createAccount(entryService.extractText(namedFields), result -> {
             if (result.isEmpty()) {
