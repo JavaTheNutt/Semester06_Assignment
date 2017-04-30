@@ -22,7 +22,7 @@ public class InternalActivity extends BaseActivity
     /**
      * The Details database reference.
      */
-    protected DatabaseReference detailsDatabaseReference;
+    //protected DatabaseReference detailsDatabaseReference;
     /**
      * The Transaction data service.
      */
@@ -32,7 +32,7 @@ public class InternalActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        detailsDatabaseReference = FirebaseDatabase.getInstance().getReference(FinanceApp.getCurrentUserId() + "/transactions");
+        //detailsDatabaseReference = FirebaseDatabase.getInstance().getReference(FinanceApp.getCurrentUserId() + "/transactions");
         transactionDataService = new TransactionDataService();
     }
 

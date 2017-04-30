@@ -63,10 +63,10 @@ public class LoginActivity extends EntryActivity
     {
         progressContainer.setVisibility(View.VISIBLE);
         formContainer.setAlpha(0.3f);
-        progressContainer.setOnClickListener(this::consumePageClick);
+        progressContainer.setOnClickListener(this::consumePageClick);//prevent user from clicking while progress bar active
         //third param is anonymous method
         authService.login(email, password, result -> {
-            if (result.isEmpty()) { //if login is successfull
+            if (result.isEmpty()) { //if login is successful
                 startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
             } else { //if login fails
                 progressContainer.setVisibility(View.GONE);
@@ -78,7 +78,7 @@ public class LoginActivity extends EntryActivity
     }
 
     /**
-     * Consume page click.
+     * Prevent a user from clicking while progress bar active
      *
      * @param v the v
      */

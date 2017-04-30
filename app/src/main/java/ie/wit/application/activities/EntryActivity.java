@@ -28,16 +28,5 @@ public class EntryActivity extends BaseActivity
         entryService = FinanceApp.serviceFactory.getEntryService();
     }
 
-    @Override
-    protected void onStart()
-    {
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop()
-    {
-        super.onStop();
-    }
 
 }

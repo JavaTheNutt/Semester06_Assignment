@@ -3,6 +3,8 @@ package ie.wit.application.main;
 import android.app.Application;
 import android.util.Log;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import ie.wit.application.factory.ServiceFactory;
 import ie.wit.application.model.User;
 
@@ -62,6 +64,7 @@ public class FinanceApp extends Application
     public void onCreate()
     {
         super.onCreate();
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         Log.v("Finance", "Application started");
         serviceFactory = new ServiceFactory();
     }
